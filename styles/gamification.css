@@ -1,0 +1,941 @@
+/* ==========================================================================
+   Gamification CSS - In-Game HUD, Finger Guide, Love Gauge & Quest Modals
+   ========================================================================= */
+
+/* In-Game HUD Bar inside phone frame */
+.ingame-hud-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 16px;
+  background: rgba(10, 16, 30, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 60;
+  position: relative;
+}
+
+.hud-left-group, .hud-right-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* User Avatar & Level */
+.hud-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 3px 8px 3px 4px;
+}
+
+.hud-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd700, #ff8f00);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.hud-username {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Turns Pill with [+] button */
+.hud-turns-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, rgba(255, 0, 85, 0.25), rgba(255, 94, 58, 0.2));
+  border: 1px solid rgba(255, 0, 85, 0.5);
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.hud-turns-val {
+  color: #ff4b72;
+  font-family: var(--font-heading);
+}
+
+.hud-btn-add {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff0055;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
+  transition: transform 0.2s;
+}
+
+.hud-btn-add:hover {
+  transform: scale(1.2);
+}
+
+/* Coins Pill */
+.hud-coins-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 183, 3, 0.15);
+  border: 1px solid rgba(255, 183, 3, 0.4);
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #ffe066;
+}
+
+/* Quick Action Buttons (Rules, Prizes, Missions) */
+.hud-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.hud-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.hud-badge-bubble {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  background: #ff0055;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px #ff0055;
+}
+
+/* ==========================================================================
+   Interactive Finger Guide & Ripple Prompt ("Bấm Vào Đây! 👆")
+   ========================================================================== */
+.finger-guide-prompt {
+  position: absolute;
+  pointer-events: none;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fingerBounce 1.5s ease-in-out infinite;
+}
+
+.finger-guide-bubble {
+  background: linear-gradient(135deg, #ffd700, #ff8f00);
+  color: #3b2000;
+  font-weight: 900;
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(255, 183, 3, 0.6);
+  border: 1px solid #fff;
+  margin-bottom: 4px;
+}
+
+.finger-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes fingerBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.08); }
+}
+
+/* ==========================================================================
+   Love Energy Meter Gauge (Game 21 Valentine)
+   ========================================================================== */
+.love-meter-container {
+  width: 85%;
+  max-width: 280px;
+  background: rgba(10, 16, 30, 0.75);
+  border: 1.5px solid rgba(255, 0, 85, 0.4);
+  border-radius: 20px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  z-index: 20;
+}
+
+.love-meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ff94b9;
+}
+
+.love-meter-bar-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.love-meter-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff0055, #ff598f, #ffd700);
+  border-radius: 10px;
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 10px #ff0055;
+}
+
+/* ==========================================================================
+   Shared Gamification Modals (Rules, My Prizes, Missions)
+   ========================================================================== */
+.g-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 7, 15, 0.85);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+.g-modal-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.g-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  max-height: 85vh;
+  background: linear-gradient(165deg, #182238 0%, #0d1422 100%);
+  border: 1.5px solid rgba(255, 215, 0, 0.5);
+  border-radius: 28px;
+  padding: 28px 24px;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 183, 3, 0.25);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.g-modal-backdrop.visible .g-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.g-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-size: 1.8rem;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.g-modal-close:hover {
+  color: #fff;
+}
+
+.g-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.g-modal-icon {
+  font-size: 2rem;
+}
+
+.g-modal-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ffd54f;
+}
+
+/* Rules Steps */
+.rules-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+.step-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff0055, #ff5e3a);
+  color: #fff;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+}
+
+/* Prizes History List */
+.prizes-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.prize-history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 16px;
+  padding: 12px;
+  transition: background 0.2s;
+}
+
+.prize-history-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.prize-item-icon {
+  font-size: 2.2rem;
+}
+
+.prize-item-content {
+  flex: 1;
+}
+
+.prize-item-title {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.prize-item-code {
+  font-size: 0.8rem;
+  color: #00ffcc;
+  font-family: monospace;
+  margin: 2px 0;
+}
+
+.prize-item-date {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.btn-copy-mini {
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  color: #ffd700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-copy-mini:hover {
+  background: #ffd700;
+  color: #3b2000;
+}
+
+.prizes-empty-state {
+  text-align: center;
+  padding: 40px 16px;
+  color: #94a3b8;
+}
+
+.prizes-empty-state h4 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+/* Missions List */
+.missions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mission-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.mission-item.claimed {
+  opacity: 0.6;
+}
+
+.mission-icon {
+  font-size: 1.8rem;
+}
+
+.mission-info {
+  flex: 1;
+}
+
+.mission-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.mission-reward {
+  font-size: 0.75rem;
+  color: #ffd54f;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.btn-claim-mission {
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: #03254c;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-claim-mission:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.btn-claim-mission:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  cursor: default;
+}
+
+/* ==========================================================================
+   STORYTELLING & RPG LORE ENGINE (Cốt Truyện Nhập Vai & Bé Mây ☁️)
+   ========================================================================== */
+.story-dialogue-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 9, 24, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  z-index: 85;
+  transition: opacity 0.3s ease;
+}
+
+.story-dialogue-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.story-dialogue-card {
+  max-width: 355px;
+  width: 100%;
+  background: linear-gradient(165deg, rgba(25, 34, 62, 0.96) 0%, rgba(11, 17, 34, 0.98) 100%);
+  border: 1.5px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 215, 0, 0.25);
+  border-radius: 26px;
+  padding: 22px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: storyCardSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes storyCardSlideUp {
+  0% { transform: translateY(30px) scale(0.92); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.story-chapter-tag {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  color: #ffd700;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.story-tag-dot {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.story-npc-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.npc-avatar-box {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 0 18px rgba(0, 242, 254, 0.6), inset 0 2px 2px rgba(255, 255, 255, 0.6);
+  animation: npcFloat 2.5s ease-in-out infinite alternate;
+  flex-shrink: 0;
+}
+
+@keyframes npcFloat {
+  0% { transform: translateY(0) rotate(-3deg); }
+  100% { transform: translateY(-4px) rotate(3deg); }
+}
+
+.npc-status-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #00ffaa;
+  border: 2.5px solid #0d1424;
+  box-shadow: 0 0 8px #00ffaa;
+}
+
+.npc-info-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.npc-name {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.npc-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-top: 1px;
+}
+
+.story-quest-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #ffd54f;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.story-dialogue-bubble {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3.5px solid #00f2fe;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.story-dialogue-text {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #f1f5f9;
+  font-style: italic;
+  margin: 0;
+}
+
+.story-quest-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 255, 170, 0.1);
+  border: 1px dashed rgba(0, 255, 170, 0.45);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  color: #a7f3d0;
+}
+
+.quest-text strong {
+  color: #ffffff;
+}
+
+.story-action-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn-story-detail {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #cbd5e1;
+  padding: 11px 12px;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+}
+
+.btn-story-detail:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border-color: #ffd700;
+}
+
+.btn-story-start {
+  flex: 1.35;
+  background: linear-gradient(135deg, #ffd700 0%, #ff8f00 100%);
+  border: 1px solid #ffffff;
+  color: #3b2000;
+  padding: 11px 16px;
+  border-radius: 14px;
+  font-size: 0.86rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 183, 3, 0.5);
+  transition: all 0.25s;
+  text-align: center;
+}
+
+.btn-story-start:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(255, 183, 3, 0.7);
+}
+
+/* ==========================================================================
+   STORY LORE MODAL (Biên Niên Sử Vận May Toàn Thư)
+   ========================================================================== */
+.story-lore-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.story-lore-modal-container.hidden {
+  display: none !important;
+}
+
+.story-lore-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 6, 16, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.story-lore-modal-sheet {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  max-height: 88vh;
+  background: linear-gradient(165deg, #131c34 0%, #090e1d 100%);
+  border: 1.5px solid rgba(255, 215, 0, 0.45);
+  border-radius: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 215, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+  animation: loreModalZoom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes loreModalZoom {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.lore-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lore-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lore-book-icon {
+  font-size: 2rem;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lore-header-left h2 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #ffd54f;
+  margin: 0;
+}
+
+.lore-header-left p {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 3px 0 0;
+}
+
+.lore-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.lore-close-btn:hover {
+  background: rgba(255, 0, 85, 0.3);
+  color: #fff;
+  border-color: #ff0055;
+}
+
+.lore-modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.lore-intro-card {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(0, 242, 254, 0.06));
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 18px;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+.lore-intro-card strong {
+  color: #ffd700;
+}
+
+.lore-chapters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lore-chapter-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chapter-box-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chapter-icon-badge {
+  font-size: 1.6rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chapter-title-group h3 {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.chapter-season {
+  font-size: 0.74rem;
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.chapter-desc {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.chapter-quests-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.quest-card {
+  background: rgba(10, 16, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.quest-card.focused-quest {
+  border-color: #ffd700;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(25, 35, 65, 0.8));
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
+}
+
+.quest-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quest-num {
+  font-size: 0.68rem;
+  font-weight: 900;
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.quest-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.quest-lore-text {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  font-style: italic;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.quest-goal-tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #00ffaa;
+}
+
+.lore-modal-footer {
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

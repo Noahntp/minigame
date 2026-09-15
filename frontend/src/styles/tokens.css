@@ -1,0 +1,68 @@
+/**
+ * ATELIER ROYALE DESIGN SYSTEM TOKENS
+ * Obsidian Noir base, Haute Horlogerie metallics, disciplined radius & luxury elevation.
+ */
+
+:root {
+  /* 1. COLOR SYSTEM (Obsidian & Noble Metallics) */
+  --color-bg-base: #06080d;
+  --color-bg-subtle: #0b0e17;
+  --color-surface-base: #101420;
+  --color-surface-elevated: #161c2e;
+
+  --color-border-subtle: rgba(212, 175, 55, 0.15);
+  --color-border-medium: rgba(212, 175, 55, 0.35);
+  --color-border-strong: rgba(245, 230, 200, 0.6);
+
+  --color-text-primary: #fcfbfa;
+  --color-text-secondary: #f5e6c8;
+  --color-text-muted: #8b95a8;
+  --color-text-faint: #4e586e;
+
+  /* Noble Metallics & Campaign Accents */
+  --color-brand: #d4af37;
+  --color-gold-champagne: #f5e6c8;
+  --color-gold-leaf: #d4af37;
+  --color-gold-deep: #854d0e;
+
+  --color-valentine: #e11d48;
+  --color-beauty: #a855f7;
+  --color-noel: #10b981;
+  --color-noel-ice: #38bdf8;
+  --color-tet: #f97316;
+  --color-tet-gold: #fbbf24;
+  --color-tet-crimson: #dc2626;
+
+  /* 2. TYPOGRAPHY SYSTEM */
+  --font-serif-editorial: "Playfair Display", "Cinzel", Georgia, serif;
+  --font-display: "Playfair Display", "Cinzel", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+
+  /* 3. SPACING SCALE (8pt) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* 4. RADIUS HIERARCHY */
+  --radius-chip: 6px;
+  --radius-control: 10px;
+  --radius-card: 16px;
+  --radius-stage: 24px;
+  --radius-pill: 9999px;
+
+  /* 5. LUXURY AMBIENT SHADOWS */
+  --shadow-gold-subtle: 0 4px 20px -2px rgba(212, 175, 55, 0.15);
+  --shadow-gold: 0 8px 32px -4px rgba(212, 175, 55, 0.3);
+  --shadow-gold-lg: 0 16px 48px -6px rgba(212, 175, 55, 0.45);
+  --shadow-obsidian: 0 20px 50px -10px rgba(0, 0, 0, 0.9);
+
+  /* 6. MOTION TOKENS */
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-normal: 300ms;
+}

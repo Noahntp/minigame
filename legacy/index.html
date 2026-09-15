@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Matbao Festive Minigames Suite - 10 Mini Game Theo Mùa</title>
+  <meta name="description" content="Bộ 10 mini game marketing tương tác theo mùa lễ hội: Valentine 14.2, 8.3 & 20.10, Noel, Tết Giáp Thìn với hiệu ứng âm thanh và hạt sống động.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/hub.css">
+  <link rel="stylesheet" href="styles/modal.css">
+  <link rel="stylesheet" href="styles/games.css">
+  <link rel="stylesheet" href="styles/gamification.css">
+</head>
+<body>
+  <!-- Global Particle FX Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="app-portal-layout">
+    <!-- Showcase Portal Top Header -->
+    <header class="hub-header">
+      <div class="brand-section">
+        <div class="brand-logo-badge">💎</div>
+        <div class="brand-title-group">
+          <h1>MATBAO MINIGAMES <span class="pro-badge">PRO SUITE</span></h1>
+          <div class="brand-sub">
+            <span class="live-stat-pill">
+              <span class="live-indicator-dot"></span>
+              <span>12,480+ lượt chơi hôm nay</span>
+            </span>
+            <span>•</span>
+            <span style="color: #ffd700;">Tỷ lệ trúng 100%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <button class="action-pill-btn" id="btn-toggle-sound" title="Bật / Tắt Âm Thanh">
+          <div class="sound-wave-icon">
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+          </div>
+          <span>Âm Thanh: Bật</span>
+        </button>
+        <button class="action-pill-btn" id="btn-toggle-view" title="Chuyển chế độ Khung Mobile / Toàn Màn Hình">
+          <span>🖥️ Toàn Màn Hình</span>
+        </button>
+        <button class="action-pill-btn" id="btn-header-replay" title="Chơi Lại Game Hiện Tại">
+          <span>🔄 Chơi Lại</span>
+        </button>
+        <button class="action-pill-btn" id="btn-open-config" title="Cấu Hình Quà Tặng & Voucher">
+          <span>⚙️ Cấu Hình</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Season Filter Navigation Tabs -->
+    <nav class="season-filter-bar" aria-label="Bộ lọc mùa lễ hội">
+      <button class="filter-tab active" data-filter="all">
+        <span>Tất cả</span>
+        <span class="filter-badge-count">10</span>
+      </button>
+      <button class="filter-tab" data-filter="valentine">
+        <span>💖 Valentine 14.2</span>
+        <span class="filter-badge-count">2</span>
+      </button>
+      <button class="filter-tab" data-filter="women">
+        <span>🌸 8.3 & 20.10 Phái Đẹp</span>
+        <span class="filter-badge-count">2</span>
+      </button>
+      <button class="filter-tab" data-filter="noel">
+        <span>🎄 Noel Giáng Sinh</span>
+        <span class="filter-badge-count">3</span>
+      </button>
+      <button class="filter-tab" data-filter="tet">
+        <span>🧧 Tết & Năm Mới</span>
+        <span class="filter-badge-count">3</span>
+      </button>
+    </nav>
+
+    <!-- Game Cards Carousel Selector -->
+    <div class="games-carousel-wrapper">
+      <div class="game-selector-track" id="game-selector-list">
+        <!-- Dynamically populated by app.js -->
+      </div>
+    </div>
+
+    <!-- Main Game Arena with iPhone 16 Pro Mockup Frame -->
+    <main class="main-stage-container">
+      <div class="stage-frame-wrapper" id="stage-frame-wrapper">
+        <!-- Phone Specular Glass Glare -->
+        <div class="phone-glass-glare"></div>
+
+        <!-- iOS Status Bar -->
+        <div class="mockup-status-bar">
+          <span class="status-time">09:41</span>
+          <div class="status-icons">
+            <span>5G</span>
+            <span>📶</span>
+            <span>🔋 100%</span>
+          </div>
+        </div>
+
+        <!-- iPhone 16 Pro Dynamic Island -->
+        <div class="mockup-dynamic-island" id="dynamic-island">
+          <div class="island-camera-lens"></div>
+          <div class="island-state-pill" id="island-status">💖 Đang Chơi</div>
+          <div class="island-sensor"></div>
+        </div>
+
+        <!-- Pinterest/E-Commerce Gamification HUD Bar -->
+        <div class="ingame-hud-bar">
+          <div class="hud-left-group">
+            <div class="hud-user-badge">
+              <div class="hud-avatar">👑</div>
+              <span class="hud-username">VIP Member</span>
+            </div>
+            <div class="hud-turns-pill" title="Lượt chơi hiện có">
+              <span>🎟️</span>
+              <span class="hud-turns-val" id="hud-turns-count">3</span>
+              <button class="hud-btn-add" id="hud-btn-add-turn" title="Nhận thêm lượt">+</button>
+            </div>
+            <div class="hud-coins-pill" title="Xu tích lũy">
+              <span>🪙</span>
+              <span id="hud-coins-count">1,888</span>
+            </div>
+          </div>
+          <div class="hud-right-group">
+            <button class="hud-icon-btn" id="hud-btn-story" title="Biên Niên Sử Cốt Truyện">📖</button>
+            <button class="hud-icon-btn" id="hud-btn-rules" title="Thể Lệ">📜</button>
+            <button class="hud-icon-btn" id="hud-btn-prizes" title="Túi Quà Của Tôi">
+              🎁
+              <span class="hud-badge-bubble" id="hud-prizes-badge">0</span>
+            </button>
+            <button class="hud-icon-btn" id="hud-btn-missions" title="Nhiệm Vụ Nhận Lượt">🎯</button>
+          </div>
+        </div>
+
+        <!-- Active Game Container -->
+        <div class="active-game-container" id="active-game-container">
+          <!-- Active Game is mounted here -->
+        </div>
+
+        <!-- iOS Bottom Home Indicator Bar -->
+        <div class="mockup-home-indicator"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Dev & Marketing Config Drawer -->
+  <aside class="config-drawer" id="config-drawer">
+    <div class="config-header">
+      <h3>⚙️ Cấu Hình Voucher & Quà</h3>
+      <button class="config-close-btn" id="config-close-btn">&times;</button>
+    </div>
+
+    <div class="config-form-group">
+      <label for="cfg-voucher-code">Mã Voucher Trao Thưởng:</label>
+      <input type="text" id="cfg-voucher-code" class="config-input" value="LUCKY2026">
+    </div>
+
+    <div class="config-form-group">
+      <label for="cfg-prize-title">Tiêu Đề Phần Quà:</label>
+      <input type="text" id="cfg-prize-title" class="config-input" value="Quà Tặng May Mắn Mắt Bão">
+    </div>
+
+    <div class="config-form-group">
+      <label for="cfg-prize-desc">Mô Tả Chi Tiết:</label>
+      <textarea id="cfg-prize-desc" class="config-input" rows="3">Giảm 50% Khi Mua Tên Miền, Hosting & Dịch Vụ Số Mắt Bão</textarea>
+    </div>
+
+    <button class="btn-primary-glow" id="btn-apply-config" style="width: 100%; margin-top: 10px;">
+      <span>Lưu Cấu Hình</span>
+    </button>
+
+    <hr style="border-color: var(--border-glass); margin: 10px 0;">
+
+    <button class="btn-secondary-replay" id="btn-test-reward" style="width: 100%;">
+      <span>🎉 Test Bật Popup Nhận Thưởng</span>
+    </button>
+  </aside>
+
+  <!-- Script Modules -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

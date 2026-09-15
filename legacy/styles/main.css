@@ -1,0 +1,183 @@
+/* ==========================================================================
+   Main CSS - Ultra Premium Design System Tokens & Base Layout
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@600;800;900&display=swap');
+
+:root {
+  /* Core Color Palette */
+  --bg-deep: #060911;
+  --bg-dark: #0a0f1d;
+  --bg-surface: #11192e;
+  --bg-card: rgba(18, 27, 48, 0.75);
+  --bg-card-hover: rgba(28, 41, 71, 0.9);
+  
+  /* Brand & Seasonal Accents */
+  --accent-valentine: #ff2a6d;
+  --accent-valentine-glow: rgba(255, 42, 109, 0.45);
+  --accent-beauty: #ff758c;
+  --accent-beauty-glow: rgba(255, 117, 140, 0.45);
+  --accent-noel: #059669;
+  --accent-noel-glow: rgba(16, 185, 129, 0.45);
+  --accent-gold: #ffb703;
+  --accent-gold-light: #ffe066;
+  --accent-gold-glow: rgba(255, 183, 3, 0.5);
+  --accent-cyan: #00f2fe;
+  --accent-cyan-glow: rgba(0, 242, 254, 0.4);
+  
+  /* Text */
+  --text-pure: #ffffff;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  /* Glassmorphism & Borders */
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --border-glow: rgba(255, 255, 255, 0.25);
+  --border-gold: rgba(255, 215, 0, 0.4);
+  --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.65);
+  --shadow-neon: 0 0 30px rgba(255, 0, 85, 0.35);
+
+  /* Fonts */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-festive: 'Cinzel', serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  background-image: 
+    radial-gradient(circle at 10% 15%, rgba(121, 40, 202, 0.2) 0%, transparent 45%),
+    radial-gradient(circle at 90% 85%, rgba(255, 0, 85, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 50% 40%, rgba(0, 242, 254, 0.08) 0%, transparent 65%),
+    radial-gradient(circle at 80% 10%, rgba(255, 183, 3, 0.12) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Ambient Animated Grid Background Pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
+}
+
+/* Global Canvas for Particle VFX */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Screen Shake Effect for Explosions */
+.shake-screen {
+  animation: screenShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes screenShake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, -2px, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 3px, 0); }
+  40%, 60% { transform: translate3d(6px, -1px, 0); }
+}
+
+/* Common Utilities */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  user-select: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Luxury Glowing Buttons */
+.btn-primary-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ff0055 0%, #ff5e3a 50%, #ffa200 100%);
+  background-size: 200% auto;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  padding: 13px 26px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(255, 0, 85, 0.45), 0 0 15px rgba(255, 162, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary-glow::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
+  transform: rotate(30deg);
+  animation: btnShine 4s infinite linear;
+}
+
+@keyframes btnShine {
+  0% { transform: translateX(-150%) rotate(30deg); }
+  100% { transform: translateX(150%) rotate(30deg); }
+}
+
+.btn-primary-glow:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(255, 0, 85, 0.65), 0 0 25px rgba(255, 162, 0, 0.4);
+  background-position: right center;
+}
+
+.btn-primary-glow:active {
+  transform: translateY(1px) scale(0.98);
+}

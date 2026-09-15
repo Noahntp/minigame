@@ -1,0 +1,616 @@
+/* ==========================================================================
+   Hub CSS - Next-Gen Showcase Portal, iPhone 16 Pro Mockup & Controls
+   ========================================================================== */
+
+.app-portal-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.hub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 36px;
+  background: rgba(10, 15, 29, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glass);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-logo-badge {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #ff0055 0%, #7928ca 50%, #ffd700 100%);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 20px rgba(255, 0, 85, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: logoPulse 4s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 0, 85, 0.4)); }
+  50% { transform: scale(1.04); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); }
+}
+
+.brand-title-group h1 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #ffffff 0%, #ffd54f 60%, #ff8f00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-title-group .pro-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #ff0055, #ff5e3a);
+  -webkit-text-fill-color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(255, 0, 85, 0.4);
+}
+
+.brand-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.live-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #00ffaa;
+  font-weight: 600;
+}
+
+.live-indicator-dot {
+  width: 7px;
+  height: 7px;
+  background: #00ffaa;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ffaa;
+  animation: pulseDot 1.5s infinite;
+}
+
+/* Header Action Controls */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  border: 1px solid var(--border-glass);
+  padding: 9px 16px;
+  border-radius: 24px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.action-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.action-pill-btn:active {
+  transform: translateY(0);
+}
+
+/* Sound Wave Animation inside button */
+.sound-wave-icon {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 14px;
+}
+
+.wave-bar {
+  width: 2px;
+  height: 100%;
+  background: #00f2fe;
+  border-radius: 2px;
+  animation: waveAnim 1s ease-in-out infinite alternate;
+}
+.wave-bar:nth-child(2) { height: 60%; animation-delay: 0.2s; }
+.wave-bar:nth-child(3) { height: 85%; animation-delay: 0.4s; }
+
+@keyframes waveAnim {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}
+
+.sound-muted .sound-wave-icon {
+  display: none;
+}
+
+/* Season Filter Tabs */
+.season-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px 6px;
+  overflow-x: auto;
+}
+
+.filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border: 1px solid var(--border-glass);
+  padding: 9px 20px;
+  border-radius: 30px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.filter-tab:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.filter-tab.active {
+  background: linear-gradient(135deg, rgba(255, 0, 85, 0.35), rgba(121, 40, 202, 0.35));
+  border-color: var(--accent-valentine);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.35);
+}
+
+.filter-badge-count {
+  font-size: 0.7rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Horizontal Game Cards Carousel */
+.games-carousel-wrapper {
+  padding: 12px 32px 18px;
+  overflow-x: auto;
+}
+
+.game-selector-track {
+  display: flex;
+  gap: 14px;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding-bottom: 6px;
+}
+
+.game-nav-card {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  padding: 12px 18px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-nav-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: background 0.25s;
+}
+
+.game-nav-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.game-nav-card.active {
+  background: linear-gradient(135deg, rgba(255, 0, 85, 0.25), rgba(255, 183, 3, 0.18));
+  border-color: var(--accent-gold);
+  box-shadow: 0 6px 25px rgba(255, 183, 3, 0.35);
+}
+
+.game-nav-card.active::before {
+  background: var(--accent-gold);
+}
+
+.nav-card-icon {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.25s;
+}
+
+.game-nav-card:hover .nav-card-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.nav-card-num {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-card-type-tag {
+  font-size: 0.6rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.nav-card-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-pure);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.nav-card-season {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   Main Stage & Realistic iPhone 16 Pro Mockup Frame
+   ========================================================================== */
+.main-stage-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px 48px;
+  perspective: 1200px;
+}
+
+.stage-frame-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 780px;
+  background: #020408;
+  border-radius: 54px;
+  /* Natural Titanium Frame */
+  border: 11px solid #1a2233;
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 0 0 3px #0b0f1a,
+    0 30px 80px -15px rgba(0, 0, 0, 0.9),
+    0 0 60px rgba(121, 40, 202, 0.25),
+    0 0 40px rgba(255, 0, 85, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Side Hardware Buttons (Left Action & Volume, Right Power) */
+.stage-frame-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 130px;
+  left: -15px;
+  width: 4px;
+  height: 48px;
+  background: #2b364e;
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 60px 0 #2b364e, 0 120px 0 #2b364e;
+}
+
+.stage-frame-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 170px;
+  right: -15px;
+  width: 4px;
+  height: 75px;
+  background: #2b364e;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Glass Specular Highlight across phone screen */
+.phone-glass-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.08) 0%, transparent 40%, transparent 100%);
+  pointer-events: none;
+  z-index: 80;
+}
+
+/* iOS Status Bar */
+.mockup-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 28px 0;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 70;
+  user-select: none;
+  pointer-events: none;
+}
+
+.status-time {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+}
+
+/* Dynamic Island */
+.mockup-dynamic-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 30px;
+  background: #000000;
+  border-radius: 22px;
+  z-index: 75;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.island-camera-lens {
+  width: 10px;
+  height: 10px;
+  background: #09111e;
+  border-radius: 50%;
+  border: 1.5px solid #1c273e;
+}
+
+.island-sensor {
+  width: 7px;
+  height: 7px;
+  background: #0d1a2d;
+  border-radius: 50%;
+}
+
+.island-state-pill {
+  font-size: 0.65rem;
+  color: #ffd54f;
+  font-weight: 700;
+  display: none;
+}
+
+/* Bottom iOS Home Indicator Bar */
+.mockup-home-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 135px;
+  height: 4.5px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  z-index: 70;
+  pointer-events: none;
+}
+
+/* Stage Inner Content Area */
+.active-game-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Fullscreen Mode Override */
+.stage-frame-wrapper.full-screen-mode {
+  max-width: 1040px;
+  height: 800px;
+  border-radius: 28px;
+  border-width: 4px;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.stage-frame-wrapper.full-screen-mode .mockup-dynamic-island,
+.stage-frame-wrapper.full-screen-mode .mockup-status-bar,
+.stage-frame-wrapper.full-screen-mode .mockup-home-indicator,
+.stage-frame-wrapper.full-screen-mode::before,
+.stage-frame-wrapper.full-screen-mode::after {
+  display: none;
+}
+
+/* ==========================================================================
+   Config Drawer (Dev & Marketing Settings)
+   ========================================================================== */
+.config-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 380px;
+  height: 100vh;
+  background: rgba(10, 15, 29, 0.98);
+  backdrop-filter: blur(25px);
+  border-left: 1px solid var(--border-glass);
+  padding: 28px 24px;
+  z-index: 1000;
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.85);
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.config-drawer.open {
+  right: 0;
+}
+
+.config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 16px;
+}
+
+.config-header h3 {
+  font-size: 1.15rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--accent-gold);
+}
+
+.config-close-btn {
+  font-size: 1.6rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.config-close-btn:hover {
+  color: #fff;
+}
+
+.config-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.config-form-group label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.config-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 0.92rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.config-input:focus {
+  border-color: var(--accent-valentine);
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.25);
+}
+
+/* Toast Notice */
+.toast-notice {
+  position: fixed;
+  bottom: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, rgba(20, 30, 55, 0.95), rgba(10, 15, 29, 0.98));
+  border: 1px solid var(--accent-gold);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 183, 3, 0.35);
+  z-index: 2000;
+  transition: bottom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast-notice.show {
+  bottom: 35px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 680px) {
+  .hub-header {
+    padding: 12px 18px;
+  }
+  .stage-frame-wrapper {
+    border-radius: 0;
+    border: none;
+    height: 100vh;
+    max-width: 100%;
+  }
+  .mockup-dynamic-island,
+  .mockup-status-bar,
+  .mockup-home-indicator {
+    display: none;
+  }
+  .action-pill-btn span:not(:first-child) {
+    display: none;
+  }
+}

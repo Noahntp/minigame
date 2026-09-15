@@ -1,0 +1,151 @@
+// Prisma Schema for Mini Game Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SessionStatus {
+  STARTED
+  PLAYING
+  COMPLETED
+  FAILED
+  ABANDONED
+  EXPIRED
+}
+
+enum RewardType {
+  POINT
+  VOUCHER
+  GIFT
+  SPECIAL
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String?  @unique
+  role      String   @default("USER")
+  points    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions  GameSession[]
+  claims    RewardClaim[]
+  histories GamePlayHistory[]
+
+  @@map("users")
+}
+
+model MiniGame {
+  id             String   @id @default(uuid())
+  slug           String   @unique
+  name           String
+  description    String
+  season         String
+  active         Boolean  @default(true)
+  config         Json?
+  playLimitPerDay Int     @default(5)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  sessions  GameSession[]
+  rewards   Reward[]
+  histories GamePlayHistory[]
+
+  @@map("mini_games")
+}
+
+model GameSession {
+  id             String        @id @default(uuid())
+  userId         String?
+  gameId         String
+  status         SessionStatus @default(STARTED)
+  score          Int           @default(0)
+  startedAt      DateTime      @default(now())
+  finishedAt     DateTime?
+  clientMetadata Json?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  user       User?            @relation(fields: [userId], references: [id])
+  game       MiniGame         @relation(fields: [gameId], references: [id])
+  result     GameResult?
+  claim      RewardClaim?
+  histories  GamePlayHistory[]
+
+  @@index([userId])
+  @@index([gameId])
+  @@index([status])
+  @@map("game_sessions")
+}
+
+model GameResult {
+  id                    String   @id @default(uuid())
+  sessionId             String   @unique
+  score                 Int      @default(0)
+  isWin                 Boolean  @default(true)
+  verifiedByGameService Boolean  @default(false)
+  metadata              Json?
+  createdAt             DateTime @default(now())
+
+  session GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("game_results")
+}
+
+model Reward {
+  id          String     @id @default(uuid())
+  gameId      String?
+  name        String
+  type        RewardType @default(VOUCHER)
+  value       Int        @default(0)
+  code        String     @unique
+  stock       Int        @default(1000)
+  active      Boolean    @default(true)
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  game   MiniGame?     @relation(fields: [gameId], references: [id])
+  claims RewardClaim[]
+
+  @@map("rewards")
+}
+
+model RewardClaim {
+  id             String   @id @default(uuid())
+  sessionId      String   @unique
+  rewardId       String
+  userId         String?
+  idempotencyKey String   @unique
+  claimedAt      DateTime @default(now())
+
+  session GameSession @relation(fields: [sessionId], references: [id])
+  reward  Reward      @relation(fields: [rewardId], references: [id])
+  user    User?       @relation(fields: [userId], references: [id])
+
+  @@map("reward_claims")
+}
+
+model GamePlayHistory {
+  id            String   @id @default(uuid())
+  userId        String?
+  gameId        String
+  sessionId     String
+  score         Int      @default(0)
+  rewardSummary String?
+  playedAt      DateTime @default(now())
+
+  user    User?       @relation(fields: [userId], references: [id])
+  game    MiniGame    @relation(fields: [gameId], references: [id])
+  session GameSession @relation(fields: [sessionId], references: [id])
+
+  @@index([userId])
+  @@index([gameId])
+  @@map("game_play_history")
+}
