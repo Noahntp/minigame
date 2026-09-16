@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Award, Check, Star, Heart } from 'lucide-react';
 import { sound } from '../../../utils/audio';
+import { getAssetUrl } from '../../../utils/assets';
 
 interface FlowerPickingStageProps {
   onComplete: (score: number) => void;
@@ -55,8 +56,8 @@ export const FlowerPickingStage: React.FC<FlowerPickingStageProps> = ({
       name: 'Hồng Sa Mạc Nhung Đỏ',
       title: 'Rose Royale Velvet',
       tag: '🌹 Quý Phái',
-      budImg: '/assets/games/flower_rose_bud.jpg',
-      bloomImg: '/assets/games/flower_rose.jpg',
+      budImg: getAssetUrl('/assets/games/flower_rose_bud.jpg'),
+      bloomImg: getAssetUrl('/assets/games/flower_rose.jpg'),
       glowColor: '#f43f5e',
       accentGold: '#fef08a',
       petalColor: '#e11d48',
@@ -71,9 +72,9 @@ export const FlowerPickingStage: React.FC<FlowerPickingStageProps> = ({
       name: 'Mẫu Đơn Cung Đình Bừng Nở',
       title: 'Pivoine Impériale',
       tag: '👑 Vương Giả • Tuyệt Tác',
-      budImg: '/assets/games/flower_peony_bud.jpg',
-      openingImg: '/assets/games/flower_peony_opening.jpg',
-      bloomImg: '/assets/games/flower_peony.jpg',
+      budImg: getAssetUrl('/assets/games/flower_peony_bud.jpg'),
+      openingImg: getAssetUrl('/assets/games/flower_peony_opening.jpg'),
+      bloomImg: getAssetUrl('/assets/games/flower_peony.jpg'),
       glowColor: '#ec4899',
       accentGold: '#ffd700',
       petalColor: '#fb7185',
@@ -88,8 +89,8 @@ export const FlowerPickingStage: React.FC<FlowerPickingStageProps> = ({
       name: 'Tulip Hoàng Kim Thần Tài',
       title: 'Tulipe d\'Or Solaire',
       tag: '🌟 May Mắn',
-      budImg: '/assets/games/flower_tulip_bud.jpg',
-      bloomImg: '/assets/games/flower_tulip.jpg',
+      budImg: getAssetUrl('/assets/games/flower_tulip_bud.jpg'),
+      bloomImg: getAssetUrl('/assets/games/flower_tulip.jpg'),
       glowColor: '#eab308',
       accentGold: '#fff099',
       petalColor: '#f59e0b',

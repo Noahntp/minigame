@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Gift, Check, Bell, Star, Timer, Zap, RotateCcw } from 'lucide-react';
+import { Sparkles, Check, Zap, RotateCcw, Timer, Star, Bell, Gift } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { sound } from '../../../utils/audio';
 import { MagicTreeCanvas } from './MagicTreeCanvas';
+import { getAssetUrl } from '../../../utils/assets';
 
 interface ChristmasTreeStageProps {
   onComplete: (score: number) => void;
@@ -217,7 +218,7 @@ export const ChristmasTreeStage: React.FC<ChristmasTreeStageProps> = ({
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out pointer-events-none"
           style={{
-            backgroundImage: "url('/assets/games/anime_winter_bg.jpg')",
+            backgroundImage: `url('${getAssetUrl('/assets/games/anime_winter_bg.jpg')}')`,
           }}
         />
 
@@ -324,7 +325,7 @@ export const ChristmasTreeStage: React.FC<ChristmasTreeStageProps> = ({
           <div className="relative w-full max-w-[320px] sm:max-w-[400px] aspect-[4/5] flex items-center justify-center">
             {/* Base Tree Image (The Evergreen Trunk and Foliage) */}
             <img
-              src="/assets/games/anime_christmas_tree.png"
+              src={getAssetUrl('/assets/games/anime_christmas_tree.png')}
               alt="Anime Christmas Tree"
               className={`w-full h-full object-contain filter transition-all duration-500 select-none ${
                 gameState === 'VICTORY'
@@ -555,7 +556,7 @@ export const ChristmasTreeStage: React.FC<ChristmasTreeStageProps> = ({
               {/* Bouncing Gift Box */}
               <div className="relative mx-auto mb-4 w-20 h-20 sm:w-24 sm:h-24">
                 <img
-                  src="/assets/games/anime_gift_box.png"
+                  src={getAssetUrl('/assets/games/anime_gift_box.png')}
                   alt="Anime Gift Box"
                   className="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(251,191,36,0.7)] animate-bounce"
                   style={{ animationDuration: '2s' }}

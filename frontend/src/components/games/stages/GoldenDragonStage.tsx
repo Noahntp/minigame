@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Award, Check, Compass, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, RotateCcw, Zap, Flame } from 'lucide-react';
 import { sound } from '../../../utils/audio';
+import { getAssetUrl } from '../../../utils/assets';
 
 interface GoldenDragonStageProps {
   onComplete: (score: number) => void;
@@ -82,13 +83,13 @@ export const GoldenDragonStage: React.FC<GoldenDragonStageProps> = ({
   // Load high-definition sprites
   useEffect(() => {
     const headImg = new Image();
-    headImg.src = '/assets/games/dragon_head_sprite.png';
+    headImg.src = getAssetUrl('/assets/games/dragon_head_sprite.png');
     headImg.onload = () => {
       headSpriteRef.current = headImg;
     };
 
     const tailImg = new Image();
-    tailImg.src = '/assets/games/dragon_tail_sprite.png';
+    tailImg.src = getAssetUrl('/assets/games/dragon_tail_sprite.png');
     tailImg.onload = () => {
       tailSpriteRef.current = tailImg;
     };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, Sparkles, Check, Star } from 'lucide-react';
 import { sound } from '../../../utils/audio';
+import { getAssetUrl } from '../../../utils/assets';
 
 interface SantaGiftStageProps {
   onComplete: (score: number) => void;
@@ -110,7 +111,7 @@ export const SantaGiftStage: React.FC<SantaGiftStageProps> = ({
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out pointer-events-none"
           style={{
-            backgroundImage: "url('/assets/games/anime_winter_bg.jpg')",
+            backgroundImage: `url('${getAssetUrl('/assets/games/anime_winter_bg.jpg')}')`,
             transform: bellRung ? 'scale(1.03)' : 'scale(1)',
           }}
         />
@@ -153,7 +154,7 @@ export const SantaGiftStage: React.FC<SantaGiftStageProps> = ({
               {/* Anime Santa & Reindeer Galloping Motion */}
               <div className="relative drop-shadow-[0_15px_35px_rgba(251,191,36,0.95)] animate-reindeer-gallop">
                 <img
-                  src="/assets/games/anime_santa_reindeer.png"
+                  src={getAssetUrl('/assets/games/anime_santa_reindeer.png')}
                   alt="Santa and Reindeer Sleigh"
                   className="w-72 sm:w-96 h-auto object-contain select-none"
                 />
@@ -196,7 +197,7 @@ export const SantaGiftStage: React.FC<SantaGiftStageProps> = ({
                 className="relative drop-shadow-[0_15px_30px_rgba(244,63,94,0.9)]"
               >
                 <img
-                  src="/assets/games/anime_gift_box.png"
+                  src={getAssetUrl('/assets/games/anime_gift_box.png')}
                   alt="Anime Gift Box"
                   className="w-24 sm:w-32 h-auto object-contain"
                 />
@@ -267,7 +268,7 @@ export const SantaGiftStage: React.FC<SantaGiftStageProps> = ({
               )}
 
               <img
-                src="/assets/games/anime_golden_bell.png"
+                src={getAssetUrl('/assets/games/anime_golden_bell.png')}
                 alt="Anime Golden Bell"
                 className="w-full h-full object-contain drop-shadow-[0_15px_30px_rgba(251,191,36,0.85)] filter group-hover:brightness-110 transition-all duration-300 relative z-10"
               />
@@ -320,7 +321,7 @@ export const SantaGiftStage: React.FC<SantaGiftStageProps> = ({
                 {/* Floating mini anime gift box icon */}
                 <div className="absolute -top-7 w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-700 border-2 border-amber-300 shadow-[0_0_20px_rgba(244,63,94,0.8)] flex items-center justify-center overflow-hidden">
                   <img
-                    src="/assets/games/anime_gift_box.png"
+                    src={getAssetUrl('/assets/games/anime_gift_box.png')}
                     alt="Gift Mini"
                     className="w-12 h-12 object-contain"
                   />

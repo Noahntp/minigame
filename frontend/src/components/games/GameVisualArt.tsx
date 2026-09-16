@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { getAssetUrl } from '../../utils/assets';
 
 interface GameVisualArtProps {
   slug: string;
@@ -136,7 +137,7 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
         <div className="relative w-full h-full flex items-center justify-center p-1 group">
           <div className="relative w-full h-full flex items-center justify-center">
             <img
-              src="/assets/games/anime_sealed_envelope.png"
+              src={getAssetUrl('/assets/games/anime_sealed_envelope.png')}
               alt="Thư Tình Hoàng Gia"
               className="w-full h-full object-contain drop-shadow-[0_8px_20px_rgba(244,63,94,0.6)] group-hover:scale-105 transition-transform duration-300"
             />
@@ -191,7 +192,7 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
             }}
           >
             <img
-              src="/assets/games/anime_christmas_tree.png"
+              src={getAssetUrl('/assets/games/anime_christmas_tree.png')}
               alt="Anime Christmas Tree"
               className="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(251,191,36,0.6)] select-none pointer-events-none"
               draggable={false}
@@ -214,7 +215,7 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
           <div className="absolute inset-3 rounded-full bg-cyan-500/20 blur-xl" />
           <div className="absolute inset-4 rounded-full bg-amber-400/20 blur-lg" />
           <img
-            src="/assets/games/anime_golden_bell.png"
+            src={getAssetUrl('/assets/games/anime_golden_bell.png')}
             alt="Anime Golden Bell"
             className="w-full h-full object-contain filter drop-shadow-[0_0_18px_rgba(251,191,36,0.95)] contrast-110 select-none transform hover:scale-105 transition-transform duration-300"
             draggable={false}
@@ -227,7 +228,7 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
         <div className="relative w-full h-full flex items-center justify-center p-3">
           <div className="absolute inset-4 rounded-full bg-cyan-500/20 blur-xl" />
           <img
-            src="/assets/games/crystal_snowflake_ice.png"
+            src={getAssetUrl('/assets/games/crystal_snowflake_ice.png')}
             alt="Crystal Snowflake"
             className="w-full h-full object-contain filter drop-shadow-[0_0_16px_rgba(56,189,248,0.9)] contrast-125 select-none"
             draggable={false}
@@ -253,7 +254,7 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
       {slug === 'golden-dragon' && (
         <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-[#d4af37] shadow-[0_8px_24px_rgba(245,158,11,0.6)] group-hover:scale-105 transition-transform">
           <img
-            src="/assets/games/golden_dragon_artwork.jpg"
+            src={getAssetUrl('/assets/games/golden_dragon_artwork.jpg')}
             alt="Thần Long Hoàng Kim"
             className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
           />

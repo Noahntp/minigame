@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Award, Sparkles, Check } from 'lucide-react';
 import { sound } from '../../../utils/audio';
+import { getAssetUrl } from '../../../utils/assets';
 
 interface SnowCatcherStageProps {
   onComplete: (score: number) => void;
@@ -190,8 +191,8 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
                 <img
                   src={
                     flake.type === 'gold'
-                      ? '/assets/games/crystal_snowflake_gold.png'
-                      : '/assets/games/crystal_snowflake_ice.png'
+                      ? getAssetUrl('/assets/games/crystal_snowflake_gold.png')
+                      : getAssetUrl('/assets/games/crystal_snowflake_ice.png')
                   }
                   alt="Crystal Snowflake"
                   style={{ width: `${flake.size}px`, height: `${flake.size}px` }}
@@ -215,8 +216,8 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
                 <img
                   src={
                     flake.type === 'gold'
-                      ? '/assets/games/crystal_snowflake_gold.png'
-                      : '/assets/games/crystal_snowflake_ice.png'
+                      ? getAssetUrl('/assets/games/crystal_snowflake_gold.png')
+                      : getAssetUrl('/assets/games/crystal_snowflake_ice.png')
                   }
                   alt="Frozen Crystal"
                   className="absolute w-14 h-14 object-contain opacity-60 filter brightness-150 animate-ping pointer-events-none"

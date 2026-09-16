@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Award, Check, Sparkles, Copy } from 'lucide-react';
 import { sound } from '../../../utils/audio';
+import { getAssetUrl } from '../../../utils/assets';
 
 interface LoveLetterStageProps {
   onComplete: (score: number) => void;
@@ -227,7 +228,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"
           style={{
-            backgroundImage: "url('/assets/games/anime_love_letter_desk_bg.jpg')",
+            backgroundImage: `url('${getAssetUrl('/assets/games/anime_love_letter_desk_bg.jpg')}')`,
             filter: phase === 'sealed' ? 'brightness(0.85) contrast(1.05)' : 'brightness(0.95) contrast(1.08)',
           }}
         />
@@ -270,7 +271,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
           {/* 1. LAYER BACK: Open Envelope Back (with silk lining) */}
           {/* Top 34.5% is clipped when closed so only rectangular body is visible */}
           <img
-            src="/assets/games/anime_envelope_back.png"
+            src={getAssetUrl('/assets/games/anime_envelope_back.png')}
             alt="Open Envelope Back"
             className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_20px_45px_rgba(0,0,0,0.9)] z-10 transition-all"
             style={{
@@ -306,7 +307,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
             <div className="relative w-full h-full filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.85)]">
               {/* Authentic Parchment Texture */}
               <img
-                src="/assets/games/anime_unfolded_letter.png"
+                src={getAssetUrl('/assets/games/anime_unfolded_letter.png')}
                 alt="Love Letter Paper"
                 className="w-full h-full object-fill pointer-events-none"
               />
@@ -347,7 +348,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
 
           {/* 3. LAYER FOREGROUND: Envelope Front Pocket with Pink Bow (z-30) */}
           <img
-            src="/assets/games/anime_envelope_front.png"
+            src={getAssetUrl('/assets/games/anime_envelope_front.png')}
             alt="Envelope Front Pocket"
             className="absolute bottom-0 left-0 w-full h-auto object-contain z-30 pointer-events-none drop-shadow-[0_-6px_18px_rgba(0,0,0,0.45)]"
           />
@@ -377,7 +378,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
             }}
           >
             <img
-              src="/assets/games/anime_flap_closed_down.png"
+              src={getAssetUrl('/assets/games/anime_flap_closed_down.png')}
               alt="Closed Flap"
               className="w-full h-full object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
             />
@@ -401,7 +402,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
                   <div className="w-14 sm:w-16 h-14 sm:h-16 rounded-full border-2 border-amber-300/80 animate-ping opacity-60 pointer-events-none" />
                 )}
                 <img
-                  src="/assets/games/anime_wax_seal_standalone.png"
+                  src={getAssetUrl('/assets/games/anime_wax_seal_standalone.png')}
                   alt="Ruby Wax Seal"
                   className="w-full h-full object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)]"
                 />
