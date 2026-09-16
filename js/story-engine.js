@@ -123,7 +123,7 @@ class StoryEngine {
    */
   showStoryDialogue(gameId, container, onStartQuest) {
     const story = this.getStory(gameId);
-    if (!story) {
+    if (!story || (typeof window !== 'undefined' && window.location.search.includes('skipStory=true'))) {
       if (onStartQuest) onStartQuest();
       return;
     }
@@ -138,6 +138,7 @@ class StoryEngine {
     overlay.className = 'story-dialogue-overlay';
     overlay.innerHTML = `
       <div class="story-dialogue-card">
+        <button class="story-card-close-btn" id="btn-close-story" title="Đóng">&times;</button>
         <div class="story-chapter-tag">
           <span>${story.chapterName}</span>
           <span class="story-tag-dot">•</span>
@@ -171,7 +172,7 @@ class StoryEngine {
             <span>📖 Đọc Biên Niên Sử</span>
           </button>
           <button class="btn-story-start" id="btn-start-quest">
-            <span>NHẬN SỨ MỆNH ⚔️</span>
+            <span>CHƠI NGAY ⚔️</span>
           </button>
         </div>
       </div>
@@ -179,22 +180,35 @@ class StoryEngine {
 
     container.appendChild(overlay);
 
-    const startBtn = overlay.querySelector('#btn-start-quest');
-    const viewLoreBtn = overlay.querySelector('#btn-view-lore');
-
-    startBtn.addEventListener('click', () => {
+    const dismissDialogue = () => {
       sound.playClick();
       overlay.classList.add('fade-out');
       setTimeout(() => {
         overlay.remove();
         if (onStartQuest) onStartQuest();
-      }, 300);
+      }, 250);
+    };
+
+    const startBtn = overlay.querySelector('#btn-start-quest');
+    const viewLoreBtn = overlay.querySelector('#btn-view-lore');
+    const closeBtn = overlay.querySelector('#btn-close-story');
+
+    if (startBtn) startBtn.addEventListener('click', dismissDialogue);
+    if (closeBtn) closeBtn.addEventListener('click', dismissDialogue);
+
+    // Clicking overlay backdrop dismisses
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        dismissDialogue();
+      }
     });
 
-    viewLoreBtn.addEventListener('click', () => {
-      sound.playClick();
-      this.openLoreModal(gameId);
-    });
+    if (viewLoreBtn) {
+      viewLoreBtn.addEventListener('click', () => {
+        sound.playClick();
+        this.openLoreModal(gameId);
+      });
+    }
   }
 
   /**

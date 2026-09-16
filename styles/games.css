@@ -348,32 +348,159 @@
 }
 
 /* --------------------------------------------------------------------------
-   GAME 23: 💐 HÁI HOA NHẬN QUÀ - ENCHANTED FAIRY-TALE FLOWER GARDEN
+   GAME 23: 💐 HÁI HOA NHẬN QUÀ - ENCHANTED ROYAL CONSERVATORY GREENHOUSE
    -------------------------------------------------------------------------- */
 .stage-flower {
-  background: radial-gradient(circle at 50% 35%, #1b3d2b 0%, #0d2116 55%, #030a06 100%);
+  background: linear-gradient(180deg, rgba(4, 16, 10, 0.72) 0%, rgba(2, 8, 5, 0.85) 60%, rgba(1, 4, 2, 0.95) 100%), url('../assets/greenhouse_bg.jpg') center/cover no-repeat;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.garden-glow-ambience {
+.greenhouse-ambient-glow {
   position: absolute;
-  top: 10%;
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, rgba(74, 222, 128, 0.25) 0%, transparent 70%);
-  filter: blur(50px);
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 60%;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255, 215, 0, 0.22) 0%, rgba(74, 222, 128, 0.12) 45%, transparent 75%);
+  filter: blur(40px);
   pointer-events: none;
+  z-index: 1;
 }
 
+.greenhouse-light-shafts {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(115deg, transparent, transparent 40px, rgba(255, 235, 150, 0.04) 40px, rgba(255, 235, 150, 0.04) 70px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Floating Golden Fireflies Layer */
+.garden-fireflies-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.firefly-mote {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff59d;
+  box-shadow: 0 0 12px #ffd700, 0 0 20px #ffb300;
+  animation: fireflyFloat 6s ease-in-out infinite alternate;
+}
+
+.firefly-1 { top: 28%; left: 14%; animation-duration: 5s; animation-delay: 0s; }
+.firefly-2 { top: 42%; right: 16%; animation-duration: 6.5s; animation-delay: 1.2s; }
+.firefly-3 { top: 22%; left: 68%; animation-duration: 7s; animation-delay: 0.5s; }
+.firefly-4 { top: 58%; left: 24%; animation-duration: 5.5s; animation-delay: 2s; }
+.firefly-5 { top: 62%; right: 28%; animation-duration: 6s; animation-delay: 1s; }
+.firefly-6 { top: 16%; left: 38%; animation-duration: 8s; animation-delay: 2.5s; }
+
+@keyframes fireflyFloat {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0.35; }
+  50% { transform: translate(16px, -20px) scale(1.3); opacity: 1; }
+  100% { transform: translate(-14px, -40px) scale(0.85); opacity: 0.45; }
+}
+
+/* Gentle Falling Petals */
+.floating-petals-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.falling-petal {
+  position: absolute;
+  font-size: 1.15rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
+  opacity: 0.85;
+  animation: petalDrift 8s linear infinite;
+}
+
+.petal-1 { left: 12%; top: -10%; animation-duration: 9s; animation-delay: 0s; }
+.petal-2 { left: 78%; top: -10%; animation-duration: 11s; animation-delay: 2.5s; }
+.petal-3 { left: 45%; top: -10%; font-size: 0.85rem; animation-duration: 7.5s; animation-delay: 1s; }
+.petal-4 { left: 30%; top: -10%; animation-duration: 10s; animation-delay: 4s; }
+
+@keyframes petalDrift {
+  0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+  15% { opacity: 0.85; }
+  85% { opacity: 0.85; }
+  100% { transform: translateY(550px) rotate(360deg) translateX(50px); opacity: 0; }
+}
+
+/* Top Instruction Badge */
+.flower-instruction-badge {
+  position: relative;
+  z-index: 20;
+  margin-top: 10px;
+  background: rgba(6, 22, 14, 0.8) !important;
+  border: 1px solid rgba(255, 215, 0, 0.5) !important;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55), 0 0 15px rgba(74, 222, 128, 0.25);
+  color: #fef08a !important;
+}
+
+/* Interactive Finger Guidance Pointer */
+.flower-guide-callout {
+  position: relative;
+  z-index: 25;
+  margin: 8px 0 4px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  animation: guideFloat 2s ease-in-out infinite;
+}
+
+.flower-guide-bubble {
+  background: linear-gradient(135deg, #ffd700, #ff9100);
+  color: #3b2000;
+  font-weight: 900;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 4px 18px rgba(255, 183, 3, 0.65), 0 0 10px rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+.flower-guide-pointer {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  margin-top: -2px;
+}
+
+@keyframes guideFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(8px) scale(1.05); }
+}
+
+/* Botanical Garden Bed */
 .garden-bed {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 24px;
+  gap: 16px;
   width: 100%;
-  margin: auto;
-  height: 310px;
+  max-width: 380px;
+  margin: auto 0 8px 0;
   position: relative;
-  z-index: 10;
+  z-index: 15;
 }
 
 .flower-item {
@@ -381,63 +508,221 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 .flower-item:hover {
-  transform: translateY(-12px) scale(1.12);
+  transform: translateY(-10px) scale(1.08);
 }
 
-.flower-bloom {
+.flower-item:active {
+  transform: scale(0.96);
+}
+
+/* Circular Crystal Bloom Frame */
+.flower-bloom-frame {
   position: relative;
-  width: 94px;
-  height: 94px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 215, 0, 0.65);
+  background: radial-gradient(circle at 45% 35%, rgba(255, 255, 255, 0.2) 0%, rgba(12, 34, 22, 0.85) 75%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.35), inset 0 0 12px rgba(255, 255, 255, 0.3);
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: all 0.35s ease;
 }
 
-.flower-svg {
+.flower-item:hover .flower-bloom-frame {
+  border-color: #ffd700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 215, 0, 0.7);
+}
+
+.flower-botanical-img {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 8px 20px rgba(255, 117, 140, 0.75));
-  animation: flowerBreeze 3.5s ease-in-out infinite alternate;
+  object-fit: cover;
+  transform: scale(1.08);
+  transition: transform 0.5s ease;
 }
 
-@keyframes flowerBreeze {
-  0% { transform: rotate(-5deg) scale(1); }
-  100% { transform: rotate(5deg) scale(1.04); }
+.flower-item:hover .flower-botanical-img {
+  transform: scale(1.18);
 }
 
-.flower-stem-svg {
-  width: 28px;
-  height: 110px;
-  margin-top: -10px;
+.flower-glass-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 45%, rgba(255, 255, 255, 0.1) 100%);
+  pointer-events: none;
+  border-radius: 50%;
 }
 
-.flower-label {
-  font-size: 0.84rem;
-  font-weight: 800;
+/* Aura Glows */
+.flower-aura-glow {
+  position: absolute;
+  top: 10px;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  filter: blur(20px);
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity 0.3s ease;
+}
+
+.rose-glow { background: radial-gradient(circle, #f43f5e 0%, transparent 70%); }
+.peony-glow { background: radial-gradient(circle, #ec4899 0%, #ffd700 60%, transparent 80%); }
+.tulip-glow { background: radial-gradient(circle, #eab308 0%, #f97316 60%, transparent 80%); }
+
+.flower-item:hover .flower-aura-glow {
+  opacity: 1;
+}
+
+/* Featured Center Flower (Peony) */
+.featured-flower {
+  transform: translateY(-8px);
+}
+
+.featured-flower:hover {
+  transform: translateY(-18px) scale(1.1);
+}
+
+.featured-frame {
+  width: 108px;
+  height: 108px;
+  border-width: 2.5px;
+  border-color: #ffd700;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), 0 0 32px rgba(244, 114, 182, 0.5), 0 0 45px rgba(255, 215, 0, 0.5);
+}
+
+.royal-crown-halo {
+  font-size: 1.4rem;
+  position: absolute;
+  top: -24px;
+  filter: drop-shadow(0 0 10px #ffd700);
+  animation: crownPulse 2s ease-in-out infinite alternate;
+  z-index: 10;
+}
+
+@keyframes crownPulse {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-4px) scale(1.15); }
+}
+
+/* Ornate Porcelain & Gold Pedestal Base */
+.flower-pedestal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -6px;
+  width: 100%;
+}
+
+.calyx-svg {
+  width: 48px;
+  height: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.pedestal-stem-pillar {
+  width: 6px;
+  height: 38px;
+  background: linear-gradient(180deg, #22c55e 0%, #15803d 60%, #ffd700 100%);
+  border-radius: 3px;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+  margin-top: -2px;
+}
+
+.featured-stem {
+  width: 8px;
+  height: 44px;
+  background: linear-gradient(180deg, #f472b6 0%, #16a34a 50%, #ffd700 100%);
+}
+
+.pedestal-golden-plinth {
+  width: 46px;
+  height: 8px;
+  background: linear-gradient(90deg, #b26a00 0%, #ffd700 50%, #b26a00 100%);
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.featured-plinth {
+  width: 56px;
+  height: 10px;
+  background: linear-gradient(90deg, #d97706 0%, #fff099 50%, #d97706 100%);
+}
+
+/* Frosted Glass Nameplate Cards */
+.flower-label-card {
   margin-top: 8px;
-  color: #dcfce7;
-  background: rgba(8, 20, 14, 0.7);
-  padding: 4px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(74, 222, 128, 0.4);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: linear-gradient(180deg, rgba(16, 40, 26, 0.9) 0%, rgba(8, 22, 14, 0.96) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  border-radius: 12px;
+  padding: 6px 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), inset 0 0 10px rgba(74, 222, 128, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
+.flower-item:hover .flower-label-card {
+  border-color: #ffd700;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), 0 0 16px rgba(255, 215, 0, 0.4);
+}
+
+.flower-title {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #ffffff;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.flower-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  white-space: nowrap;
+}
+
+.gold-tag {
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.featured-label {
+  border-color: rgba(255, 215, 0, 0.7);
+  background: linear-gradient(180deg, rgba(28, 54, 36, 0.92) 0%, rgba(12, 30, 20, 0.98) 100%);
+}
+
+/* Plucked Animation */
 .flower-plucked {
   animation: pluckRise 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
 @keyframes pluckRise {
   0% { transform: translateY(0); }
-  40% { transform: translateY(-45px) rotate(18deg) scale(1.15); }
-  100% { transform: translateY(-120px) scale(0.4); opacity: 0; }
+  40% { transform: translateY(-45px) rotate(14deg) scale(1.15); }
+  100% { transform: translateY(-120px) scale(0.3); opacity: 0; }
 }
 
+/* Pluck Spotlight Modal & Giant Bloom */
 .flower-pluck-spotlight {
   position: absolute;
   top: 48%;
@@ -446,179 +731,357 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 45;
+  z-index: 50;
+  width: 100%;
+  pointer-events: none;
 }
 
-.giant-bloom {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff099 0%, #ffd700 35%, #ff4b72 70%, transparent 90%);
+.giant-bloom-wrapper {
+  position: relative;
+  width: 190px;
+  height: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 80px rgba(255, 117, 140, 0.95), 0 0 120px rgba(255, 215, 0, 0.7);
   transform: scale(0);
   transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.giant-bloom-svg {
-  width: 140px;
-  height: 140px;
-  filter: drop-shadow(0 0 25px #ffffff);
+.giant-bloom-photo-disc {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 3px solid #ffd700;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.9), 0 0 100px rgba(244, 114, 182, 0.7);
+  background: #000;
+  position: relative;
+  z-index: 2;
+}
+
+.giant-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spotlight-shockwave {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 215, 0, 0.8);
+  box-shadow: 0 0 35px rgba(255, 215, 0, 0.8);
+  animation: shockwaveRing 1.5s ease-out infinite;
+  z-index: 1;
+}
+
+@keyframes shockwaveRing {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
 }
 
 .bloom-expand {
   transform: scale(1) !important;
 }
 
-.bloom-text {
-  font-family: var(--font-heading);
-  font-size: 1.35rem;
-  font-weight: 900;
-  color: #ffd54f;
-  margin-top: 20px;
-  text-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
-  letter-spacing: -0.01em;
+.bloom-status-banner {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fde047;
+  margin-top: 18px;
+  background: rgba(6, 26, 16, 0.9);
+  padding: 6px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(253, 224, 71, 0.6);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  box-shadow: 0 0 20px rgba(253, 224, 71, 0.35);
+  animation: pulseStatus 1s ease-in-out infinite alternate;
 }
 
-/* --------------------------------------------------------------------------
-   GAME 24: 💌 MỞ THƯ TÌNH - BAROQUE ROYAL DESK & GOLD FOIL ENVELOPE
+@keyframes pulseStatus {
+  0% { transform: scale(0.98); opacity: 0.9; }
+  100% { transform: scale(1.02); opacity: 1; }
+}
+
+.bloom-full-pulse {
+  animation: bloomPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes bloomPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.8)); }
+}
+
+.bloom-congrats-text {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #fef08a;
+  margin-top: 24px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.8);
+  background: rgba(8, 24, 16, 0.85);
+  padding: 8px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 215, 0, 0.6);
+  backdrop-filter: blur(12px);
+  text-align: center;
+  max-width: 90%;
+}
+
+/* Seasonal Footer tip */
+.flower-footer-tip {
+  position: relative;
+  z-index: 20;
+  margin-bottom: 12px;
+  background: rgba(6, 22, 14, 0.75) !important;
+  border: 1px solid rgba(255, 215, 0, 0.4) !important;
+  backdrop-filter: blur(12px);
+  color: #fef08a;
+  font-weight: 700;
+  font-size: 0.76rem;
+  padding: 6px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* ----------------------------------------------------/* --------------------------------------------------------------------------
+   GAME 24: 💌 MỞ THƯ TÌNH - ANIME ROYAL VALENTINE CHAMBER & RUBY WAX SEAL
    -------------------------------------------------------------------------- */
 .stage-letter {
-  background: radial-gradient(circle at 50% 40%, #421e2c 0%, #220c15 55%, #0e0307 100%);
+  background: url('../assets/anime_love_letter_desk_bg.jpg') center/cover no-repeat !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-letter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 10, 16, 0.45) 0%, rgba(8, 4, 6, 0.85) 100%);
+  pointer-events: none;
 }
 
 .candlelight-ambient {
   position: absolute;
-  top: 25%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(255, 183, 3, 0.3) 0%, transparent 70%);
-  filter: blur(50px);
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, rgba(244, 63, 94, 0.15) 50%, transparent 75%);
+  filter: blur(40px);
+  pointer-events: none;
+  animation: candleGlowPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes candleGlowPulse {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
 }
 
 .envelope-container {
   position: relative;
-  width: 300px;
-  height: 205px;
-  margin: auto;
-  perspective: 1000px;
+  width: 330px;
+  max-width: 92vw;
+  aspect-ratio: 1000 / 904;
+  margin: 10px auto;
   cursor: pointer;
   z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  perspective: 1200px;
 }
 
-.envelope {
+.envelope-assembly {
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #e4cca8 0%, #caa778 100%);
-  border-radius: 20px;
-  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.75), inset 0 2px 3px rgba(255, 255, 255, 0.6);
-  border: 1.5px solid rgba(255, 215, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: envelopeFloat 4s ease-in-out infinite alternate;
 }
 
-.envelope-flap {
+@keyframes envelopeFloat {
+  0% { transform: translateY(0px) rotate(-0.4deg); }
+  100% { transform: translateY(-6px) rotate(0.4deg); }
+}
+
+/* 1. Open Envelope Back with silk lining (clipped when closed) */
+.envelope-layer-back {
   position: absolute;
-  top: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.9));
+  z-index: 10;
+  clip-path: inset(34.5% 0 0 0);
+  transition: clip-path 0.48s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.envelope-assembly.assembly-open {
+  animation: none !important;
+  transform: translateY(70px) scale(0.9) !important;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.envelope-assembly.assembly-open .envelope-layer-back {
+  clip-path: inset(0 0 0 0) !important;
+}
+
+/* 2. Letter Paper nestled inside pocket (slides UPWARDS and OUT on open) */
+.love-letter-pocket-sheet {
+  position: absolute;
+  left: 4%;
+  width: 92%;
+  bottom: 12%;
+  aspect-ratio: 1055 / 763;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.85));
+  transform: translateY(35px) scale(0.92);
+  opacity: 0;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, z-index 0.3s ease;
+  z-index: 20;
+}
+
+.love-letter-pocket-sheet.letter-unfolded-active {
+  transform: translateY(-165px) translateZ(80px) scale(1.22) !important;
+  opacity: 1 !important;
+  z-index: 999 !important;
+}
+
+.parchment-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.parchment-content-overlay {
+  position: absolute;
+  inset: 0;
+  padding: 14px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #2b141e;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.stage-letter.letter-stage-opened .game-instruction-badge {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* 3. Front Pocket with Pink Bow */
+.envelope-layer-front {
+  position: absolute;
+  bottom: 0;
   left: 0;
-  width: 0;
-  height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-top: 115px solid #be9866;
-  transform-origin: top center;
-  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 5;
-  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.35));
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 -6px 18px rgba(0, 0, 0, 0.45));
+  z-index: 30;
 }
 
-.flap-open {
-  transform: rotateX(180deg);
-  z-index: 1;
-}
-
-.wax-seal {
+/* 4. Downward Closed Flap (3D Flips UP on open) */
+.envelope-flap-down {
   position: absolute;
-  top: 90px;
+  top: 34.5%;
+  left: 0;
+  width: 100%;
+  height: 34.5%;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  transition: transform 0.44s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.36s ease;
+  z-index: 35;
+}
+
+.envelope-assembly.assembly-open .envelope-flap-down {
+  transform: rotateX(-120deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flap-down-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+/* 5. Ruby Wax Seal Target */
+.wax-seal-target {
+  position: absolute;
+  top: 52%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ff1744 0%, #b70028 65%, #600013 100%);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  width: 68px;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 6;
-  border: 2px solid #ff80ab;
+  z-index: 40;
+  cursor: pointer;
 }
 
-.seal-crest {
-  font-size: 1.6rem;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
+.wax-seal-pulse-ring {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  border: 2px solid rgba(251, 191, 36, 0.7);
+  animation: sealRingPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes sealRingPing {
+  0% { transform: scale(0.8); opacity: 0.85; }
+  100% { transform: scale(1.35); opacity: 0; }
 }
 
 .seal-cracked {
-  animation: sealBreak 0.45s forwards;
+  animation: animeSealBreak 0.38s forwards cubic-bezier(0.2, 0.9, 0.3, 1) !important;
 }
 
-@keyframes sealBreak {
-  0% { transform: translateX(-50%) scale(1); }
-  50% { transform: translateX(-50%) scale(1.4); filter: brightness(1.8); }
-  100% { transform: translateX(-50%) scale(0); opacity: 0; }
+@keyframes animeSealBreak {
+  0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+  40% { transform: translate(-50%, -50%) scale(1.35) rotate(-8deg); filter: brightness(2.5) drop-shadow(0 0 25px #fbbf24); }
+  75% { transform: translate(-50%, -50%) scale(1.5) rotate(6deg); filter: brightness(3) drop-shadow(0 0 40px #f59e0b); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
 }
 
-.love-letter {
+/* 6. Voucher Reward Card */
+.voucher-emerge-card {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 276px;
-  height: 180px;
-  background: linear-gradient(135deg, #fffdf8 0%, #fef8eb 100%);
-  border-radius: 12px;
-  padding: 18px 16px;
-  color: #3b2222;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(183, 0, 40, 0.25);
-  transition: transform 0.65s cubic-bezier(0.2, 0.9, 0.3, 1);
-  z-index: 2;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%) translateY(45px);
+  width: 290px;
+  max-width: 90vw;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(20, 10, 16, 0.98) 0%, rgba(48, 12, 32, 0.98) 100%);
+  border: 1.5px solid rgba(251, 191, 36, 0.75);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 28px rgba(244, 63, 94, 0.55);
+  text-align: center;
+  z-index: 45;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
-.letter-heading {
-  font-family: var(--font-heading);
-  font-weight: 900;
-  font-size: 0.96rem;
-  color: #b70028;
-  margin-bottom: 8px;
-}
-
-.letter-body {
-  font-size: 0.78rem;
-  line-height: 1.48;
-  font-style: italic;
-  color: #4a2c2c;
-}
-
-.letter-stamp {
-  margin-top: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #ffebee;
-  border: 1.5px dashed #ff1744;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: #b70028;
-}
-
-.letter-slide-out {
-  transform: translateY(-115px) scale(1.08);
-  z-index: 15;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+.voucher-emerge-card.voucher-emerge-active {
+  transform: translateX(-50%) translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -725,7 +1188,17 @@
    GAME 26: 🎅 ÔNG GIÀ NOEL TẶNG QUÀ - NORTHERN LIGHTS & REINDEER SLEIGH
    -------------------------------------------------------------------------- */
 .stage-santa {
-  background: radial-gradient(circle at 50% 30%, #20355a 0%, #0d192f 55%, #030812 100%);
+  background: url('../assets/anime_winter_bg.jpg') center/cover no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-santa::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2, 11, 28, 0.4) 0%, rgba(2, 7, 18, 0.75) 100%);
+  pointer-events: none;
 }
 
 .aurora-sky {
@@ -734,7 +1207,7 @@
   left: 0;
   width: 100%;
   height: 180px;
-  background: linear-gradient(180deg, rgba(0, 255, 200, 0.15) 0%, rgba(121, 40, 202, 0.15) 50%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 255, 200, 0.2) 0%, rgba(121, 40, 202, 0.15) 50%, transparent 100%);
   pointer-events: none;
   animation: auroraWave 6s ease-in-out infinite alternate;
 }
@@ -751,32 +1224,40 @@
   z-index: 5;
 }
 
-.full-moon-svg {
-  width: 80px;
-  height: 80px;
-  filter: drop-shadow(0 0 30px rgba(255, 255, 220, 0.9));
-}
-
 .santa-sleigh {
   position: absolute;
-  top: 60px;
-  right: -340px;
+  top: 35px;
+  right: -380px;
   z-index: 25;
+  pointer-events: none;
 }
 
-.sleigh-svg {
-  width: 250px;
-  height: 80px;
-  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9));
+.sleigh-img {
+  width: 280px;
+  height: auto;
+  filter: drop-shadow(0 12px 30px rgba(251, 191, 36, 0.95));
+  animation: reindeerGallop 0.45s ease-in-out infinite alternate;
+}
+
+@keyframes reindeerGallop {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  25% { transform: translate3d(-2px, -9px, 0) rotate(-3.5deg); }
+  50% { transform: translate3d(0, -2px, 0) rotate(0.5deg); }
+  75% { transform: translate3d(2px, 6px, 0) rotate(2deg); }
 }
 
 .sleigh-fly-across {
-  animation: santaFly 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: santaFly 4.0s cubic-bezier(0.28, 0.9, 0.42, 1) forwards;
 }
 
 @keyframes santaFly {
-  0% { transform: translateX(0) translateY(0); opacity: 1; }
-  100% { transform: translateX(-690px) translateY(-35px); opacity: 0.85; }
+  0% { transform: translateX(0) translateY(14px) scale(0.78) rotate(3deg); opacity: 0; }
+  8% { opacity: 1; }
+  28% { transform: translateX(-240px) translateY(-6px) scale(0.92) rotate(1deg); }
+  50% { transform: translateX(-520px) translateY(8px) scale(1.04) rotate(-0.5deg); opacity: 1; }
+  72% { transform: translateX(-780px) translateY(-14px) scale(0.94) rotate(-2.5deg); }
+  92% { opacity: 1; }
+  100% { transform: translateX(-1100px) translateY(-38px) scale(0.72) rotate(-5deg); opacity: 0; }
 }
 
 .bell-hanger {
@@ -785,60 +1266,85 @@
   align-items: center;
   margin: auto;
   z-index: 10;
+  position: relative;
 }
 
-.golden-bell-svg {
-  width: 155px;
-  height: 155px;
+.bell-wooden-beam {
+  width: 160px;
+  height: 12px;
+  background: linear-gradient(90deg, #451a03 0%, #78350f 50%, #451a03 100%);
+  border-radius: 9999px;
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  margin-bottom: 4px;
+}
+
+.golden-bell-img {
+  width: 140px;
+  height: auto;
   cursor: pointer;
-  filter: drop-shadow(0 18px 35px rgba(255, 183, 3, 0.7));
+  filter: drop-shadow(0 15px 30px rgba(255, 183, 3, 0.85));
   transform-origin: top center;
   transition: transform 0.25s;
 }
 
+.golden-bell-img:hover {
+  transform: scale(1.06);
+}
+
 .bell-swinging {
-  animation: bellSwing 0.65s ease-in-out 3;
+  animation: bellSwing 0.75s ease-in-out 3;
 }
 
 @keyframes bellSwing {
   0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-30deg); }
-  75% { transform: rotate(30deg); }
+  20% { transform: rotate(-32deg); }
+  45% { transform: rotate(26deg); }
+  70% { transform: rotate(-16deg); }
+  85% { transform: rotate(8deg); }
 }
 
 .btn-ring-bell {
-  margin-top: 22px;
+  margin-top: 16px;
   background: linear-gradient(135deg, #ffd700 0%, #ff8f00 100%);
   color: #3b2000;
   font-weight: 900;
   font-size: 1rem;
-  padding: 14px 30px;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(255, 183, 3, 0.65);
-  border: 1.5px solid #ffffff;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  box-shadow: 0 6px 25px rgba(255, 183, 3, 0.75);
+  border: 2px solid #ffffff;
   transition: all 0.25s;
+  cursor: pointer;
 }
 
 .btn-ring-bell:hover {
   transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(255, 183, 3, 0.8);
+  box-shadow: 0 10px 35px rgba(255, 183, 3, 0.9);
+}
+
+.stage-santa .finger-guide-prompt {
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .thrown-gift-box {
   position: absolute;
-  top: 48%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 50;
+  pointer-events: none;
 }
 
-.gift-box-vector {
-  width: 155px;
-  height: 155px;
-  filter: drop-shadow(0 0 45px rgba(255, 215, 0, 0.95));
+.gift-box-img {
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 0 45px rgba(244, 63, 94, 0.95));
 }
 
 .gift-banner {
@@ -846,20 +1352,22 @@
   font-size: 1.25rem;
   font-weight: 900;
   color: #ffd54f;
-  background: rgba(8, 14, 28, 0.92);
-  padding: 7px 20px;
+  background: rgba(8, 14, 28, 0.95);
+  padding: 8px 24px;
   border-radius: 16px;
   border: 1.5px solid var(--accent-gold);
-  margin-top: 8px;
+  margin-top: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .gift-zoom-in {
-  animation: zoomGift 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: zoomGift 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 @keyframes zoomGift {
-  0% { transform: translate(-50%, -50%) scale(0.05); opacity: 0; }
-  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  0% { transform: translate(-50%, -50%) scale(0.1) rotate(-20deg); opacity: 0; }
+  70% { transform: translate(-50%, -50%) scale(1.15) rotate(5deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1375,3 +1883,283 @@
   0% { transform: translateX(-50%) translateY(-130px) scale(0.4); opacity: 0; }
   100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
 }
+
+/* ==========================================================================
+   MASTER MOBILE RESPONSIVE ENGINE (MÀN HÌNH DI ĐỘNG & SMARTPHONE)
+   Optimized for mobile touch, zero-scroll guarantee, and perfect finger tap targets
+   ========================================================================== */
+@media (max-width: 520px), (max-height: 760px) {
+  /* Global Stage Constraints */
+  .game-stage {
+    padding: 10px 8px 14px;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  .game-instruction-badge {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    gap: 6px;
+    max-width: 96%;
+  }
+
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .game-footer-tip {
+    font-size: 0.68rem;
+    padding: 4px 10px;
+    max-width: 95%;
+    white-space: normal;
+    line-height: 1.3;
+  }
+
+  /* GAME 21: Trái Tim May Mắn */
+  .heart-stage-wrapper {
+    width: 230px;
+    height: 230px;
+  }
+  .angel-wings-container {
+    width: 250px;
+    height: 140px;
+  }
+  .heart-halo {
+    width: 210px;
+    height: 210px;
+  }
+  .heart-box {
+    width: 155px;
+    height: 140px;
+  }
+  .heart-crown {
+    font-size: 1.7rem;
+    top: -18px;
+  }
+
+  /* GAME 22: Beauty Lucky Draw */
+  .beauty-godrays {
+    width: 280px;
+    height: 380px;
+  }
+  .cosmetics-podium {
+    gap: 8px;
+    width: 100%;
+  }
+  .cosmetic-card {
+    width: 94px;
+    padding: 12px 6px 10px;
+    border-radius: 18px;
+  }
+  .cosmetic-vector-box {
+    width: 64px;
+    height: 74px;
+    margin-bottom: 8px;
+  }
+  .cosmetic-name {
+    font-size: 0.72rem;
+    margin-bottom: 4px;
+  }
+  .cosmetic-tag {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+
+  /* GAME 23: Hái Hoa Nhận Quà */
+  .garden-bed {
+    gap: 8px;
+    max-width: 340px;
+  }
+  .flower-bloom-frame {
+    width: 80px;
+    height: 80px;
+  }
+  .featured-frame {
+    width: 94px;
+    height: 94px;
+  }
+  .flower-title {
+    font-size: 0.68rem;
+  }
+  .flower-tag {
+    font-size: 0.58rem;
+    padding: 1px 5px;
+  }
+  .flower-label-card {
+    padding: 4px 8px;
+    border-radius: 10px;
+  }
+  .giant-bloom-photo-disc {
+    width: 140px;
+    height: 140px;
+  }
+  .bloom-congrats-text {
+    font-size: 0.88rem;
+    padding: 6px 14px;
+  }
+
+  /* GAME 24: Mở Thư Tình */
+  .envelope-container {
+    width: 310px;
+    max-width: 90vw;
+    aspect-ratio: 1000 / 904;
+    height: auto;
+  }
+
+  /* GAME 25: Cây Thông May Mắn */
+  .tree-wrapper {
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+  .tree-svg-container {
+    width: 240px;
+    height: 265px;
+  }
+  .star-svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* GAME 26: Ông Già Noel */
+  .santa-sky {
+    top: 10px;
+    left: 14px;
+  }
+  .full-moon-svg {
+    width: 55px;
+    height: 55px;
+  }
+  .golden-bell-svg {
+    width: 125px;
+    height: 125px;
+  }
+  .btn-ring-bell {
+    margin-top: 14px;
+    padding: 10px 22px;
+    font-size: 0.88rem;
+    border-radius: 14px;
+  }
+  .sleigh-svg {
+    width: 180px;
+    height: 60px;
+  }
+  .santa-sleigh {
+    right: -240px;
+    top: 40px;
+  }
+  @keyframes santaFly {
+    0% { transform: translateX(0) translateY(0); opacity: 1; }
+    100% { transform: translateX(-520px) translateY(-25px); opacity: 0.85; }
+  }
+  .gift-box-vector {
+    width: 120px;
+    height: 120px;
+  }
+  .gift-banner {
+    font-size: 1rem;
+    padding: 5px 14px;
+  }
+
+  /* GAME 27: Hứng Tuyết Nhận Điểm */
+  .snow-playfield {
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+  }
+  .snow-stats-bar {
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+  .stat-badge {
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
+  .snow-start-card {
+    padding: 20px 16px;
+    max-width: 90%;
+  }
+  .snow-flake {
+    width: 54px;
+    height: 54px;
+    /* Extra touch-hitbox expansion for mobile thumbs */
+  }
+  .snow-flake::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+  }
+
+  /* GAME 28: Lì Xì Phát Tài */
+  .lixi-grid {
+    gap: 10px;
+  }
+  .lixi-envelope {
+    width: 120px;
+    height: 165px;
+    border-radius: 16px;
+    padding: 10px 8px 10px;
+  }
+  .lixi-gold-emblem {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  .lixi-calligraphy {
+    font-size: 2.1rem;
+    margin: 2px 0;
+  }
+  .lixi-tassel {
+    font-size: 0.78rem;
+  }
+
+  /* GAME 29: Rồng Vàng Săn Lộc */
+  .dragon-arena {
+    width: 250px;
+    height: 250px;
+  }
+  .dragon-svg-wrapper {
+    width: 210px;
+    height: 210px;
+  }
+  .loc-calligraphy-seal {
+    width: 125px;
+    height: 125px;
+  }
+  .loc-text {
+    font-size: 3.4rem;
+  }
+  .loc-subtext {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+  }
+
+  /* GAME 30: Pháo Hoa Tài Lộc */
+  .rocket-battery-svg {
+    width: 185px;
+    height: 100px;
+    margin-bottom: 14px;
+  }
+  .fuse-cord {
+    width: 120px;
+    height: 6px;
+    margin-bottom: 16px;
+  }
+  .btn-detonate {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    border-radius: 28px;
+    gap: 8px;
+  }
+  .firework-banner {
+    padding: 14px 22px;
+    max-width: 90%;
+  }
+  .banner-title {
+    font-size: 1.15rem;
+  }
+  .banner-sub {
+    font-size: 0.78rem;
+  }
+}
+

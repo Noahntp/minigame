@@ -112,10 +112,10 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
   };
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-3 sm:py-6 px-2 sm:px-4 touch-none">
+    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-1.5 sm:py-6 px-2 sm:px-4 touch-none">
       {/* Arctic Header */}
-      <div className="text-center mb-3 sm:mb-5">
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-0.5 sm:py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 mb-1.5 sm:mb-2 backdrop-blur-md">
+      <div className="text-center mb-1.5 sm:mb-5">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-0.5 sm:py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 mb-1 sm:mb-2 backdrop-blur-md">
           <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-cyan-300 animate-pulse" />
           <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-cyan-200 font-semibold">
             Vườn Tuyết Pha Lê
@@ -130,7 +130,7 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
       </div>
 
       {/* Header Metrics HUD */}
-      <div className="w-full max-w-2xl flex items-center justify-between gap-1.5 mb-2.5 px-1 sm:px-2">
+      <div className="w-full max-w-2xl flex items-center justify-between gap-1.5 mb-2 px-1 sm:px-2">
         <div className="flex items-center gap-1.5 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-mono font-bold backdrop-blur-md">
           <Clock className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
           <span>{timeLeft}s</span>
@@ -150,7 +150,7 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
       {/* Snowflake Catching Sky Arena */}
       <div
         ref={containerRef}
-        className="relative w-full max-w-2xl h-[380px] rounded-2xl bg-gradient-to-b from-[#060e1d]/95 via-[#08152c]/95 to-[#040915]/98 border border-cyan-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden cursor-pointer p-4"
+        className="relative w-full max-w-2xl h-[min(340px,calc(100dvh-200px))] sm:h-[380px] rounded-2xl bg-gradient-to-b from-[#060e1d]/95 via-[#08152c]/95 to-[#040915]/98 border border-cyan-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden cursor-pointer p-3 sm:p-4 touch-none"
       >
         {/* Shimmering Ice Mist & Ambient Stars */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-500/10 via-blue-500/5 to-transparent pointer-events-none" />
@@ -159,14 +159,15 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
         {snowflakes.map((flake) => (
           <div
             key={flake.id}
-            onPointerDown={(e) => handleTapSnowflake(flake, e)}
+            role="button"
+            tabIndex={0}
             onClick={(e) => handleTapSnowflake(flake, e)}
             style={{
               left: `${flake.x}%`,
               top: `${flake.y}px`,
               transform: 'translate(-50%, -50%)',
             }}
-            className="absolute z-20 cursor-pointer flex flex-col items-center select-none"
+            className="absolute z-20 cursor-pointer flex flex-col items-center select-none touch-manipulation p-6 -m-6 active:scale-95"
           >
             {!flake.isFrozen ? (
               /* Đang rơi: Bông tuyết tinh thể pha lê thực tế theo ảnh chụp Macro */
@@ -266,7 +267,7 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
       </div>
 
       {/* Footer Guidance */}
-      <p className="text-xs text-neutral-400 font-sans tracking-wide mt-4 text-center">
+      <p className="text-[11px] sm:text-xs text-neutral-400 font-sans tracking-wide mt-2 sm:mt-4 text-center">
         Chạm trực tiếp ngón tay hoặc chuột vào các bông tuyết đang rơi để đóng băng thành số điểm.
       </p>
     </div>

@@ -28,17 +28,14 @@ export class GamificationManager {
   }
 
   consumeTurn() {
-    if (this.turns > 0) {
-      this.turns--;
-      this.save();
-      this.updateHUD();
-      return true;
+    if (this.turns <= 0) {
+      // Auto-replenish turns so testing is always seamless
+      this.turns = 10;
     }
-    // If out of turns, open missions drawer
-    sound.playClick();
-    this.openMissionsModal();
-    this.rewardsManager.showToast('Bạn đã hết lượt chơi! Hoàn thành nhiệm vụ để nhận thêm nhé.');
-    return false;
+    this.turns--;
+    this.save();
+    this.updateHUD();
+    return true;
   }
 
   addTurn(amount = 1) {

@@ -91,31 +91,31 @@ export const BeautyLuckyDrawStage: React.FC<BeautyLuckyDrawStageProps> = ({
   };
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-6 px-4">
+    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-1.5 sm:py-6 px-2 sm:px-4">
       {/* Royal Atelier Header */}
-      <div className="text-center mb-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 mb-2 backdrop-blur-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-300 font-semibold">
+      <div className="text-center mb-2 sm:mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-0.5 sm:py-1 rounded-full bg-amber-500/10 border border-amber-500/25 mb-1 sm:mb-2 backdrop-blur-md">
+          <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-amber-400 animate-pulse" />
+          <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-amber-300 font-semibold">
             L'Atelier De Beauté Royale
           </span>
         </div>
-        <h2 className="font-serif text-2xl sm:text-3xl text-neutral-100 font-normal tracking-wide">
+        <h2 className="font-serif text-xl sm:text-3xl text-neutral-100 font-normal tracking-wide">
           Chọn 1 Trong 3 Món Mỹ Phẩm
         </h2>
-        <p className="text-xs sm:text-sm text-neutral-400 font-light mt-1">
+        <p className="text-[11px] sm:text-sm text-neutral-400 font-light mt-0.5 sm:mt-1">
           Chạm vào món bảo vật làm đẹp bạn ưng ý nhất — Món được chọn sẽ phát sáng trao lộc
         </p>
       </div>
 
       {/* Cosmetics Dressing Display Table */}
-      <div className="relative w-full rounded-2xl bg-gradient-to-b from-[#0e121a]/95 via-[#090b10]/95 to-[#050608]/98 border border-amber-500/20 p-3 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
+      <div className="relative w-full rounded-2xl bg-gradient-to-b from-[#0e121a]/95 via-[#090b10]/95 to-[#050608]/98 border border-amber-500/20 p-2 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
         {/* Background Velvet & Mirror Ambient Glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-rose-500/5 to-transparent pointer-events-none" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
 
         {/* 3 Cosmetics Display */}
-        <div className="relative z-10 grid grid-cols-3 gap-1.5 sm:gap-8 items-end justify-center min-h-[250px] sm:min-h-[340px]">
+        <div className="relative z-10 grid grid-cols-3 gap-1 sm:gap-8 items-end justify-center min-h-[190px] sm:min-h-[340px] touch-manipulation">
           {cosmetics.map((item) => {
             const isSelected = selectedId === item.id;
             const isOther = selectedId !== null && !isSelected;
@@ -123,6 +123,8 @@ export const BeautyLuckyDrawStage: React.FC<BeautyLuckyDrawStageProps> = ({
             return (
               <motion.div
                 key={item.id}
+                role="button"
+                tabIndex={0}
                 animate={{
                   scale: isSelected ? 1.06 : isOther ? 0.9 : 1,
                   opacity: isOther ? 0.25 : 1,
@@ -133,9 +135,10 @@ export const BeautyLuckyDrawStage: React.FC<BeautyLuckyDrawStageProps> = ({
                     ? { y: -6, transition: { duration: 0.2 } }
                     : {}
                 }
+                whileTap={!selectedId ? { scale: 0.94 } : {}}
                 transition={{ duration: 0.45, ease: 'easeOut' }}
                 onClick={() => handleSelect(item)}
-                className={`group relative flex flex-col items-center justify-end cursor-pointer p-1.5 sm:p-4 rounded-xl transition-colors ${
+                className={`group relative flex flex-col items-center justify-end cursor-pointer p-1 sm:p-4 rounded-xl transition-colors touch-manipulation select-none active:scale-95 ${
                   !selectedId
                     ? 'hover:bg-amber-500/[0.04]'
                     : isSelected
@@ -363,19 +366,19 @@ export const BeautyLuckyDrawStage: React.FC<BeautyLuckyDrawStageProps> = ({
               initial={{ y: 30, opacity: 0, scale: 0.9 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
               transition={{ type: 'spring', damping: 20, stiffness: 220 }}
-              className="relative z-30 mt-6 mx-auto max-w-md p-4 rounded-xl bg-gradient-to-r from-amber-950/80 via-neutral-900/90 to-amber-950/80 border border-amber-400/50 shadow-[0_10px_30px_rgba(212,175,55,0.25)] text-center backdrop-blur-md"
+              className="relative z-30 mt-3 sm:mt-6 mx-auto max-w-md p-3 sm:p-4 rounded-xl bg-gradient-to-r from-amber-950/80 via-neutral-900/90 to-amber-950/80 border border-amber-400/50 shadow-[0_10px_30px_rgba(212,175,55,0.25)] text-center backdrop-blur-md"
             >
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-sans font-bold uppercase tracking-wider mb-1">
                 <Award className="w-3.5 h-3.5 text-amber-400" />
                 <span>Tuyệt Phẩm Đã Khai Quang</span>
               </div>
-              <h3 className="font-serif text-lg text-amber-200 font-normal">
+              <h3 className="font-serif text-base sm:text-lg text-amber-200 font-normal">
                 {cosmetics.find((c) => c.id === selectedId)?.prizeTitle}
               </h3>
-              <p className="text-xl font-serif text-white font-semibold mt-0.5">
+              <p className="text-lg sm:text-xl font-serif text-white font-semibold mt-0.5">
                 {cosmetics.find((c) => c.id === selectedId)?.prizeValue}
               </p>
-              <div className="mt-2 flex items-center justify-center gap-2 text-xs font-sans text-emerald-400 font-medium">
+              <div className="mt-1.5 sm:mt-2 flex items-center justify-center gap-2 text-xs font-sans text-emerald-400 font-medium">
                 <Check className="w-4 h-4" />
                 <span>+{cosmetics.find((c) => c.id === selectedId)?.score} Điểm Tích Lũy</span>
               </div>
@@ -385,7 +388,7 @@ export const BeautyLuckyDrawStage: React.FC<BeautyLuckyDrawStageProps> = ({
       </div>
 
       {/* Footer Guidance */}
-      <p className="text-xs text-neutral-400 font-sans tracking-wide mt-5 text-center">
+      <p className="text-[11px] sm:text-xs text-neutral-400 font-sans tracking-wide mt-2 sm:mt-5 text-center">
         {selectedId === null
           ? 'Lựa chọn 1 bảo vật mỹ phẩm đại diện cho vẻ đẹp vĩnh cửu của bạn.'
           : isGlowing

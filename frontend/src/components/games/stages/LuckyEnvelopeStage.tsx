@@ -108,25 +108,25 @@ export const LuckyEnvelopeStage: React.FC<LuckyEnvelopeStageProps> = ({
   const selectedEnv = envelopes.find((e) => e.id === selectedId);
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-6 px-4">
+    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-1.5 sm:py-6 px-2 sm:px-4">
       {/* Spring Tet Header */}
-      <div className="text-center mb-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-500/10 border border-red-500/25 mb-2 backdrop-blur-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-300 font-semibold">
+      <div className="text-center mb-2 sm:mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-0.5 sm:py-1 rounded-full bg-red-500/10 border border-red-500/25 mb-1 sm:mb-2 backdrop-blur-md">
+          <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-amber-400 animate-pulse" />
+          <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-amber-300 font-semibold">
             Đại Sảnh Khai Xuân Cung Đình
           </span>
         </div>
-        <h2 className="font-serif text-2xl sm:text-3xl text-neutral-100 font-normal tracking-wide">
+        <h2 className="font-serif text-xl sm:text-3xl text-neutral-100 font-normal tracking-wide">
           Lì Xì Phát Tài Khai Xuân
         </h2>
-        <p className="text-xs sm:text-sm text-neutral-400 font-light mt-1">
-          Chọn 1 bao lì xì đỏ — Bao mở nắp, tiền vàng và điểm số tuôn trào đón tài lộc đầu năm
+        <p className="text-[11px] sm:text-sm text-neutral-400 font-light mt-0.5 sm:mt-1">
+          Chọn 1 bao lì xì đỏ — Bao mở nắp, tiền vàng tuôn trào đón tài lộc đầu năm
         </p>
       </div>
 
       {/* Spring Palace Red Stage Canvas */}
-      <div className="relative w-full max-w-3xl rounded-2xl bg-gradient-to-b from-[#180709]/95 via-[#120406]/95 to-[#080203]/98 border border-red-500/20 p-6 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center min-h-[440px]">
+      <div className="relative w-full max-w-3xl rounded-2xl bg-gradient-to-b from-[#180709]/95 via-[#120406]/95 to-[#080203]/98 border border-red-500/20 p-2.5 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center min-h-[300px] sm:min-h-[440px]">
         {/* Ambient Golden & Red Radiance */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-600/15 via-amber-500/10 to-transparent pointer-events-none" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
@@ -160,7 +160,7 @@ export const LuckyEnvelopeStage: React.FC<LuckyEnvelopeStageProps> = ({
         </div>
 
         {/* 2. FOUR IMPERIAL RED ENVELOPES */}
-        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 items-center justify-center w-full min-h-[300px]">
+        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-6 items-center justify-center w-full min-h-[240px] sm:min-h-[300px] touch-manipulation">
           {envelopes.map((env, idx) => {
             const isSelected = selectedId === env.id;
             const isOther = selectedId !== null && !isSelected;
@@ -168,20 +168,23 @@ export const LuckyEnvelopeStage: React.FC<LuckyEnvelopeStageProps> = ({
             return (
               <motion.div
                 key={env.id}
+                role="button"
+                tabIndex={0}
                 animate={{
-                  scale: isSelected ? 1.15 : isOther ? 0.85 : 1,
+                  scale: isSelected ? 1.12 : isOther ? 0.85 : 1,
                   opacity: isOther ? 0.25 : 1,
-                  y: isSelected ? -15 : 0,
+                  y: isSelected ? -12 : 0,
                 }}
                 whileHover={!selectedId ? { y: -8, transition: { duration: 0.2 } } : {}}
+                whileTap={!selectedId ? { scale: 0.94 } : {}}
                 transition={{ duration: 0.45, ease: 'easeOut' }}
                 onClick={() => handleSelectEnvelope(env, idx)}
-                className={`group relative flex flex-col items-center cursor-pointer p-2 rounded-xl transition-all ${
+                className={`group relative flex flex-col items-center cursor-pointer p-1 sm:p-2 rounded-xl transition-all touch-manipulation select-none active:scale-95 ${
                   !selectedId ? 'hover:scale-105' : ''
                 }`}
               >
                 {/* Envelope Body */}
-                <div className="relative w-36 h-52 sm:w-40 sm:h-56 rounded-xl bg-gradient-to-b from-[#b91c1c] via-[#991b1b] to-[#7f1d1d] border-2 border-amber-400/50 shadow-[0_10px_25px_rgba(0,0,0,0.6)] flex flex-col items-center justify-between p-3 overflow-hidden">
+                <div className="relative w-[124px] h-[170px] sm:w-40 sm:h-56 rounded-xl bg-gradient-to-b from-[#b91c1c] via-[#991b1b] to-[#7f1d1d] border-2 border-amber-400/50 shadow-[0_10px_25px_rgba(0,0,0,0.6)] flex flex-col items-center justify-between p-2 sm:p-3 overflow-hidden">
                   {/* Gold Foil Trim Borders */}
                   <div className="absolute inset-1.5 rounded-lg border border-amber-300/30 pointer-events-none" />
 
@@ -192,7 +195,7 @@ export const LuckyEnvelopeStage: React.FC<LuckyEnvelopeStageProps> = ({
                       rotateX: isSelected && isOpened ? -160 : 0,
                     }}
                     transition={{ duration: 0.6, ease: 'easeInOut' }}
-                    className="absolute top-0 inset-x-0 h-16 pointer-events-none z-10"
+                    className="absolute top-0 inset-x-0 h-14 sm:h-16 pointer-events-none z-10"
                   >
                     <svg viewBox="0 0 160 70" className="w-full h-full drop-shadow-md">
                       <polygon
@@ -240,19 +243,19 @@ export const LuckyEnvelopeStage: React.FC<LuckyEnvelopeStageProps> = ({
               initial={{ y: 30, opacity: 0, scale: 0.9 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
               transition={{ type: 'spring', damping: 20, stiffness: 220 }}
-              className="relative z-30 mt-6 mx-auto w-full max-w-md p-4 rounded-xl bg-gradient-to-r from-red-950/85 via-neutral-900/90 to-red-950/85 border border-amber-400/60 shadow-[0_10px_30px_rgba(251,191,36,0.25)] text-center backdrop-blur-md"
+              className="absolute bottom-2 inset-x-2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-30 mx-auto w-auto sm:w-full max-w-md p-3 sm:p-4 rounded-xl bg-gradient-to-r from-red-950/90 via-neutral-900/95 to-red-950/90 border border-amber-400/60 shadow-[0_10px_30px_rgba(251,191,36,0.25)] text-center backdrop-blur-md"
             >
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-sans font-bold uppercase tracking-wider mb-1">
                 <Award className="w-3.5 h-3.5 text-amber-400" />
                 <span>Tiền Vàng Phát Tài Đầu Năm</span>
               </div>
-              <h3 className="font-serif text-lg text-amber-200 font-normal">
+              <h3 className="font-serif text-base sm:text-lg text-amber-200 font-normal">
                 {selectedEnv.voucher}
               </h3>
-              <p className="text-xl font-serif text-white font-semibold mt-0.5">
+              <p className="text-lg sm:text-xl font-serif text-white font-semibold mt-0.5">
                 Đại Cát Đại Lợi
               </p>
-              <div className="mt-2 flex items-center justify-center gap-2 text-xs font-sans text-emerald-400 font-medium">
+              <div className="mt-1.5 sm:mt-2 flex items-center justify-center gap-2 text-xs font-sans text-emerald-400 font-medium">
                 <Check className="w-4 h-4" />
                 <span>+{selectedEnv.score} Điểm Phúc Lộc Đầu Xuân</span>
               </div>
@@ -262,7 +265,7 @@ export const LuckyEnvelopeStage: React.FC<LuckyEnvelopeStageProps> = ({
       </div>
 
       {/* Footer Guidance */}
-      <p className="text-xs text-neutral-400 font-sans tracking-wide mt-5 text-center">
+      <p className="text-[11px] sm:text-xs text-neutral-400 font-sans tracking-wide mt-2 sm:mt-5 text-center">
         {selectedId === null
           ? 'Chạm chọn 1 phong bao lì xì đỏ may mắn để khai tài khai lộc.'
           : isOpened

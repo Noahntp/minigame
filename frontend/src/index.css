@@ -63,6 +63,99 @@
   border-color: rgba(212, 175, 55, 0.45);
 }
 
+/* Custom Scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(6, 8, 13, 0.6);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.6);
+}
+
+/* ==========================================================================
+   🎅 SHUTTERSTOCK-INSPIRED CINEMATIC SANTA & REINDEER FLIGHT ANIMATION
+   Traversing smoothly from Right to Left with authentic leaping gallop physics
+   ========================================================================== */
+@keyframes santaFlightSmooth {
+  0% {
+    transform: translate3d(calc(-50% + clamp(360px, 58vw, 560px)), 14px, 0) scale(0.78) rotate(3deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  28% {
+    transform: translate3d(calc(-50% + clamp(180px, 30vw, 280px)), -6px, 0) scale(0.92) rotate(1deg);
+  }
+  50% {
+    transform: translate3d(-50%, 8px, 0) scale(1.04) rotate(-0.5deg);
+    opacity: 1;
+  }
+  72% {
+    transform: translate3d(calc(-50% - clamp(180px, 30vw, 280px)), -14px, 0) scale(0.94) rotate(-2.5deg);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(calc(-50% - clamp(360px, 58vw, 580px)), -38px, 0) scale(0.72) rotate(-5deg);
+    opacity: 0;
+  }
+}
+
+.animate-santa-flight {
+  animation: santaFlightSmooth 4.2s cubic-bezier(0.28, 0.9, 0.42, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Authentic Leaping Reindeer Gallop (4-beat gallop pitch, rise & bound) */
+@keyframes reindeerGallopSmooth {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(-2px, -9px, 0) rotate(-3.5deg);
+  }
+  50% {
+    transform: translate3d(0, -2px, 0) rotate(0.5deg);
+  }
+  75% {
+    transform: translate3d(2px, 6px, 0) rotate(2deg);
+  }
+}
+
+.animate-reindeer-gallop {
+  animation: reindeerGallopSmooth 0.46s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Shimmering Stardust Trail Streaming Behind Sleigh */
+@keyframes stardustStream {
+  0% {
+    opacity: 0.95;
+    transform: translateX(0) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(10px) scale(0.9);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.animate-stardust-stream {
+  animation: stardustStream 1.2s ease-in-out infinite;
+}
+
 /* Luxury Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

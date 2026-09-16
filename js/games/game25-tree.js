@@ -124,11 +124,16 @@ export class Game25Tree extends BaseGame {
 
   bindEvents() {
     const star = this.container.querySelector('#tree-star');
+    const tree = this.container.querySelector('.pine-tree-figure');
+    const handleTap = () => {
+      if (this.isBusy) return;
+      this.lightUpTree();
+    };
     if (star) {
-      star.addEventListener('click', () => {
-        if (this.isBusy) return;
-        this.lightUpTree();
-      });
+      star.addEventListener('click', handleTap);
+    }
+    if (tree) {
+      tree.addEventListener('click', handleTap);
     }
 
     if (this.context && this.context.particles) {

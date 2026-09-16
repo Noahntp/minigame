@@ -229,10 +229,10 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
       </header>
 
       {/* 2. Main Stage with State Transitions */}
-      <main className={`flex-1 flex items-center justify-center relative z-10 ${status === 'PLAYING' ? 'p-1 sm:p-6 lg:p-10' : 'p-4 sm:p-8 lg:p-12'}`}>
+      <main className={`flex-1 flex items-center justify-center relative z-10 ${status === 'PLAYING' ? 'p-1 sm:p-4 lg:p-6 w-full min-h-[calc(100dvh-56px)] max-h-[calc(100dvh-56px)] overflow-y-auto sm:overflow-hidden' : 'p-2 sm:p-6 lg:p-10 overflow-y-auto max-h-[calc(100dvh-56px)]'}`}>
         <AnimatePresence mode="wait">
           {/* ==================================================== */}
-          {/* STATE: INTRO (Expansive 2-Column Exhibition Pavilion) */}
+          {/* STATE: INTRO (Mobile First Optimized Exhibition)     */}
           {/* ==================================================== */}
           {status === 'INTRO' && (
             <motion.div
@@ -241,16 +241,16 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.4 }}
-              className="w-full max-w-5xl rounded-[24px] bg-[#0d1017]/95 border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden backdrop-blur-2xl"
+              className="w-full max-w-5xl rounded-[20px] sm:rounded-[24px] bg-[#0d1017]/95 border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden backdrop-blur-2xl my-auto"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[500px]">
+              <div className="grid grid-cols-1 lg:grid-cols-12">
                 {/* Left Column: Artwork Exhibition Plaque */}
-                <div className="lg:col-span-5 bg-gradient-to-b from-[#121624] via-[#0d1017] to-[#06080d] p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-[#d4af37]/20 flex flex-col justify-between relative overflow-hidden">
+                <div className="lg:col-span-5 bg-gradient-to-b from-[#121624] via-[#0d1017] to-[#06080d] p-4 sm:p-8 border-b lg:border-b-0 lg:border-r border-[#d4af37]/20 flex flex-col justify-between relative overflow-hidden">
                   <div>
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center justify-between mb-3 sm:mb-4">
                       <div className="flex items-center gap-2">
                         <Sparkles className="w-4 h-4 text-[#d4af37]" />
-                        <span className="font-mono-num text-xs font-bold text-[#d4af37] tracking-widest uppercase">
+                        <span className="font-mono-num text-[11px] sm:text-xs font-bold text-[#d4af37] tracking-widest uppercase">
                           ATELIER EXHIBIT
                         </span>
                       </div>
@@ -259,22 +259,33 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
                       </span>
                     </div>
 
-                    <div className="py-6 flex flex-col items-center justify-center relative">
-                      <div className="absolute w-44 h-44 rounded-full bg-[#d4af37]/10 blur-2xl pointer-events-none" />
-                      <div className="relative z-10">
+                    <div className="py-2 sm:py-6 flex flex-col items-center justify-center relative">
+                      <div className="absolute w-36 sm:w-44 h-36 sm:h-44 rounded-full bg-[#d4af37]/10 blur-2xl pointer-events-none" />
+                      <div className="relative z-10 scale-90 sm:scale-100">
                         <GameVisualArt slug={game.slug} size="lg" />
                       </div>
+                    </div>
+
+                    {/* Mobile Only: Immediate Prominent CTA Button Above the Fold */}
+                    <div className="lg:hidden mt-3 mb-1">
+                      <Button
+                        size="xl"
+                        onClick={handleStartGame}
+                        className="w-full text-base bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold shadow-[0_8px_25px_rgba(212,175,55,0.4)] hover:shadow-[0_12px_35px_rgba(212,175,55,0.6)] py-3.5"
+                      >
+                        <span>Bắt Đầu Trải Nghiệm</span>
+                      </Button>
                     </div>
                   </div>
 
                   {/* Prize Tier Snapshot Card */}
-                  <div className="mt-6 p-4 rounded-[14px] bg-[#101420] border border-[#d4af37]/30 shadow-inner">
-                    <div className="flex items-center gap-2 text-xs font-serif-editorial font-bold text-[#f5e6c8] uppercase tracking-wider mb-2.5">
+                  <div className="mt-3 sm:mt-6 p-3 sm:p-4 rounded-[14px] bg-[#101420] border border-[#d4af37]/30 shadow-inner">
+                    <div className="flex items-center gap-2 text-xs font-serif-editorial font-bold text-[#f5e6c8] uppercase tracking-wider mb-2 sm:mb-2.5">
                       <Trophy className="w-3.5 h-3.5 text-[#d4af37]" />
                       <span>Cơ Cấu Giải Thưởng</span>
                     </div>
 
-                    <div className="space-y-2 text-xs font-mono-num">
+                    <div className="space-y-1.5 sm:space-y-2 text-xs font-mono-num">
                       <div className="flex items-center justify-between py-1 border-b border-white/[0.06]">
                         <span className="text-[#8b95a8]">Giải Nhất Jackpot</span>
                         <span className="font-bold text-[#fbbf24]">1.000.000đ</span>
@@ -292,21 +303,21 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
                 </div>
 
                 {/* Right Column: Narrative, Mechanics & Launch CTA */}
-                <div className="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-between">
+                <div className="lg:col-span-7 p-4 sm:p-8 lg:p-10 flex flex-col justify-between">
                   <div>
-                    <span className="text-[11px] font-mono-num tracking-[0.2em] uppercase text-[#d4af37] font-bold block mb-2">
+                    <span className="text-[10px] sm:text-[11px] font-mono-num tracking-[0.2em] uppercase text-[#d4af37] font-bold block mb-1 sm:mb-2">
                       {game.tag}
                     </span>
-                    <h1 className="font-serif-editorial text-3xl sm:text-4xl font-bold text-[#fcfbfa] mb-2 leading-tight">
+                    <h1 className="font-serif-editorial text-2xl sm:text-4xl font-bold text-[#fcfbfa] mb-1 sm:mb-2 leading-tight">
                       {game.name}
                     </h1>
-                    <p className="text-xs sm:text-sm font-mono-num font-semibold text-[#8b95a8] uppercase tracking-wider mb-6">
+                    <p className="text-xs sm:text-sm font-mono-num font-semibold text-[#8b95a8] uppercase tracking-wider mb-3 sm:mb-6">
                       {game.subtitle}
                     </p>
 
                     {/* Story Box */}
-                    <div className="p-5 rounded-[14px] bg-[#121724] border border-white/10 mb-6 leading-relaxed">
-                      <div className="flex items-center gap-2 mb-2 text-[#f5e6c8] font-serif-editorial font-bold text-sm">
+                    <div className="p-3 sm:p-5 rounded-[14px] bg-[#121724] border border-white/10 mb-3 sm:mb-6 leading-relaxed">
+                      <div className="flex items-center gap-2 mb-1.5 sm:mb-2 text-[#f5e6c8] font-serif-editorial font-bold text-xs sm:text-sm">
                         <Sparkles className="w-4 h-4 text-[#d4af37]" />
                         <span>Cốt Truyện Trải Nghiệm</span>
                       </div>
@@ -316,30 +327,30 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
                     </div>
 
                     {/* 3-Step Guide with Roman Numerals */}
-                    <div className="grid grid-cols-3 gap-3 mb-6">
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-6">
                       {[
-                        { step: 'I', title: 'Khởi Động', sub: 'Kích hoạt phiên' },
-                        { step: 'II', title: 'Tương Tác', sub: 'Đón vận may' },
-                        { step: 'III', title: 'Nhận Thưởng', sub: 'Lưu vào ví' },
+                        { step: 'I', title: 'Khởi Động', sub: 'Kích hoạt' },
+                        { step: 'II', title: 'Tương Tác', sub: 'Đón lộc' },
+                        { step: 'III', title: 'Nhận Thưởng', sub: 'Lưu ví' },
                       ].map((s) => (
-                        <div key={s.step} className="p-3 rounded-[12px] bg-[#101420] border border-white/[0.08] text-center">
-                          <span className="w-6 h-6 rounded-full bg-gradient-to-r from-[#d4af37] to-[#f5e6c8] text-[#06080d] text-[11px] font-mono-num font-bold inline-flex items-center justify-center mb-1 shadow">
+                        <div key={s.step} className="p-2 sm:p-3 rounded-[12px] bg-[#101420] border border-white/[0.08] text-center">
+                          <span className="w-5 sm:w-6 h-5 sm:h-6 rounded-full bg-gradient-to-r from-[#d4af37] to-[#f5e6c8] text-[#06080d] text-[10px] sm:text-[11px] font-mono-num font-bold inline-flex items-center justify-center mb-0.5 sm:mb-1 shadow">
                             {s.step}
                           </span>
-                          <span className="text-xs font-serif-editorial font-bold text-[#fcfbfa] mt-0.5 block">{s.title}</span>
-                          <span className="text-[10px] font-mono-num text-[#7b8496] mt-0.5 block">{s.sub}</span>
+                          <span className="text-[11px] sm:text-xs font-serif-editorial font-bold text-[#fcfbfa] mt-0.5 block">{s.title}</span>
+                          <span className="text-[9px] sm:text-[10px] font-mono-num text-[#7b8496] mt-0.5 block">{s.sub}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-2 text-xs text-[#34d399] bg-[#064e3b]/30 border border-[#059669]/40 rounded-[10px] py-2.5 px-3 mb-6 font-mono-num">
+                    <div className="flex items-center gap-2 text-[11px] sm:text-xs text-[#34d399] bg-[#064e3b]/30 border border-[#059669]/40 rounded-[10px] py-2 sm:py-2.5 px-3 mb-3 sm:mb-6 font-mono-num">
                       <ShieldCheck className="w-4 h-4 flex-shrink-0" />
                       <span>Xác thực kết quả server-side chống gian lận đa tầng.</span>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
                       <Button
                         size="xl"
                         onClick={handleStartGame}
@@ -393,7 +404,7 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="w-full max-w-4xl flex flex-col items-center justify-center"
+              className="w-full max-w-4xl h-full flex flex-col items-center justify-center select-none"
             >
               {children({
                 status: 'PLAYING',
@@ -413,29 +424,29 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
-              className="w-full max-w-lg rounded-[20px] bg-[#0d1017] p-8 sm:p-10 text-center border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] relative"
+              className="w-full max-w-lg rounded-[20px] bg-[#0d1017] p-4 sm:p-8 text-center border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] relative max-h-[86dvh] overflow-y-auto my-auto"
             >
-              <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#121624] via-[#2a0612] to-[#0c0f17] border border-[#d4af37] mx-auto flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
-                <Trophy className="w-8 h-8 text-[#d4af37]" />
+              <div className="w-14 sm:w-16 h-14 sm:h-16 rounded-full bg-gradient-to-tr from-[#121624] via-[#2a0612] to-[#0c0f17] border border-[#d4af37] mx-auto flex items-center justify-center mb-3 sm:mb-4 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                <Trophy className="w-7 sm:w-8 h-7 sm:h-8 text-[#d4af37]" />
               </div>
 
-              <span className="text-xs uppercase tracking-[0.2em] text-[#d4af37] font-mono-num font-bold">
+              <span className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-[#d4af37] font-mono-num font-bold">
                 HOÀN THÀNH PHIÊN CHƠI
               </span>
               <h2 className="font-serif-editorial text-2xl sm:text-3xl font-bold text-[#fcfbfa] mt-1 mb-2">
                 Chiến Thắng Xuất Sắc
               </h2>
 
-              <div className="my-6 p-6 rounded-[14px] bg-[#121624] border border-white/10">
-                <div className="text-[11px] text-[#8b95a8] uppercase tracking-wider mb-1 font-mono-num font-bold">
+              <div className="my-4 sm:my-6 p-4 sm:p-6 rounded-[14px] bg-[#121624] border border-white/10">
+                <div className="text-[10px] sm:text-[11px] text-[#8b95a8] uppercase tracking-wider mb-1 font-mono-num font-bold">
                   Điểm Số Đạt Được
                 </div>
-                <div className="font-mono-num text-5xl font-extrabold bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] bg-clip-text text-transparent">
+                <div className="font-mono-num text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] bg-clip-text text-transparent">
                   {finalScore.toLocaleString()}
                 </div>
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-xs text-[#34d399] bg-[#064e3b]/30 border border-[#059669]/40 rounded-[10px] py-2.5 px-3 mb-6 font-mono-num">
+              <div className="flex items-center justify-center gap-2 text-[11px] sm:text-xs text-[#34d399] bg-[#064e3b]/30 border border-[#059669]/40 rounded-[10px] py-2 sm:py-2.5 px-3 mb-4 sm:mb-6 font-mono-num">
                 <ShieldCheck className="w-4 h-4 flex-shrink-0" />
                 <span>
                   {verifiedByServer
@@ -447,7 +458,7 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
               <Button
                 size="xl"
                 onClick={handleRevealReward}
-                className="w-full text-base bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold shadow-[0_8px_25px_rgba(212,175,55,0.4)]"
+                className="w-full text-base bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold shadow-[0_8px_25px_rgba(212,175,55,0.4)] py-3.5"
                 isLoading={isSubmitting}
               >
                 <Gift className="w-5 h-5 mr-2" />
@@ -465,41 +476,41 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.94 }}
-              className="w-full max-w-lg rounded-[20px] bg-[#0d1017] p-8 sm:p-10 text-center border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] relative overflow-hidden"
+              className="w-full max-w-lg rounded-[20px] bg-[#0d1017] p-4 sm:p-8 text-center border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] relative overflow-hidden max-h-[86dvh] overflow-y-auto my-auto"
             >
-              <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#121624] via-[#2a0612] to-[#0c0f17] border-2 border-[#d4af37] mx-auto shadow-[0_0_25px_rgba(212,175,55,0.4)] mb-6 flex items-center justify-center">
-                <Crown className="w-10 h-10 text-[#f5e6c8] animate-pulse" />
+              <div className="w-14 sm:w-20 h-14 sm:h-20 rounded-full bg-gradient-to-tr from-[#121624] via-[#2a0612] to-[#0c0f17] border-2 border-[#d4af37] mx-auto shadow-[0_0_25px_rgba(212,175,55,0.4)] mb-3 sm:mb-6 flex items-center justify-center">
+                <Crown className="w-7 sm:w-10 h-7 sm:h-10 text-[#f5e6c8] animate-pulse" />
               </div>
 
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f5e6c8] text-[10.5px] font-mono-num font-bold uppercase tracking-widest mb-3">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f5e6c8] text-[10px] sm:text-[10.5px] font-mono-num font-bold uppercase tracking-widest mb-2 sm:mb-3">
                 <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
                 <span>
                   {rewardWon?.type === 'VOUCHER' ? 'VOUCHER ĐẶC QUYỀN VIP' : 'PHẦN THƯỞNG ĐIỂM SỐ'}
                 </span>
               </div>
 
-              <h2 className="font-serif-editorial text-2xl sm:text-3xl font-bold text-[#fcfbfa] mb-2 leading-tight">
+              <h2 className="font-serif-editorial text-xl sm:text-3xl font-bold text-[#fcfbfa] mb-1 sm:mb-2 leading-tight">
                 {rewardWon?.name || '10 Points Thưởng VIP'}
               </h2>
 
-              <p className="text-xs text-[#8b95a8] mb-6 px-4 leading-relaxed font-sans">
+              <p className="text-xs text-[#8b95a8] mb-3 sm:mb-6 px-2 sm:px-4 leading-relaxed font-sans">
                 {rewardWon?.description || 'Phần thưởng đã được kích hoạt thành công trên hệ thống.'}
               </p>
 
               {/* Voucher Code Box */}
               {rewardWon?.code && (
-                <div className="mb-6 p-4 rounded-[14px] bg-[#121624] border border-[#d4af37]/30 flex items-center justify-between">
+                <div className="mb-3 sm:mb-6 p-3 sm:p-4 rounded-[14px] bg-[#121624] border border-[#d4af37]/30 flex items-center justify-between">
                   <div className="text-left">
-                    <div className="text-[10px] text-[#7b8496] uppercase tracking-wider font-mono-num font-bold">
+                    <div className="text-[9.5px] sm:text-[10px] text-[#7b8496] uppercase tracking-wider font-mono-num font-bold">
                       MÃ VOUCHER ĐỘC QUYỀN
                     </div>
-                    <div className="font-mono-num text-lg font-bold text-[#f5e6c8] tracking-widest mt-0.5">
+                    <div className="font-mono-num text-base sm:text-lg font-bold text-[#f5e6c8] tracking-widest mt-0.5">
                       {rewardWon.code}
                     </div>
                   </div>
                   <button
                     onClick={handleCopyCode}
-                    className="p-2.5 rounded-full bg-[#101420] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#d4af37] transition-all hover:scale-105"
+                    className="p-2.5 rounded-full bg-[#101420] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#d4af37] transition-all hover:scale-105 active:scale-95"
                     title="Sao chép mã"
                   >
                     {copiedCode ? <Check className="w-4 h-4 text-[#34d399]" /> : <Copy className="w-4 h-4" />}
@@ -507,43 +518,43 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
                 </div>
               )}
 
-              {/* Lead Generation: Phone Input Form (Mượt theo đúng yêu cầu nghiệp vụ) */}
+              {/* Lead Generation: Phone Input Form */}
               {!phoneSaved ? (
-                <form onSubmit={handleSavePhone} className="mb-6 p-4 rounded-[14px] bg-[#121624] border border-[#d4af37]/40 text-left">
-                  <div className="flex items-center gap-1.5 text-xs font-serif-editorial font-bold text-[#f5e6c8] mb-1.5">
+                <form onSubmit={handleSavePhone} className="mb-3 sm:mb-6 p-3 sm:p-4 rounded-[14px] bg-[#121624] border border-[#d4af37]/40 text-left">
+                  <div className="flex items-center gap-1.5 text-xs font-serif-editorial font-bold text-[#f5e6c8] mb-1">
                     <Lock className="w-3.5 h-3.5 text-[#d4af37]" />
                     <span>Lưu Mã Vào Số Điện Thoại Để Sử Dụng</span>
                   </div>
-                  <p className="text-[11px] text-[#7b8496] mb-3">
-                    Nhập SĐT của bạn để bảo lưu voucher và nhận thông báo ưu đãi trực tiếp.
+                  <p className="text-[10px] sm:text-[11px] text-[#7b8496] mb-2 sm:mb-3">
+                    Nhập SĐT để bảo lưu voucher và nhận thông báo ưu đãi trực tiếp.
                   </p>
                   <div className="flex gap-2">
                     <input
                       type="tel"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="Nhập số điện thoại (ví dụ: 0901234567)"
+                      placeholder="Nhập SĐT (ví dụ: 0901234567)"
                       required
-                      className="flex-1 px-3.5 py-2 rounded-full bg-[#06080d] border border-white/15 text-xs text-[#fcfbfa] placeholder-[#7b8496] focus:outline-none focus:border-[#d4af37]"
+                      className="flex-1 px-3 py-1.5 sm:py-2 rounded-full bg-[#06080d] border border-white/15 text-xs text-[#fcfbfa] placeholder-[#7b8496] focus:outline-none focus:border-[#d4af37]"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 rounded-full bg-[#d4af37] text-[#06080d] text-xs font-mono-num font-bold hover:bg-[#f5e6c8] transition-colors"
+                      className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#d4af37] text-[#06080d] text-xs font-mono-num font-bold hover:bg-[#f5e6c8] transition-colors active:scale-95"
                     >
                       Kích Hoạt
                     </button>
                   </div>
                 </form>
               ) : (
-                <div className="mb-6 p-3 rounded-[12px] bg-[#064e3b]/30 border border-[#059669]/40 text-xs font-mono-num text-[#34d399] flex items-center justify-center gap-2">
+                <div className="mb-3 sm:mb-6 p-2.5 sm:p-3 rounded-[12px] bg-[#064e3b]/30 border border-[#059669]/40 text-xs font-mono-num text-[#34d399] flex items-center justify-center gap-2">
                   <Check className="w-4 h-4" />
                   <span>Đã kích hoạt cho SĐT {phoneNumber}! Voucher sẵn sàng sử dụng.</span>
                 </div>
               )}
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button size="lg" onClick={handlePlayAgain} className="flex-1 bg-[#121624] text-[#f5e6c8] border border-white/10 hover:border-[#d4af37]/40">
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                <Button size="lg" onClick={handlePlayAgain} className="flex-1 bg-[#121624] text-[#f5e6c8] border border-white/10 hover:border-[#d4af37]/40 py-3">
                   <RefreshCw className="w-4 h-4 mr-2" />
                   <span>Trải Nghiệm Lại</span>
                 </Button>
@@ -551,7 +562,7 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
                   variant="primary"
                   size="lg"
                   onClick={() => navigate('/rewards')}
-                  className="flex-1 bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold shadow-gold"
+                  className="flex-1 bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold shadow-gold py-3"
                 >
                   <span>Xem Kho Quà Tặng</span>
                 </Button>

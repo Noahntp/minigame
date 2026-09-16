@@ -378,10 +378,13 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
       </div>
 
       {/* 2. THE MECHANICAL MASTERPIECE MACHINE */}
-      <div className="relative w-[310px] sm:w-[400px] flex flex-col items-center z-10 scale-[0.88] sm:scale-100 origin-top touch-none">
+      <div 
+        onClick={handleTurnCrank}
+        className="relative w-full max-w-[240px] sm:max-w-[340px] flex flex-col items-center z-10 cursor-pointer select-none touch-manipulation"
+      >
         {/* Volumetric Radial Backlight behind the dome */}
         <div
-          className={`absolute top-0 w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none ${
+          className={`absolute top-0 w-64 sm:w-80 h-64 sm:h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none ${
             isChurning
               ? 'bg-[#d4af37]/25 scale-125'
               : 'bg-gradient-to-b from-[#831843]/20 via-[#d4af37]/15 to-transparent'
@@ -392,12 +395,19 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
         <motion.div
           animate={shakingDome ? { x: [-2, 2, -2, 2, 0], y: [-1, 1, -1, 0] } : {}}
           transition={{ duration: 0.15, repeat: isChurning ? Infinity : 0 }}
-          className="relative w-[310px] sm:w-[350px] h-[310px] sm:h-[350px] rounded-full bg-gradient-to-b from-[#121624]/80 via-[#0d1017]/90 to-[#06080d] flex items-center justify-center overflow-hidden z-20 border-[6px] border-[#d4af37]/40 shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_0_40px_rgba(212,175,55,0.15)]"
+          className="relative w-[210px] sm:w-[320px] h-[210px] sm:h-[320px] rounded-full bg-gradient-to-b from-[#121624]/80 via-[#0d1017]/90 to-[#06080d] flex items-center justify-center overflow-hidden z-20 border-[4px] sm:border-[6px] border-[#d4af37]/40 shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_0_40px_rgba(212,175,55,0.15)] group"
         >
           {/* Glass Spherical Caustic Highlights */}
           <div className="absolute top-4 left-10 w-28 h-12 bg-white/20 rounded-full blur-[2px] -rotate-[35deg] pointer-events-none" />
           <div className="absolute bottom-6 right-10 w-36 h-10 bg-[#d4af37]/10 rounded-full blur-[4px] rotate-[20deg] pointer-events-none" />
           <div className="absolute inset-2 rounded-full border border-white/10 pointer-events-none" />
+
+          {/* Touch Prompt Bubble */}
+          {!isChurning && droppedOrbs.length === 0 && (
+            <div className="absolute bottom-4 px-3 py-1 rounded-full bg-[#06080d]/90 border border-[#d4af37] text-[#f5e6c8] text-[10px] sm:text-xs font-serif-editorial font-bold shadow-lg flex items-center gap-1.5 animate-bounce z-30 pointer-events-none">
+              <span>👆 Chạm Để Quay</span>
+            </div>
+          )}
 
           {/* Internal Swirling Jewels */}
           <div className="relative w-full h-full pointer-events-none">
@@ -440,9 +450,12 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
             <motion.div
               animate={{ rotate: crankAngle }}
               transition={{ duration: 0.85, ease: 'easeOut' }}
-              onPointerDown={handleTurnCrank}
+              onPointerDown={(e) => {
+                e.preventDefault();
+                handleTurnCrank();
+              }}
               onClick={handleTurnCrank}
-              className="w-16 h-16 rounded-full bg-gradient-to-br from-[#f5e6c8] via-[#d4af37] to-[#854d0e] p-[3px] shadow-[0_8px_20px_rgba(0,0,0,0.8),0_0_15px_rgba(212,175,55,0.4)] cursor-pointer hover:scale-110 active:scale-95 transition-transform group"
+              className="w-16 h-16 rounded-full bg-gradient-to-br from-[#f5e6c8] via-[#d4af37] to-[#854d0e] p-[3px] shadow-[0_8px_20px_rgba(0,0,0,0.8),0_0_15px_rgba(212,175,55,0.4)] cursor-pointer hover:scale-110 active:scale-95 transition-transform group touch-none"
               title="Nhấp để xoay bánh răng Thụy Sĩ nhả bảo ngọc"
             >
               <div className="w-full h-full rounded-full bg-[#0d1017] flex items-center justify-center border border-[#d4af37]/60 relative overflow-hidden">
@@ -500,9 +513,9 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
           </div>
 
           {/* Red Velvet Tray Cushion with Gold Studs */}
-          <div className="relative w-64 h-14 bg-gradient-to-r from-[#3f0714] via-[#5c0b1e] to-[#3f0714] rounded-full border-2 border-[#d4af37] shadow-[0_10px_25px_rgba(0,0,0,0.8),inset_0_2px_8px_rgba(0,0,0,0.9)] flex items-center justify-center px-4 overflow-visible">
+          <div className="relative w-56 sm:w-64 h-11 sm:h-14 bg-gradient-to-r from-[#3f0714] via-[#5c0b1e] to-[#3f0714] rounded-full border-2 border-[#d4af37] shadow-[0_10px_25px_rgba(0,0,0,0.8),inset_0_2px_8px_rgba(0,0,0,0.9)] flex items-center justify-center px-3 sm:px-4 overflow-visible">
             {droppedOrbs.length > 0 ? (
-              <div className="flex items-center justify-center gap-3 w-full relative z-20">
+              <div className="flex items-center justify-center gap-2.5 sm:gap-3 w-full relative z-20">
                 {droppedOrbs.map((orb, idx) => (
                   <motion.div
                     key={idx}
@@ -528,14 +541,14 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
                       transition={{ delay: idx * 0.22 + 0.35, duration: 0.5 }}
                       className="absolute inset-0 rounded-full border-2 border-[#f5e6c8] pointer-events-none"
                     />
-                    <FacetedGemVisual type={orb.type} size={36} isGlowing />
+                    <FacetedGemVisual type={orb.type} size={32} isGlowing />
                   </motion.div>
                 ))}
               </div>
             ) : (
               <div className="flex items-center justify-around w-full px-4 opacity-50">
                 {[0, 1, 2, 3, 4].map((dot) => (
-                  <div key={dot} className="w-2 h-2 rounded-full bg-[#d4af37]/60 shadow-inner" />
+                  <div key={dot} className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#d4af37]/60 shadow-inner" />
                 ))}
               </div>
             )}
@@ -576,7 +589,7 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
                         }}
                         className="relative"
                       >
-                        <FacetedGemVisual type={orb.type} size={48} isGlowing />
+                        <FacetedGemVisual type={orb.type} size={44} isGlowing />
                       </motion.div>
                     ))}
                   </div>
@@ -586,10 +599,10 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
-                    className="bg-[#06080d]/95 px-5 py-2 rounded-full border border-[#d4af37] shadow-[0_8px_30px_rgba(212,175,55,0.4)] whitespace-nowrap flex items-center gap-2"
+                    className="bg-[#06080d]/95 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-[#d4af37] shadow-[0_8px_30px_rgba(212,175,55,0.4)] whitespace-nowrap flex items-center gap-2"
                   >
-                    <Crown className="w-4 h-4 text-[#d4af37] animate-pulse" />
-                    <span className="text-xs font-serif-editorial font-bold text-[#f5e6c8] uppercase tracking-wider">
+                    <Crown className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-[#d4af37] animate-pulse" />
+                    <span className="text-[11px] sm:text-xs font-serif-editorial font-bold text-[#f5e6c8] uppercase tracking-wider">
                       {resolvedReward
                         ? `${resolvedReward.name} (${dropTierTitle})`
                         : dropTierTitle || 'KHAI MỞ BẢO NGỌC THÀNH CÔNG!'}
@@ -603,29 +616,29 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
       </div>
 
       {/* 3. Primary Call-to-Action */}
-      <div className="mt-8 flex flex-col items-center gap-3 z-20">
+      <div className="mt-3 sm:mt-6 flex flex-col items-center gap-2 z-20">
         <Button
           size="xl"
           onClick={handleTurnCrank}
           disabled={isCranking || droppedOrbs.length > 0}
-          className="min-w-[280px] bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold tracking-widest shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:shadow-[0_15px_40px_rgba(212,175,55,0.6)] hover:scale-105 active:scale-95 transition-all"
+          className="min-w-[260px] sm:min-w-[280px] bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold tracking-widest shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:shadow-[0_15px_40px_rgba(212,175,55,0.6)] hover:scale-105 active:scale-95 transition-all py-3 sm:py-3.5 text-sm sm:text-base"
         >
           <RotateCw className={`w-4 h-4 mr-2 ${isCranking ? 'animate-spin' : ''}`} />
           <span>
             {isChurning
               ? 'Đang Xáo Bảo Ngọc...'
               : droppedOrbs.length > 0
-              ? 'Đang Khai Quang Phần Thưởng...'
+              ? 'Đang Khai Quang...'
               : 'Xoay Bánh Răng Lấy Quà'}
           </span>
         </Button>
-        <p className="text-[11px] font-sans text-[#7b8496]">
-          Mỗi lượt quay khởi động cơ chế bánh răng Thụy Sĩ và rơi ngẫu nhiên bảo ngọc tương ứng.
+        <p className="text-[10px] sm:text-[11px] font-sans text-[#7b8496]">
+          Mỗi lượt quay khởi động cơ chế bánh răng và rơi ngẫu nhiên bảo ngọc.
         </p>
       </div>
 
       {/* 4. Luxury Multi-Drop Legend Guild */}
-      <div className="mt-8 w-full max-w-xl p-5 rounded-[16px] bg-[#0d1017]/90 border border-white/10 shadow-2xl backdrop-blur-md">
+      <div className="mt-3 sm:mt-6 w-full max-w-xl p-3 sm:p-5 rounded-[16px] bg-[#0d1017]/90 border border-white/10 shadow-2xl backdrop-blur-md hidden sm:block">
         <div className="flex items-center justify-between mb-3 border-b border-white/[0.08] pb-2">
           <div className="flex items-center gap-2 text-xs font-mono-num font-bold text-[#f5e6c8] uppercase tracking-widest">
             <Award className="w-4 h-4 text-[#d4af37]" />

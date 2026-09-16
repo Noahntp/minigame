@@ -597,20 +597,38 @@
 /* Mobile Responsive */
 @media (max-width: 680px) {
   .hub-header {
-    padding: 12px 18px;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+  .stage-viewport {
+    padding: 0;
+    width: 100%;
+    height: calc(100dvh - 60px);
+    overflow: hidden;
   }
   .stage-frame-wrapper {
     border-radius: 0;
     border: none;
-    height: 100vh;
+    height: 100%;
+    max-height: 100%;
     max-width: 100%;
+    box-shadow: none;
+  }
+  .stage-frame-wrapper::before,
+  .stage-frame-wrapper::after {
+    display: none !important;
   }
   .mockup-dynamic-island,
   .mockup-status-bar,
   .mockup-home-indicator {
-    display: none;
+    display: none !important;
   }
   .action-pill-btn span:not(:first-child) {
     display: none;
   }
+  .action-pill-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
 }
+

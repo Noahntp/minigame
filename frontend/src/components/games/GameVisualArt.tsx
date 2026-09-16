@@ -130,27 +130,18 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
         </svg>
       )}
 
-      {/* 4. LOVE LETTER: BAROQUE CRIMSON WAX SEAL */}
+      {/* 4. LOVE LETTER: ANIME ROYAL WAX-SEALED ENVELOPE */}
       {slug === 'love-letter' && (
-        <svg viewBox="0 0 120 120" className="w-full h-full drop-shadow-[0_8px_24px_rgba(225,29,72,0.6)]">
-          <defs>
-            <radialGradient id="wax-seal" cx="40%" cy="40%" r="65%">
-              <stop offset="0%" stopColor="#f43f5e" />
-              <stop offset="45%" stopColor="#be123c" />
-              <stop offset="85%" stopColor="#881337" />
-              <stop offset="100%" stopColor="#4c0519" />
-            </radialGradient>
-          </defs>
-          <circle cx="60" cy="60" r="54" fill="#140e16" stroke="#d4af37" strokeWidth="2" />
-          {/* Parchment Envelope */}
-          <rect x="22" y="34" width="76" height="52" rx="6" fill="#f5e6c8" stroke="#d4af37" strokeWidth="1.5" />
-          <polygon points="22,34 60,62 98,34" fill="#ede0c4" stroke="#d4af37" strokeWidth="1.2" />
-          {/* 3D Wax Seal with Scalloped Edges */}
-          <circle cx="60" cy="62" r="18" fill="url(#wax-seal)" stroke="#fecdd3" strokeWidth="1.2" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.6))" />
-          {/* Crown / Monogram Inside Seal */}
-          <path d="M54 64 L56 57 L60 61 L64 57 L66 64 Z" fill="#fef08a" />
-          <rect x="54" y="64" width="12" height="2" fill="#fef08a" />
-        </svg>
+        <div className="relative w-full h-full flex items-center justify-center p-1 group">
+          <div className="relative w-full h-full flex items-center justify-center">
+            <img
+              src="/assets/games/anime_sealed_envelope.png"
+              alt="Thư Tình Hoàng Gia"
+              className="w-full h-full object-contain drop-shadow-[0_8px_20px_rgba(244,63,94,0.6)] group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-amber-300/60 animate-ping opacity-40 pointer-events-none" />
+          </div>
+        </div>
       )}
 
       {/* 5. CHRISTMAS TREE: NORDIC PINE & STAR OF BETHLEHEM */}
@@ -180,30 +171,18 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
         </svg>
       )}
 
-      {/* 6. SANTA GIFT: ARCTIC AURORA & BRASS BELL */}
+      {/* 6. SANTA GIFT: ANIME GOLDEN BELL & AURORA GLOW */}
       {slug === 'santa-gift' && (
-        <svg viewBox="0 0 120 120" className="w-full h-full drop-shadow-[0_8px_24px_rgba(56,189,248,0.5)]">
-          <defs>
-            <linearGradient id="bell-brass" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="35%" stopColor="#fef08a" />
-              <stop offset="70%" stopColor="#d4af37" />
-              <stop offset="100%" stopColor="#78350f" />
-            </linearGradient>
-          </defs>
-          <circle cx="60" cy="60" r="54" fill="#08101e" stroke="#38bdf8" strokeWidth="2" strokeOpacity="0.7" />
-          {/* Cathedral Bell */}
-          <path
-            d="M60 22 C46 22 40 36 38 58 L32 78 C30 84 34 88 42 88 L78 88 C86 88 90 84 88 78 L82 58 C80 36 74 22 60 22 Z"
-            fill="url(#bell-brass)"
-            stroke="#fef08a"
-            strokeWidth="1.5"
+        <div className="relative w-full h-full flex items-center justify-center p-2">
+          <div className="absolute inset-3 rounded-full bg-cyan-500/20 blur-xl" />
+          <div className="absolute inset-4 rounded-full bg-amber-400/20 blur-lg" />
+          <img
+            src="/assets/games/anime_golden_bell.png"
+            alt="Anime Golden Bell"
+            className="w-full h-full object-contain filter drop-shadow-[0_0_18px_rgba(251,191,36,0.95)] contrast-110 select-none transform hover:scale-105 transition-transform duration-300"
+            draggable={false}
           />
-          <rect x="52" y="16" width="16" height="8" rx="4" fill="#d4af37" />
-          <circle cx="60" cy="94" r="8" fill="#78350f" stroke="#d4af37" strokeWidth="1.5" />
-          {/* Red Ribbon Bow */}
-          <path d="M48 24 C54 18 66 18 72 24 C68 28 52 28 48 24 Z" fill="#e11d48" />
-        </svg>
+        </div>
       )}
 
       {/* 7. SNOW CATCHER: MACRO ICE CRYSTAL SNOWFLAKE */}

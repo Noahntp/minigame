@@ -89,11 +89,16 @@ export class Game30Firework extends BaseGame {
 
   bindEvents() {
     const detonateBtn = this.container.querySelector('#btn-detonate');
+    const battery = this.container.querySelector('#rocket-battery');
+    const trigger = () => {
+      if (this.isBusy) return;
+      this.launchFireworks();
+    };
     if (detonateBtn) {
-      detonateBtn.addEventListener('click', () => {
-        if (this.isBusy) return;
-        this.launchFireworks();
-      });
+      detonateBtn.addEventListener('click', trigger);
+    }
+    if (battery) {
+      battery.addEventListener('click', trigger);
     }
   }
 

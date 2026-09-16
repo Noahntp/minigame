@@ -25,42 +25,93 @@ export class Game24Letter extends BaseGame {
 
         <div class="game-instruction-badge">
           <span class="pulse-dot"></span>
-          <span>Chạm vào con dấu sáp để mở bức thư tình bí mật!</span>
+          <span>Chạm vào con dấu sáp đỏ để mở bức thư tình hoàng gia!</span>
         </div>
 
-        <!-- 3D Antique Envelope Presentation -->
+        <!-- 3D Antique Envelope Presentation matching iStock motion -->
         <div class="envelope-container" id="envelope-wrapper">
-          <div class="envelope" id="envelope">
-            <!-- 3D Flap -->
-            <div class="envelope-flap" id="envelope-flap"></div>
+          <div class="envelope-assembly" id="envelope-assembly">
+            <!-- 1. Open Envelope Back (with silk lining, clipped top when closed) -->
+            <img
+              src="assets/anime_envelope_back.png"
+              alt="Envelope Back"
+              class="envelope-layer-back"
+              id="layer-back"
+            />
 
-            <!-- Wax Seal Stamp -->
-            <div class="wax-seal" id="wax-seal" title="Chạm mở con dấu!">
-              <div class="seal-crest">💌</div>
+            <!-- 2. Letter Paper nestled inside pocket -->
+            <div class="love-letter-pocket-sheet" id="love-letter">
+              <img
+                src="assets/anime_unfolded_letter.png"
+                alt="Bức Thư Tình Trải Rộng"
+                class="parchment-bg-img"
+              />
+              <div class="parchment-content-overlay">
+                <div style="text-align:center; padding-top:2px;">
+                  <span style="font-weight:bold; font-size:0.72rem; color:#5c1328; text-transform:uppercase; letter-spacing:1px;">💌 Thư Tình Trao Duyên 💌</span>
+                  <div style="font-size:0.58rem; color:#78350f; font-family:monospace; font-weight:600; margin-top:1px;">14.02.2026</div>
+                </div>
+                <div style="text-align:center; padding: 2px 6px; margin: auto 0;">
+                  <div style="font-weight:bold; font-size:0.76rem; color:#3b0718; margin-bottom:2px;">Gửi Người Thương Quý Nơi Phương Xa,</div>
+                  <div style="font-style:italic; font-size:0.68rem; color:#260510; line-height:1.36;">
+                    "Giữa vạn dặm hồng trần tìm một ánh mắt,<br />
+                    dẫu ngàn trùng phong ba lòng vẫn vẹn nguyên.<br />
+                    Chúc bạn vạn sự an nhiên, tình duyên viên mãn<br />
+                    và đong đầy hạnh phúc!"
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(136,19,55,0.2); padding-top:2px; font-size:0.6rem; color:#5c1328; font-weight:bold;">
+                  <span>Mắt Bão MiniGame Atelier</span>
+                  <span>Vĩnh Kết Đồng Tâm 💕</span>
+                </div>
+              </div>
             </div>
 
-            <!-- Letter Sliding Out -->
-            <div class="love-letter" id="love-letter">
-              <div class="letter-heading">Gửi Người Tôi Yêu Quý,</div>
-              <div class="letter-body">
-                "Giữa biển người mênh mông, mỗi cuộc gặp gỡ đều là một phép màu. Chúc bạn luôn rạng rỡ, hạnh phúc và nhận trọn vẹn yêu thương!"
+            <!-- 3. Front Pocket with Pink Bow -->
+            <img
+              src="assets/anime_envelope_front.png"
+              alt="Envelope Front Pocket"
+              class="envelope-layer-front"
+            />
+
+            <!-- 4. Downward Flap with Gold Filigree (3D Flips UP on open) -->
+            <div class="envelope-flap-down" id="envelope-flap">
+              <img
+                src="assets/anime_flap_closed_down.png"
+                alt="Flap Closed"
+                class="flap-down-img"
+              />
+            </div>
+
+            <!-- 5. Wax Seal on Flap -->
+            <div class="wax-seal-target" id="wax-seal" title="Chạm mở con dấu!">
+              <div class="wax-seal-pulse-ring" id="seal-ring"></div>
+              <img src="assets/anime_wax_seal_standalone.png" alt="Ruby Wax Seal" style="width:100%;height:100%;object-fit:contain;" />
+            </div>
+
+            <!-- 6. Emerged Voucher Badge -->
+            <div class="voucher-emerge-card" id="voucher-card">
+              <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:1px; color:#fde047; font-weight:bold; margin-bottom:2px;">
+                ✨ Voucher Tiệc Tối Lãng Mạn ✨
               </div>
-              <div class="letter-stamp">
-                <span class="stamp-icon">✨</span>
-                <span class="stamp-text">ƯU ĐẶC BIỆT 14/2</span>
+              <div style="font-size:1rem; font-weight:900; color:#fff; text-shadow:0 0 10px rgba(245,158,11,0.8);">
+                500.000 VNĐ
+              </div>
+              <div style="font-size:0.68rem; color:#fda4af; margin-top:2px; font-family:monospace;">
+                Mã: SWEETLOVE142 • +560 PTS
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Pinterest-style Animated Finger Guide -->
+        <!-- Finger Guide Prompt -->
         <div class="finger-guide-prompt" id="finger-guide" style="margin-top: 15px;">
-          <div class="finger-guide-bubble">Bấm mở thư tình! 👆</div>
+          <div class="finger-guide-bubble">Chạm mở con dấu sáp! 💌</div>
           <div class="finger-icon">👆</div>
         </div>
 
         <div class="game-footer-tip">
-          <span>💌 Valentine 14.2 • Gửi Trọn Yêu Thương & Ngọt Ngào</span>
+          <span>💌 Valentine 14.2 • Bức Thư Tình Hoàng Gia Trao Trọn Yêu Thương</span>
         </div>
       </div>
     `;
@@ -78,39 +129,54 @@ export class Game24Letter extends BaseGame {
   openLetter() {
     if (!this.canPlay()) return;
     this.isBusy = true;
-    sound.playClick();
+
+    const stage = this.container.querySelector('.stage-letter');
+    if (stage) stage.classList.add('letter-stage-opened');
 
     const guide = this.container.querySelector('#finger-guide');
     if (guide) guide.style.display = 'none';
 
-    const envelope = this.container.querySelector('#envelope');
+    const assembly = this.container.querySelector('#envelope-assembly');
     const seal = this.container.querySelector('#wax-seal');
-    const flap = this.container.querySelector('#envelope-flap');
+    const ring = this.container.querySelector('#seal-ring');
     const letter = this.container.querySelector('#love-letter');
+    const voucherCard = this.container.querySelector('#voucher-card');
 
-    // 1. Crack wax seal
-    seal.classList.add('seal-cracked');
+    if (ring) ring.style.display = 'none';
 
-    // 2. Open flap with sound
+    // 1. Phá vỡ con dấu sáp (Wax crack audio & vibration)
+    sound.playWaxSealCrack();
+    if (seal) seal.classList.add('seal-cracked');
+
+    // 2. Mở nắp phong thư lật lên 3D (iStock motion step 1)
     setTimeout(() => {
-      flap.classList.add('flap-open');
-      sound.playMagicChime();
-    }, 280);
+      if (assembly) assembly.classList.add('assembly-open');
+    }, 120);
 
-    // 3. Slide letter out & burst hearts
+    // 3. Mở lá thư tình trồi lên từ trong lòng bao thư (iStock motion step 2)
     setTimeout(() => {
-      letter.classList.add('letter-slide-out');
-      sound.playHeartbeat(1.6);
-
-      const rect = envelope.getBoundingClientRect();
-      if (this.context && this.context.particles) {
-        this.context.particles.burstHearts(rect.left + rect.width / 2, rect.top, 40);
+      sound.playParchmentUnfold();
+      if (letter) {
+        letter.classList.add('letter-unfolded-active');
       }
-    }, 600);
 
-    // 4. Trigger reward
+      const rect = this.container.getBoundingClientRect();
+      if (this.context && this.context.particles) {
+        this.context.particles.burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 45);
+      }
+    }, 450);
+
+    // 4. Hiện Voucher phần thưởng sau 6s đọc thư trọn vẹn
+    setTimeout(() => {
+      sound.playReward();
+      if (voucherCard) {
+        voucherCard.classList.add('voucher-emerge-active');
+      }
+    }, 6000);
+
+    // 5. Hoàn thành và trao giải sau 14s
     setTimeout(() => {
       this.triggerReward();
-    }, 1600);
+    }, 14000);
   }
 }

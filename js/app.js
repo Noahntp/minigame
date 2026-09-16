@@ -49,8 +49,10 @@ class MinigameHubApp {
     this.initUI();
     this.bindControls();
 
-    // Launch default game (Game 21: Trái Tim May Mắn)
-    this.selectGame(this.games[0].id);
+    // Launch game from URL hash or default (Game 21: Trái Tim May Mắn)
+    const hash = window.location.hash ? window.location.hash.slice(1) : null;
+    const targetGame = (hash && this.games.find(g => g.id === hash)) ? hash : this.games[0].id;
+    this.selectGame(targetGame);
   }
 
   initUI() {
