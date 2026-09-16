@@ -62,7 +62,7 @@ export const ChristmasTreeStage: React.FC<ChristmasTreeStageProps> = ({
   const [timeLeft, setTimeLeft] = useState<number>(TIME_LIMIT);
   const [floatText, setFloatText] = useState<{ text: string; x: number; y: number } | null>(null);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Background snowflakes
   const snowflakes = Array.from({ length: 22 }, (_, i) => ({
