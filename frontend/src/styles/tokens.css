@@ -33,9 +33,9 @@
   --color-tet-gold: #fbbf24;
   --color-tet-crimson: #dc2626;
 
-  /* 2. TYPOGRAPHY SYSTEM */
-  --font-serif-editorial: "Playfair Display", "Cinzel", Georgia, serif;
-  --font-display: "Playfair Display", "Cinzel", Georgia, serif;
+  /* 2. TYPOGRAPHY SYSTEM (100% Vietnamese Unicode Compatible) */
+  --font-serif-editorial: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-body: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 
   /* 3. SPACING SCALE (8pt) */

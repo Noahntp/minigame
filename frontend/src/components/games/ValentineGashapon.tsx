@@ -262,6 +262,9 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
     if (isCranking || droppedOrbs.length > 0) return;
 
     sound.playClick(soundEnabled);
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([35, 50, 35]);
+    }
     track('HORLOGERIE_CRANK_TURN', 1);
 
     setIsCranking(true);
@@ -380,7 +383,7 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
       {/* 2. THE MECHANICAL MASTERPIECE MACHINE */}
       <div 
         onClick={handleTurnCrank}
-        className="relative w-full max-w-[240px] sm:max-w-[340px] flex flex-col items-center z-10 cursor-pointer select-none touch-manipulation"
+        className="relative w-full max-w-[310px] sm:max-w-[340px] flex flex-col items-center z-10 cursor-pointer select-none touch-manipulation"
       >
         {/* Volumetric Radial Backlight behind the dome */}
         <div
@@ -438,7 +441,7 @@ export const ValentineGashapon: React.FC<ValentineGashaponProps> = ({
         </motion.div>
 
         {/* 2.2 THE NOBLE BURGUNDY & BRASS PEDESTAL HOUSING */}
-        <div className="relative -mt-6 w-[300px] sm:w-[340px] h-[220px] bg-gradient-to-b from-[#2a0612] via-[#1a040b] to-[#0d0205] rounded-b-[32px] rounded-t-[20px] border-2 border-[#d4af37]/60 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col items-center justify-between p-4 z-20">
+        <div className="relative -mt-6 w-[280px] sm:w-[340px] h-[220px] bg-gradient-to-b from-[#2a0612] via-[#1a040b] to-[#0d0205] rounded-b-[32px] rounded-t-[20px] border-2 border-[#d4af37]/60 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col items-center justify-between p-4 z-20">
           {/* Filigree Brass Trim Accent */}
           <div className="absolute top-2 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
           <div className="absolute top-3 left-4 text-[#d4af37]/60 text-[10px] font-mono-num tracking-widest uppercase">

@@ -207,6 +207,9 @@ export const FlowerPickingStage: React.FC<FlowerPickingStageProps> = ({
     if (pickedId) return;
     setPickedId(flower.id);
     sound.playClick(soundEnabled);
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([30, 45, 30]);
+    }
     track('FLOWER_PICK', 1);
 
     // Phase 1: Thức giấc & Đài hoa hé mở (Awakening - 1.3s để người chơi cảm nhận nụ hoa cựa mình)
@@ -217,6 +220,9 @@ export const FlowerPickingStage: React.FC<FlowerPickingStageProps> = ({
     setTimeout(() => {
       setBloomPhase('unfurling');
       sound.playPollenBurst(soundEnabled);
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(50);
+      }
       track('FLOWER_BLOOM_UNFURL', 1);
 
       // Phase 3: Hoa bừng nở hoàn mỹ & Nhụy hoa tỏa hào quang (Full Bloom Glory - 1.8s)

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface GameVisualArtProps {
   slug: string;
@@ -144,31 +145,67 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
         </div>
       )}
 
-      {/* 5. CHRISTMAS TREE: NORDIC PINE & STAR OF BETHLEHEM */}
+      {/* 5. CHRISTMAS TREE: ANIME HOLIDAY PINE & ENHANCED VIBRATION FX */}
       {slug === 'lucky-christmas-tree' && (
-        <svg viewBox="0 0 120 120" className="w-full h-full drop-shadow-[0_8px_24px_rgba(16,185,129,0.5)]">
-          <defs>
-            <linearGradient id="pine-green" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#34d399" />
-              <stop offset="50%" stopColor="#059669" />
-              <stop offset="100%" stopColor="#064e3b" />
-            </linearGradient>
-          </defs>
-          <circle cx="60" cy="60" r="54" fill="#081414" stroke="#34d399" strokeWidth="2" strokeOpacity="0.7" />
-          {/* 3-Tier Pine */}
-          <polygon points="60,26 84,54 36,54" fill="url(#pine-green)" stroke="#a7f3d0" strokeWidth="1" />
-          <polygon points="60,42 90,72 30,72" fill="url(#pine-green)" stroke="#a7f3d0" strokeWidth="1" />
-          <polygon points="60,58 96,92 24,92" fill="url(#pine-green)" stroke="#a7f3d0" strokeWidth="1" />
-          <rect x="54" y="92" width="12" height="12" rx="2" fill="#78350f" />
-          {/* Star of Bethlehem */}
-          <polygon points="60,14 62,24 72,26 62,28 60,38 58,28 48,26 58,24" fill="#fbbf24" filter="drop-shadow(0 0 6px #fef08a)" />
-          {/* Fairy Lights */}
-          <circle cx="48" cy="50" r="2.5" fill="#fbbf24" />
-          <circle cx="72" cy="52" r="2.5" fill="#f43f5e" />
-          <circle cx="52" cy="68" r="2.5" fill="#38bdf8" />
-          <circle cx="70" cy="78" r="2.5" fill="#fbbf24" />
-          <circle cx="40" cy="84" r="2.5" fill="#a855f7" />
-        </svg>
+        <div className="relative w-full h-full flex items-center justify-center group cursor-pointer">
+          {/* Emerald Aurora Ambient Aura */}
+          <div className="absolute inset-1 rounded-full bg-emerald-500/25 blur-xl animate-pulse pointer-events-none" />
+          <div className="absolute inset-3 rounded-full bg-cyan-400/20 blur-lg pointer-events-none" />
+          
+          {/* Circular Frame matching the exhibition style */}
+          <div className="absolute inset-0 rounded-full border-2 border-emerald-400/60 shadow-[0_0_20px_rgba(16,185,129,0.5)] group-hover:border-amber-300 transition-colors duration-500 pointer-events-none" />
+          <div className="absolute inset-1 rounded-full border border-emerald-300/20 pointer-events-none" />
+
+          {/* Stardust Sparkle Accents */}
+          <div className="absolute top-1 right-3 w-2 h-2 rounded-full bg-amber-300 shadow-[0_0_8px_#fde047] animate-ping opacity-60 pointer-events-none" />
+          <div className="absolute bottom-3 left-2 w-1.5 h-1.5 rounded-full bg-cyan-300 shadow-[0_0_6px_#38bdf8] animate-pulse opacity-80 pointer-events-none" />
+
+          {/* Anime Christmas Tree with Rhythmic Sway & Jiggle/Vibration Animation */}
+          <motion.div
+            className="relative w-full h-full flex items-center justify-center p-1"
+            animate={{
+              y: [-2, 2, -2],
+              rotate: [-1.2, 1.2, -1.2],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 3,
+              ease: "easeInOut",
+            }}
+            whileHover={{
+              scale: 1.08,
+              rotate: [0, -3.5, 3.5, -2.5, 2.5, -1, 1, 0],
+              transition: {
+                rotate: {
+                  repeat: Infinity,
+                  duration: 0.35,
+                  ease: "easeInOut",
+                },
+                scale: { duration: 0.2 },
+              }
+            }}
+            whileTap={{
+              scale: 0.95,
+              rotate: [0, -6, 6, -5, 5, -2, 2, 0],
+              transition: { duration: 0.35 },
+            }}
+          >
+            <img
+              src="/assets/games/anime_christmas_tree.png"
+              alt="Anime Christmas Tree"
+              className="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(251,191,36,0.6)] select-none pointer-events-none"
+              draggable={false}
+            />
+
+            {/* Radiant Top Star Flare */}
+            <div className="absolute top-2 inset-x-0 flex justify-center pointer-events-none">
+              <div className="w-6 h-6 rounded-full bg-amber-300/40 blur-sm animate-pulse" />
+            </div>
+
+            {/* Shimmer Light Sweeping Overlay */}
+            <div className="absolute inset-1 rounded-full bg-gradient-to-tr from-amber-400/10 via-transparent to-emerald-300/15 pointer-events-none" />
+          </motion.div>
+        </div>
       )}
 
       {/* 6. SANTA GIFT: ANIME GOLDEN BELL & AURORA GLOW */}

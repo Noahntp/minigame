@@ -7,8 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Baloo 2"', 'system-ui', 'sans-serif'],
-        sans: ['"Nunito"', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', '"Nunito"', 'system-ui', 'sans-serif'],
+        serif: ['"Plus Jakarta Sans"', 'Georgia', 'serif'],
+        display: ['"Plus Jakarta Sans"', '"Baloo 2"', 'sans-serif'],
       },
       colors: {
         cream: {

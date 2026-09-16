@@ -70,12 +70,18 @@ export const BeautyLuckyDrawStage: React.FC<BeautyLuckyDrawStageProps> = ({
     if (selectedId) return;
     setSelectedId(item.id);
     sound.playClick(soundEnabled);
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([30, 50, 30]);
+    }
     track('ITEM_SELECT', 1);
 
     // Step 2: Món được chọn phát sáng cực mạnh
     setTimeout(() => {
       setIsGlowing(true);
       sound.playReward(soundEnabled);
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(60);
+      }
       track('ITEM_GLOW', 1);
 
       // Step 3: Hiện phần thưởng

@@ -280,6 +280,9 @@ export const FireworkFortuneStage: React.FC<FireworkFortuneStageProps> = ({
     const types: Rocket['type'][] = ['peony-magenta', 'peony-cyan', 'willow-gold', 'chrysanthemum-tri'];
     const selectedType = types[Math.floor(Math.random() * types.length)];
 
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(25);
+    }
     launchRocket(x + (Math.random() - 0.5) * 60, x, y, selectedType);
     track('TAP_FIREWORK', 1);
   };
@@ -564,8 +567,9 @@ export const FireworkFortuneStage: React.FC<FireworkFortuneStageProps> = ({
         {/* Canvas for 60fps Particle Engine */}
         <canvas
           ref={canvasRef}
+          onPointerDown={(e) => handleCanvasPointer(e.clientX, e.clientY)}
           onClick={(e) => handleCanvasPointer(e.clientX, e.clientY)}
-          className="w-full h-full block relative z-0 touch-manipulation cursor-pointer"
+          className="w-full h-full block relative z-0 touch-none cursor-pointer"
         />
 
         {/* Hint banner */}

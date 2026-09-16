@@ -178,16 +178,16 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
   };
 
   return (
-    <div className="min-h-screen bg-[#06080d] text-[#fcfbfa] flex flex-col justify-between relative overflow-hidden select-none">
+    <div className="min-h-[100dvh] h-[100dvh] max-h-[100dvh] bg-[#06080d] text-[#fcfbfa] flex flex-col justify-between relative overflow-hidden select-none touch-manipulation">
       {/* 1. Atelier Top Bar */}
-      <header className={`sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#06080d]/85 border-b border-[#d4af37]/25 shadow-[0_8px_30px_rgba(0,0,0,0.8)] flex items-center justify-between ${status === 'PLAYING' ? 'px-3 sm:px-8 py-2 sm:py-3.5' : 'px-4 sm:px-8 py-3.5'}`}>
-        <div className="flex items-center gap-4">
+      <header className={`sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#06080d]/90 border-b border-[#d4af37]/25 shadow-[0_8px_30px_rgba(0,0,0,0.8)] flex items-center justify-between ${status === 'PLAYING' ? 'px-2 sm:px-8 py-1 sm:py-3' : 'px-3 sm:px-8 py-2 sm:py-3.5'}`}>
+        <div className="flex items-center gap-2 sm:gap-4">
           <button
             onClick={() => navigate('/mini-games')}
-            className="px-3.5 py-1.5 rounded-full bg-[#121624] border border-[#d4af37]/40 text-[#f5e6c8] hover:border-[#d4af37] shadow-lg transition-all flex items-center gap-2 text-xs font-serif-editorial font-bold uppercase tracking-wider hover:scale-105 active:scale-95"
+            className="min-h-[40px] px-3 sm:px-3.5 py-1.5 rounded-full bg-[#121624] border border-[#d4af37]/40 text-[#f5e6c8] hover:border-[#d4af37] shadow-lg transition-all flex items-center gap-1.5 sm:gap-2 text-xs font-serif-editorial font-bold uppercase tracking-wider active:scale-95 touch-manipulation"
             aria-label="Quay lại sảnh"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-4 h-4" />
             <span className="hidden sm:inline">Sảnh Triển Lãm</span>
           </button>
 
@@ -204,19 +204,19 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
         </div>
 
         {/* Header Right Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => setShowDropRateModal(true)}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121624] border border-[#d4af37]/40 text-[#f5e6c8] text-xs font-mono-num font-semibold shadow-lg hover:border-[#d4af37] transition-all hover:scale-105 active:scale-95"
+            className="min-h-[40px] flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#121624] border border-[#d4af37]/40 text-[#f5e6c8] text-xs font-mono-num font-semibold shadow-lg hover:border-[#d4af37] transition-all active:scale-95 touch-manipulation"
             title="Xem và tùy chỉnh tỷ lệ rớt bảo ngọc"
           >
-            <Sliders className="w-3.5 h-3.5 text-[#d4af37]" />
+            <Sliders className="w-4 h-4 text-[#d4af37]" />
             <span className="hidden sm:inline">Tỷ Lệ Thưởng</span>
           </button>
 
           <button
             onClick={toggleSound}
-            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+            className={`w-10 h-10 min-w-[40px] min-h-[40px] rounded-full border flex items-center justify-center transition-all active:scale-95 touch-manipulation ${
               soundEnabled
                 ? 'bg-[#121624] border-[#d4af37]/60 text-[#d4af37]'
                 : 'bg-[#101420] border-white/10 text-[#7b8496]'
@@ -229,7 +229,7 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
       </header>
 
       {/* 2. Main Stage with State Transitions */}
-      <main className={`flex-1 flex items-center justify-center relative z-10 ${status === 'PLAYING' ? 'p-1 sm:p-4 lg:p-6 w-full min-h-[calc(100dvh-56px)] max-h-[calc(100dvh-56px)] overflow-y-auto sm:overflow-hidden' : 'p-2 sm:p-6 lg:p-10 overflow-y-auto max-h-[calc(100dvh-56px)]'}`}>
+      <main className={`flex-1 flex items-center justify-center relative z-10 ${status === 'PLAYING' ? 'p-1 sm:p-4 lg:p-6 w-full h-[calc(100dvh-50px)] max-h-[calc(100dvh-50px)] overflow-hidden' : 'p-2 sm:p-6 lg:p-10 overflow-y-auto max-h-[calc(100dvh-50px)]'}`}>
         <AnimatePresence mode="wait">
           {/* ==================================================== */}
           {/* STATE: INTRO (Mobile First Optimized Exhibition)     */}

@@ -2,11 +2,13 @@ import axios from 'axios';
 import type { ApiResponse, GamePlayHistory, MiniGame, Reward } from '../types/game';
 import { MINI_GAMES } from '../data/games';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? 'http://localhost:4000/api' : '/api');
 
 const client = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 5000,
+  timeout: 2000,
   headers: {
     'Content-Type': 'application/json',
   },

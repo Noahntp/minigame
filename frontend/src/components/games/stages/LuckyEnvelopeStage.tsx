@@ -75,12 +75,18 @@ export const LuckyEnvelopeStage: React.FC<LuckyEnvelopeStageProps> = ({
     if (selectedId) return;
     setSelectedId(env.id);
     sound.playClick(soundEnabled);
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([30, 45, 30]);
+    }
     track('ENVELOPE_SELECT', idx + 1);
 
     // 1. Mở nắp bao lì xì đỏ
     setTimeout(() => {
       setIsOpened(true);
       sound.playReward(soundEnabled);
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(50);
+      }
 
       // 2. Tiền vàng & điểm bay ra (Fountain of gold coins)
       const generatedCoins: FlyingCoin[] = Array.from({ length: 18 }).map((_, i) => ({

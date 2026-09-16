@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Gift, Check } from 'lucide-react';
+import { Sparkles, Gift, Check, Bell, Star, Timer, Zap, RotateCcw } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { sound } from '../../../utils/audio';
+import { MagicTreeCanvas } from './MagicTreeCanvas';
 
 interface ChristmasTreeStageProps {
   onComplete: (score: number) => void;
@@ -9,349 +11,605 @@ interface ChristmasTreeStageProps {
   track: (type: string, val?: number) => void;
 }
 
-interface TreeLight {
-  x: number;
-  y: number;
+interface TreePart {
+  id: string;
+  type: 'star' | 'bell' | 'bauble' | 'gift';
+  name: string;
+  x: number; // percentage relative to container width
+  y: number; // percentage relative to container height
   color: string;
-  delay: number;
+  pitch: number;
 }
+
+const TREE_PARTS: TreePart[] = [
+  // 1. Crown Bethlehem Star
+  { id: 'star-crown', type: 'star', name: 'Ngôi Sao Bethlehem', x: 50, y: 7, color: '#FDE047', pitch: 2.0 },
+
+  // 2. Top tier: Bell & Ruby Bauble
+  { id: 'bauble-t1', type: 'bauble', name: 'Cầu Ruby Đỏ', x: 42, y: 26, color: '#F43F5E', pitch: 1.5 },
+  { id: 'bell-t1', type: 'bell', name: 'Chuông Vàng Thượng', x: 59, y: 27, color: '#FBBF24', pitch: 1.6 },
+
+  // 3. Mid tier: Sapphire Bauble, Center Bell, Pink Bauble
+  { id: 'bauble-m1', type: 'bauble', name: 'Cầu Lam Sapphire', x: 32, y: 44, color: '#38BDF8', pitch: 1.3 },
+  { id: 'bell-m1', type: 'bell', name: 'Chuông Vàng Trung', x: 50, y: 47, color: '#F59E0B', pitch: 1.2 },
+  { id: 'bauble-m2', type: 'bauble', name: 'Cầu Thạch Anh Hồng', x: 68, y: 44, color: '#EC4899', pitch: 1.4 },
+
+  // 4. Low tier: Emerald, Golden Bells & Amber Baubles
+  { id: 'bauble-b1', type: 'bauble', name: 'Cầu Ngọc Lục Bảo', x: 23, y: 64, color: '#34D399', pitch: 1.0 },
+  { id: 'bell-b1', type: 'bell', name: 'Chuông Vàng Tả', x: 39, y: 65, color: '#FBBF24', pitch: 1.1 },
+  { id: 'bell-b2', type: 'bell', name: 'Chuông Vàng Hữu', x: 61, y: 65, color: '#FBBF24', pitch: 1.15 },
+  { id: 'bauble-b2', type: 'bauble', name: 'Cầu Hoàng Kim', x: 77, y: 63, color: '#FACC15', pitch: 1.25 },
+
+  // 5. Base Snowy Gifts
+  { id: 'gift-left', type: 'gift', name: 'Hộp Quà Đỏ Lụa', x: 26, y: 88, color: '#EF4444', pitch: 0.9 },
+  { id: 'gift-mid', type: 'gift', name: 'Hộp Quà Hoàng Kim', x: 50, y: 90, color: '#F59E0B', pitch: 1.0 },
+  { id: 'gift-right', type: 'gift', name: 'Hộp Quà Lam Tuyết', x: 74, y: 88, color: '#0284C7', pitch: 0.95 },
+];
+
+type GameState = 'READY' | 'PLAYING' | 'VICTORY' | 'FAILED';
+
+const REQUIRED_ACTIVATIONS = 8;
+const TIME_LIMIT = 10; // 10 seconds
 
 export const ChristmasTreeStage: React.FC<ChristmasTreeStageProps> = ({
   onComplete,
   soundEnabled,
   track,
 }) => {
-  const [starTapped, setStarTapped] = useState<boolean>(false);
-  const [treeIlluminated, setTreeIlluminated] = useState<boolean>(false);
-  const [giftAppeared, setGiftAppeared] = useState<boolean>(false);
+  const [gameState, setGameState] = useState<GameState>('READY');
+  const [activatedParts, setActivatedParts] = useState<Set<string>>(new Set());
+  const [animatingParts, setAnimatingParts] = useState<Record<string, boolean>>({});
+  const [timeLeft, setTimeLeft] = useState<number>(TIME_LIMIT);
+  const [floatText, setFloatText] = useState<{ text: string; x: number; y: number } | null>(null);
 
-  // Fairy lights cascading down the tree tiers
-  const lights: TreeLight[] = [
-    { x: 50, y: 35, color: '#FACC15', delay: 0.1 },
-    { x: 42, y: 50, color: '#F43F5E', delay: 0.2 },
-    { x: 58, y: 52, color: '#38BDF8', delay: 0.25 },
-    { x: 34, y: 70, color: '#34D399', delay: 0.35 },
-    { x: 50, y: 72, color: '#FBBF24', delay: 0.4 },
-    { x: 66, y: 70, color: '#EC4899', delay: 0.45 },
-    { x: 26, y: 92, color: '#F43F5E', delay: 0.55 },
-    { x: 40, y: 94, color: '#38BDF8', delay: 0.6 },
-    { x: 60, y: 94, color: '#FACC15', delay: 0.65 },
-    { x: 74, y: 92, color: '#34D399', delay: 0.7 },
-    { x: 18, y: 118, color: '#FBBF24', delay: 0.8 },
-    { x: 32, y: 120, color: '#EC4899', delay: 0.85 },
-    { x: 50, y: 122, color: '#38BDF8', delay: 0.9 },
-    { x: 68, y: 120, color: '#F43F5E', delay: 0.95 },
-    { x: 82, y: 118, color: '#FACC15', delay: 1.0 },
-  ];
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleTapStar = () => {
-    if (starTapped) return;
-    setStarTapped(true);
-    sound.playClick(soundEnabled);
-    if (typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(25);
-    }
-    track('STAR_TAP', 1);
+  // Background snowflakes
+  const snowflakes = Array.from({ length: 22 }, (_, i) => ({
+    id: i,
+    x: (i * 4.6) % 100,
+    size: (i % 3) + 2.5,
+    duration: 3.5 + (i % 4),
+    delay: (i * 0.22) % 2.5,
+    opacity: 0.35 + (i % 5) * 0.12,
+  }));
 
-    // 1. Cây sáng lung linh (Sóng ánh sáng lan tỏa từ đỉnh xuống)
-    setTimeout(() => {
-      setTreeIlluminated(true);
-      sound.playReward(soundEnabled);
-      track('TREE_ILLUMINATED', 1);
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
 
-      // 2. Quà xuất hiện dưới gốc cây
-      setTimeout(() => {
-        setGiftAppeared(true);
-        sound.playWin(soundEnabled);
-
-        setTimeout(() => {
-          onComplete(540);
-        }, 1800);
+  // Timer countdown
+  useEffect(() => {
+    if (gameState === 'PLAYING') {
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current!);
+            handleTimeOut();
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
-    }, 400);
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [gameState]);
+
+  const handleTimeOut = () => {
+    setGameState('FAILED');
+    sound.playCount(soundEnabled);
+    track('CHALLENGE_FAILED', activatedParts.size);
   };
 
+  const startChallenge = () => {
+    setGameState('PLAYING');
+    setActivatedParts(new Set());
+    setTimeLeft(TIME_LIMIT);
+    sound.playClick(soundEnabled);
+    track('CHALLENGE_START', 1);
+  };
+
+  const handleInteractPart = (part: TreePart) => {
+    if (gameState === 'READY') {
+      startChallenge();
+    }
+    if (gameState === 'FAILED') return;
+
+    // Trigger part-specific animation
+    setAnimatingParts((prev) => ({ ...prev, [part.id]: true }));
+    setTimeout(() => {
+      setAnimatingParts((prev) => ({ ...prev, [part.id]: false }));
+    }, 650);
+
+    // Audio & Haptics based on part type
+    if (part.type === 'bell') {
+      sound.playBell(soundEnabled, part.pitch, 0.4);
+      sound.playSleighBells(soundEnabled);
+    } else if (part.type === 'star') {
+      sound.playBell(soundEnabled, 2.0, 0.45);
+      sound.playReward(soundEnabled);
+    } else if (part.type === 'gift') {
+      sound.playCount(soundEnabled);
+      sound.playBell(soundEnabled, part.pitch, 0.3);
+    } else {
+      sound.playBell(soundEnabled, part.pitch, 0.3);
+    }
+
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(part.type === 'star' ? [40, 60, 40] : 35);
+    }
+
+    // Add to activated parts set
+    const nextSet = new Set(activatedParts);
+    nextSet.add(part.id);
+    setActivatedParts(nextSet);
+
+    // Floating text notification at coordinates
+    setFloatText({
+      text: part.type === 'star' ? '🌟 NGÔI SAO TỎA SÁNG!' : `✨ ${part.name}!`,
+      x: part.x,
+      y: part.y,
+    });
+    setTimeout(() => {
+      setFloatText(null);
+    }, 700);
+
+    track('PART_ACTIVATED', nextSet.size);
+
+    // VICTORY CHECK: When activated required number of unique parts
+    if (nextSet.size >= REQUIRED_ACTIVATIONS && gameState === 'PLAYING') {
+      if (timerRef.current) clearInterval(timerRef.current);
+      setGameState('VICTORY');
+      sound.playWin(soundEnabled);
+
+      try {
+        confetti({
+          particleCount: 110,
+          spread: 95,
+          origin: { y: 0.5 },
+          colors: ['#34d399', '#fde047', '#f43f5e', '#38bdf8', '#fbbf24', '#ffffff'],
+        });
+      } catch {
+        // ignore
+      }
+
+      track('CHALLENGE_VICTORY', nextSet.size);
+    }
+  };
+
+  const progressCount = activatedParts.size;
+  const progressPercent = Math.min(100, Math.round((progressCount / REQUIRED_ACTIVATIONS) * 100));
+
   return (
-    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-1.5 sm:py-6 px-2 sm:px-4 touch-manipulation">
-      {/* Noel Header */}
-      <div className="text-center mb-2 sm:mb-6">
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-0.5 sm:py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 mb-1 sm:mb-2 backdrop-blur-md">
-          <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400 animate-pulse" />
-          <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-emerald-300 font-semibold">
-            Cây Thông May Mắn Hoàng Gia
+    <div className="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center select-none py-1 sm:py-4 px-2 sm:px-4 touch-manipulation font-sans">
+      {/* Header */}
+      <div className="text-center mb-2 sm:mb-3 z-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-400/40 mb-1.5 shadow-[0_0_15px_rgba(16,185,129,0.3)] backdrop-blur-md">
+          <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin" style={{ animationDuration: '4s' }} />
+          <span className="text-[10px] sm:text-xs font-sans uppercase tracking-[0.25em] text-emerald-200 font-extrabold drop-shadow">
+            Cây Thông Tương Tác Giáng Sinh
           </span>
+          <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin" style={{ animationDuration: '4s' }} />
         </div>
-        <h2 className="font-serif text-xl sm:text-3xl text-neutral-100 font-normal tracking-wide">
-          Chạm Ngôi Sao Trên Cây
+        <h2 className="font-sans text-xl sm:text-3xl text-amber-100 font-extrabold tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+          Đánh Thức Các Bộ Phận Cây Thông
         </h2>
-        <p className="text-[11px] sm:text-sm text-neutral-400 font-light mt-0.5 sm:mt-1">
-          Chạm vào Ngôi Sao Bethlehem trên đỉnh — Cây sẽ sáng lung linh và hộp quà xuất hiện
+        <p className="text-[11px] sm:text-xs text-emerald-100/80 font-normal mt-0.5 drop-shadow">
+          {gameState === 'READY'
+            ? 'Chạm vào các quả chuông, quả châu, ngôi sao và hộp quà để thắp sáng toàn bộ cây!'
+            : gameState === 'PLAYING'
+            ? 'Chạm vào 8 bộ phận khác nhau trên cây trước khi hết thời gian!'
+            : gameState === 'FAILED'
+            ? 'Hết giờ rồi! Hãy bấm thử lại để tiếp tục thắp sáng cây nhé.'
+            : 'Tuyệt vời! Toàn bộ cây thông đã được thắp sáng rực rỡ!'}
         </p>
       </div>
 
-      {/* Pine Tree Stage Canvas */}
-      <div className="relative w-full max-w-2xl rounded-2xl bg-gradient-to-b from-[#060c18]/95 via-[#081220]/95 to-[#040810]/98 border border-cyan-500/20 p-2 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col items-center justify-center min-h-[300px] sm:min-h-[440px]">
-        {/* Soft Northern Aurora Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-500/10 via-emerald-500/5 to-transparent pointer-events-none" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+      {/* Main Winter Stage */}
+      <div className="relative w-full max-w-2xl rounded-3xl border-2 border-emerald-400/30 shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_35px_rgba(16,185,129,0.25)] overflow-hidden flex flex-col items-center justify-between min-h-[420px] sm:min-h-[530px]">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out pointer-events-none"
+          style={{
+            backgroundImage: "url('/assets/games/anime_winter_bg.jpg')",
+          }}
+        />
 
-        {/* Drifting Snowflakes */}
-        {[...Array(14)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{
-              y: [0, 320],
-              x: [0, (i % 2 === 0 ? 15 : -15), 0],
-              opacity: [0, 0.8, 0],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 4 + (i % 4),
-              delay: i * 0.3,
-              ease: 'linear',
-            }}
-            style={{
-              top: '-10px',
-              left: `${5 + (i * 7.5) % 90}%`,
-            }}
-            className="absolute w-1.5 h-1.5 rounded-full bg-white/70 blur-[0.5px] pointer-events-none"
-          />
-        ))}
+        {/* Ambient Aurora Vignette */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020b1c]/55 via-emerald-950/25 to-[#020712]/85 pointer-events-none" />
 
-        {/* Tree Container */}
-        <div 
-          onClick={handleTapStar}
-          className="relative w-64 sm:w-96 flex flex-col items-center justify-end scale-[0.82] sm:scale-100 origin-bottom cursor-pointer touch-manipulation"
-        >
-          {/* 1. NGÔI SAO TRÊN ĐỈNH CÂY (TAP TARGET) */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleTapStar();
-            }}
-            className="relative z-30 cursor-pointer flex flex-col items-center -mb-4 group touch-manipulation p-4 select-none active:scale-95"
-          >
-            {/* Pulsing Star Halo */}
+        {/* Ambient Warm Golden Halo behind Tree */}
+        <div
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full blur-3xl pointer-events-none transition-all duration-700 ${
+            gameState === 'VICTORY' || progressCount >= 5
+              ? 'bg-amber-400/40 scale-125'
+              : 'bg-emerald-500/20 scale-100'
+          }`}
+        />
+
+        {/* Snowflakes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {snowflakes.map((snow) => (
             <motion.div
-              animate={{
-                scale: starTapped ? [1, 1.8, 1.4] : [1, 1.2, 1],
-                opacity: starTapped ? [0.6, 1, 0.8] : [0.3, 0.7, 0.3],
+              key={snow.id}
+              className="absolute bg-white rounded-full pointer-events-none"
+              style={{
+                left: `${snow.x}%`,
+                width: `${snow.size}px`,
+                height: `${snow.size}px`,
+                boxShadow: '0 0 6px rgba(255,255,255,0.9)',
               }}
-              transition={{ repeat: Infinity, duration: starTapped ? 1.2 : 2.5 }}
-              className="absolute inset-0 rounded-full blur-xl pointer-events-none bg-amber-400"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{
+                y: [-20, 560],
+                x: [0, (snow.id % 2 === 0 ? 1 : -1) * 20, 0],
+                opacity: [0, snow.opacity, snow.opacity, 0],
+              }}
+              transition={{
+                duration: snow.duration,
+                repeat: Infinity,
+                delay: snow.delay,
+                ease: 'linear',
+              }}
             />
+          ))}
+        </div>
 
-            {/* Radiant Starburst Rays when tapped */}
-            <AnimatePresence>
-              {starTapped && (
+        {/* CHALLENGE HUD: Progress Bar & Timer */}
+        <div className="relative z-30 w-full px-4 sm:px-6 pt-3 pb-1">
+          <div className="flex items-center justify-between gap-3 p-2 sm:p-2.5 rounded-2xl bg-neutral-950/80 border border-emerald-400/40 shadow-lg backdrop-blur-md">
+            {/* Progress Meter */}
+            <div className="flex-1">
+              <div className="flex items-center justify-between text-[11px] sm:text-xs font-sans font-extrabold mb-1">
+                <span className="flex items-center gap-1 text-emerald-300">
+                  <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
+                  <span>Bộ Phận Đã Kích Hoạt</span>
+                </span>
+                <span className="text-amber-300 font-mono-num text-xs">
+                  {progressCount}/{REQUIRED_ACTIVATIONS} ({progressPercent}%)
+                </span>
+              </div>
+              <div className="w-full h-3 rounded-full bg-neutral-900 overflow-hidden border border-emerald-500/30 p-0.5">
                 <motion.div
-                  initial={{ scale: 0, rotate: 0 }}
-                  animate={{ scale: 1.5, rotate: 180 }}
-                  transition={{ duration: 1.5, ease: 'easeOut' }}
-                  className="absolute w-32 h-32 pointer-events-none"
-                >
-                  <svg viewBox="0 0 100 100" className="w-full h-full">
-                    {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-                      <line
-                        key={deg}
-                        x1="50"
-                        y1="50"
-                        x2={50 + 46 * Math.cos((deg * Math.PI) / 180)}
-                        y2={50 + 46 * Math.sin((deg * Math.PI) / 180)}
-                        stroke="#FEF08A"
-                        strokeWidth="2"
-                        strokeDasharray="2 4"
-                      />
-                    ))}
-                  </svg>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* 8-pointed Golden Bethlehem Star */}
-            <motion.div
-              whileHover={!starTapped ? { scale: 1.2, rotate: 10 } : {}}
-              whileTap={!starTapped ? { scale: 0.9 } : {}}
-              animate={{
-                scale: starTapped ? 1.15 : 1,
-              }}
-              className="relative w-16 h-16 flex items-center justify-center"
-            >
-              <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_12px_#FACC15]">
-                <defs>
-                  <linearGradient id="starGold" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#FFFBEB" />
-                    <stop offset="50%" stopColor="#FACC15" />
-                    <stop offset="100%" stopColor="#B45309" />
-                  </linearGradient>
-                </defs>
-                {/* 8-Point Diamond Star Path */}
-                <path
-                  d="M50 4 L57 36 L88 20 L66 45 L98 50 L66 55 L88 80 L57 64 L50 96 L43 64 L12 80 L34 55 L2 50 L34 45 L12 20 L43 36 Z"
-                  fill="url(#starGold)"
-                  stroke="#FFFFFF"
-                  strokeWidth="1.5"
+                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-300 shadow-[0_0_12px_#34d399]"
+                  initial={{ width: '0%' }}
+                  animate={{ width: `${progressPercent}%` }}
+                  transition={{ type: 'spring', damping: 15, stiffness: 200 }}
                 />
-                <circle cx="50" cy="50" r="7" fill="#FFFFFF" />
-              </svg>
-            </motion.div>
+              </div>
+            </div>
 
-            {!starTapped && (
-              <motion.div
-                animate={{ y: [0, -4, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-                className="mt-1 px-3 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-[10px] font-sans font-bold uppercase tracking-wider text-amber-300 shadow-md whitespace-nowrap"
-              >
-                Chạm Ngôi Sao
-              </motion.div>
-            )}
-          </div>
-
-          {/* 2. MAJESTIC NORDIC PINE TREE WITH FAIRY LIGHTS */}
-          <div className="relative w-full h-[280px]">
-            <svg viewBox="0 0 200 160" className="w-full h-full drop-shadow-2xl overflow-visible">
-              <defs>
-                <linearGradient id="pineGradTop" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#065F46" />
-                  <stop offset="100%" stopColor="#022C22" />
-                </linearGradient>
-                <linearGradient id="pineGradMid" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#047857" />
-                  <stop offset="100%" stopColor="#064E3B" />
-                </linearGradient>
-                <linearGradient id="pineGradBot" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#059669" />
-                  <stop offset="100%" stopColor="#065F46" />
-                </linearGradient>
-              </defs>
-
-              {/* Tree Trunk */}
-              <rect x="91" y="138" width="18" height="22" rx="3" fill="#451A03" stroke="#78350F" strokeWidth="1" />
-
-              {/* Tier 4 (Bottom) */}
-              <path
-                d="M100 80 L185 142 Q100 134 15 142 Z"
-                fill="url(#pineGradBot)"
-                stroke="#A7F3D0"
-                strokeWidth="1"
-                strokeOpacity="0.3"
-              />
-              {/* Tier 3 */}
-              <path
-                d="M100 55 L168 108 Q100 102 32 108 Z"
-                fill="url(#pineGradMid)"
-                stroke="#A7F3D0"
-                strokeWidth="1"
-                strokeOpacity="0.3"
-              />
-              {/* Tier 2 */}
-              <path
-                d="M100 32 L150 78 Q100 73 50 78 Z"
-                fill="url(#pineGradMid)"
-                stroke="#A7F3D0"
-                strokeWidth="1"
-                strokeOpacity="0.3"
-              />
-              {/* Tier 1 (Top) */}
-              <path
-                d="M100 14 L132 50 Q100 46 68 50 Z"
-                fill="url(#pineGradTop)"
-                stroke="#A7F3D0"
-                strokeWidth="1"
-                strokeOpacity="0.4"
-              />
-
-              {/* Golden Garland Swags */}
-              <path
-                d="M74 46 Q100 58 126 46"
-                stroke={treeIlluminated ? '#FDE047' : '#713F12'}
-                strokeWidth="2"
-                strokeDasharray="3 3"
-                fill="none"
-              />
-              <path
-                d="M58 74 Q100 92 142 74"
-                stroke={treeIlluminated ? '#FDE047' : '#713F12'}
-                strokeWidth="2.5"
-                strokeDasharray="4 4"
-                fill="none"
-              />
-              <path
-                d="M40 104 Q100 126 160 104"
-                stroke={treeIlluminated ? '#FDE047' : '#713F12'}
-                strokeWidth="3"
-                strokeDasharray="4 4"
-                fill="none"
-              />
-
-              {/* Individual Fairy Lights that Cascade On */}
-              {lights.map((l, i) => (
-                <g key={i}>
-                  <circle
-                    cx={l.x * 2}
-                    cy={l.y}
-                    r={treeIlluminated ? 4.5 : 2.5}
-                    fill={treeIlluminated ? l.color : '#374151'}
-                    className={treeIlluminated ? 'transition-all duration-300' : ''}
-                    style={{
-                      transitionDelay: treeIlluminated ? `${l.delay}s` : '0s',
-                      filter: treeIlluminated ? `drop-shadow(0 0 6px ${l.color})` : 'none',
-                    }}
-                  />
-                  {treeIlluminated && (
-                    <circle
-                      cx={l.x * 2}
-                      cy={l.y}
-                      r="8"
-                      fill={l.color}
-                      opacity="0.3"
-                      className="animate-pulse"
-                      style={{ animationDelay: `${l.delay}s` }}
-                    />
-                  )}
-                </g>
-              ))}
-            </svg>
+            {/* Countdown Timer */}
+            <div
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-sans font-extrabold text-xs sm:text-sm shadow-md transition-colors ${
+                timeLeft <= 3 && gameState === 'PLAYING'
+                  ? 'bg-rose-950/90 border-rose-500 text-rose-300 animate-ping'
+                  : 'bg-neutral-900/90 border-amber-400/50 text-amber-300'
+              }`}
+            >
+              <Timer className="w-4 h-4 text-amber-400" />
+              <span className="font-mono-num font-bold">0{timeLeft}s</span>
+            </div>
           </div>
         </div>
 
-        {/* 3. QUÀ XUẤT HIỆN DƯỚI GỐC CÂY */}
+        {/* Floating Notification Popup */}
         <AnimatePresence>
-          {giftAppeared && (
+          {floatText && (
             <motion.div
-              initial={{ y: 40, opacity: 0, scale: 0.8 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              transition={{ type: 'spring', damping: 20, stiffness: 220 }}
-              className="absolute bottom-2 inset-x-2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-30 mx-auto w-auto sm:w-full max-w-md p-3 sm:p-4 rounded-xl bg-gradient-to-r from-emerald-950/90 via-neutral-900/95 to-emerald-950/90 border border-amber-400/60 shadow-[0_10px_30px_rgba(250,204,21,0.25)] text-center backdrop-blur-md"
+              initial={{ scale: 0.6, y: 10, opacity: 0 }}
+              animate={{ scale: 1.1, y: -15, opacity: 1 }}
+              exit={{ scale: 0.8, y: -30, opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              style={{
+                top: `${floatText.y}%`,
+                left: `${floatText.x}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+              className="absolute z-50 px-3 py-1 rounded-full bg-amber-400 text-neutral-950 font-sans font-extrabold text-[11px] sm:text-xs shadow-[0_0_20px_#fde047] border-2 border-white pointer-events-none whitespace-nowrap"
             >
-              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-sans font-bold uppercase tracking-wider mb-1">
-                <Gift className="w-3.5 h-3.5 text-amber-400" />
-                <span>Quà Giáng Sinh Đã Xuất Hiện</span>
-              </div>
-              <h3 className="font-serif text-base sm:text-lg text-amber-200 font-normal">
-                Hộp Quà Noel Thần Kỳ
-              </h3>
-              <p className="text-lg sm:text-xl font-serif text-white font-semibold mt-0.5">
-                Voucher 500.000 VNĐ
-              </p>
-              <div className="mt-1.5 sm:mt-2 flex items-center justify-center gap-2 text-xs font-sans text-emerald-400 font-medium">
-                <Check className="w-4 h-4" />
-                <span>+540 Điểm Giáng Sinh An Lành</span>
-              </div>
+              {floatText.text}
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* 5. CENTER: MULTI-PART INTERACTIVE CHRISTMAS TREE OBJECT */}
+        <div className="relative flex-1 w-full flex items-center justify-center p-2 z-20">
+          <div className="relative w-full max-w-[320px] sm:max-w-[400px] aspect-[4/5] flex items-center justify-center">
+            {/* Base Tree Image (The Evergreen Trunk and Foliage) */}
+            <img
+              src="/assets/games/anime_christmas_tree.png"
+              alt="Anime Christmas Tree"
+              className={`w-full h-full object-contain filter transition-all duration-500 select-none ${
+                gameState === 'VICTORY'
+                  ? 'drop-shadow-[0_15px_40px_rgba(251,191,36,0.9)] brightness-110'
+                  : 'drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)] brightness-100'
+              }`}
+              draggable={false}
+            />
+
+            {/* Stardust Helix Spiral Canvas */}
+            <MagicTreeCanvas
+              isActive={gameState === 'PLAYING' || gameState === 'VICTORY'}
+              energyLevel={progressCount}
+              width={400}
+              height={500}
+            />
+
+            {/* 🌟 12 INDIVIDUAL INTERACTIVE OBJECTS ON THE TREE 🌟 */}
+            {TREE_PARTS.map((part) => {
+              const isActivated = activatedParts.has(part.id);
+              const isAnimating = animatingParts[part.id];
+
+              return (
+                <div
+                  key={part.id}
+                  style={{
+                    position: 'absolute',
+                    top: `${part.y}%`,
+                    left: `${part.x}%`,
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: part.type === 'star' ? 40 : 35,
+                  }}
+                >
+                  {/* Part 1: Crown Bethlehem Star */}
+                  {part.type === 'star' && (
+                    <motion.button
+                      type="button"
+                      onClick={() => handleInteractPart(part)}
+                      whileHover={{ scale: 1.3, rotate: 20 }}
+                      whileTap={{ scale: 0.85 }}
+                      animate={
+                        isAnimating
+                          ? { scale: [1, 1.6, 1.2], rotate: [0, 180, 360] }
+                          : { scale: isActivated ? [1.1, 1.25, 1.1] : [1, 1.1, 1] }
+                      }
+                      transition={
+                        isAnimating
+                          ? { duration: 0.65 }
+                          : { repeat: Infinity, duration: 2.5 }
+                      }
+                      className="relative p-2 cursor-pointer rounded-full group touch-manipulation"
+                      title={part.name}
+                    >
+                      <div className="absolute inset-0 rounded-full bg-amber-300/40 blur-lg animate-pulse" />
+                      <Star className="w-8 h-8 sm:w-11 sm:h-11 text-amber-200 fill-amber-300 drop-shadow-[0_0_18px_#fde047] group-hover:fill-white transition-colors" />
+                    </motion.button>
+                  )}
+
+                  {/* Part 2: Golden Bells (Swinging Physics) */}
+                  {part.type === 'bell' && (
+                    <motion.button
+                      type="button"
+                      onClick={() => handleInteractPart(part)}
+                      whileHover={{ scale: 1.35 }}
+                      whileTap={{ scale: 0.9 }}
+                      animate={
+                        isAnimating
+                          ? {
+                              rotate: [0, -35, 35, -20, 20, -10, 10, 0],
+                              scale: [1, 1.25, 1],
+                            }
+                          : isActivated
+                          ? { rotate: [-4, 4, -4] }
+                          : { rotate: [-2, 2, -2] }
+                      }
+                      transition={
+                        isAnimating
+                          ? { duration: 0.65, ease: 'easeInOut' }
+                          : { repeat: Infinity, duration: 2 }
+                      }
+                      className="relative p-1.5 cursor-pointer rounded-full group touch-manipulation"
+                      title={part.name}
+                    >
+                      {isActivated && (
+                        <div className="absolute inset-0 rounded-full bg-amber-400/40 blur-md" />
+                      )}
+                      <div className="p-1 rounded-full bg-neutral-900/40 backdrop-blur-xs border border-amber-300/60 shadow-[0_0_10px_rgba(251,191,36,0.6)]">
+                        <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 fill-amber-400 group-hover:text-white" />
+                      </div>
+                    </motion.button>
+                  )}
+
+                  {/* Part 3: Glass Baubles / Ornaments (Elastic Bounce & Glow) */}
+                  {part.type === 'bauble' && (
+                    <motion.button
+                      type="button"
+                      onClick={() => handleInteractPart(part)}
+                      whileHover={{ scale: 1.4 }}
+                      whileTap={{ scale: 0.85 }}
+                      animate={
+                        isAnimating
+                          ? { scale: [1, 1.45, 0.85, 1.2, 1] }
+                          : isActivated
+                          ? { scale: [1, 1.15, 1] }
+                          : { scale: 1 }
+                      }
+                      transition={
+                        isAnimating
+                          ? { duration: 0.55 }
+                          : { repeat: Infinity, duration: 2.2 }
+                      }
+                      className="relative p-1 cursor-pointer rounded-full group touch-manipulation"
+                      title={part.name}
+                    >
+                      {/* Glow halo */}
+                      <div
+                        className="absolute inset-0 rounded-full blur-md opacity-75"
+                        style={{ backgroundColor: part.color }}
+                      />
+                      {/* Glass Sphere */}
+                      <div
+                        className="relative w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-white/80 shadow-[0_0_12px_rgba(255,255,255,0.7)] flex items-center justify-center overflow-hidden"
+                        style={{ backgroundColor: part.color }}
+                      >
+                        {/* Specular glass reflection */}
+                        <div className="absolute top-0.5 left-0.5 w-1.5 h-1.5 rounded-full bg-white/90" />
+                        <Sparkles className="w-2.5 h-2.5 text-white/90" />
+                      </div>
+                    </motion.button>
+                  )}
+
+                  {/* Part 4: Snowy Base Gifts (Jump & Wobble Physics) */}
+                  {part.type === 'gift' && (
+                    <motion.button
+                      type="button"
+                      onClick={() => handleInteractPart(part)}
+                      whileHover={{ scale: 1.3, y: -6 }}
+                      whileTap={{ scale: 0.85 }}
+                      animate={
+                        isAnimating
+                          ? {
+                              y: [0, -18, 4, -8, 0],
+                              rotate: [0, -8, 8, -4, 4, 0],
+                              scale: [1, 1.2, 1],
+                            }
+                          : isActivated
+                          ? { y: [0, -3, 0] }
+                          : { y: 0 }
+                      }
+                      transition={
+                        isAnimating
+                          ? { duration: 0.65 }
+                          : { repeat: Infinity, duration: 2.5 }
+                      }
+                      className="relative p-1.5 cursor-pointer rounded-2xl group touch-manipulation"
+                      title={part.name}
+                    >
+                      <div
+                        className="absolute inset-0 rounded-2xl blur-md opacity-60"
+                        style={{ backgroundColor: part.color }}
+                      />
+                      <div className="p-1.5 rounded-xl bg-neutral-900/60 border border-white/50 shadow-[0_4px_15px_rgba(0,0,0,0.8)] backdrop-blur-xs">
+                        <Gift
+                          className="w-5 h-5 sm:w-6 sm:h-6 drop-shadow"
+                          style={{ color: part.color }}
+                        />
+                      </div>
+                    </motion.button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 6. BOTTOM CONTROL BAR */}
+        <div className="relative z-30 pb-3 sm:pb-5 px-4 flex flex-col items-center">
+          {gameState === 'READY' && (
+            <motion.button
+              type="button"
+              onClick={startChallenge}
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.94 }}
+              className="px-8 py-3 sm:px-10 sm:py-3.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-neutral-950 font-sans font-extrabold text-sm sm:text-base shadow-[0_10px_30px_rgba(251,191,36,0.6)] hover:shadow-[0_15px_40px_rgba(251,191,36,0.8)] flex items-center gap-2.5 border border-white/60 cursor-pointer"
+            >
+              <Zap className="w-5 h-5 text-neutral-950 fill-neutral-950 animate-bounce" />
+              <span>Bắt Đầu Thử Thách (10s)</span>
+              <Sparkles className="w-4 h-4 text-neutral-950" />
+            </motion.button>
+          )}
+
+          {gameState === 'PLAYING' && (
+            <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-neutral-950/80 border border-emerald-400/40 text-emerald-200 text-xs sm:text-sm font-sans font-bold shadow-lg backdrop-blur-md">
+              <Sparkles className="w-4 h-4 text-amber-300 animate-spin" />
+              <span>Chạm trực tiếp vào các chuông, quả cầu hoặc hộp quà trên cây!</span>
+            </div>
+          )}
+
+          {gameState === 'FAILED' && (
+            <motion.button
+              type="button"
+              onClick={startChallenge}
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.94 }}
+              className="px-8 py-3 sm:px-10 sm:py-3.5 rounded-full bg-gradient-to-r from-rose-500 via-amber-400 to-rose-500 text-neutral-950 font-sans font-extrabold text-sm sm:text-base shadow-[0_10px_30px_rgba(244,63,94,0.6)] flex items-center gap-2.5 border border-white/60 cursor-pointer"
+            >
+              <RotateCcw className="w-5 h-5 text-neutral-950 animate-spin" />
+              <span>Thử Lại Ngay Nào!</span>
+            </motion.button>
+          )}
+        </div>
       </div>
 
+      {/* 7. POP-UP GIFT REVEAL MODAL */}
+      <AnimatePresence>
+        {gameState === 'VICTORY' && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 260 }}
+              className="relative w-full max-w-sm sm:max-w-md p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#0c1f19] via-[#081511] to-[#040807] border-2 border-amber-400/90 shadow-[0_0_60px_rgba(251,191,36,0.45),0_25px_60px_rgba(0,0,0,0.95)] text-center overflow-hidden"
+            >
+              {/* Glow */}
+              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full bg-amber-400/25 blur-3xl pointer-events-none" />
+
+              {/* Bouncing Gift Box */}
+              <div className="relative mx-auto mb-4 w-20 h-20 sm:w-24 sm:h-24">
+                <img
+                  src="/assets/games/anime_gift_box.png"
+                  alt="Anime Gift Box"
+                  className="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(251,191,36,0.7)] animate-bounce"
+                  style={{ animationDuration: '2s' }}
+                />
+              </div>
+
+              {/* Header Badge */}
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 text-[11px] sm:text-xs font-sans font-extrabold uppercase tracking-wider mb-2.5 border border-amber-400/50">
+                <Gift className="w-4 h-4 text-amber-400" />
+                <span>Thử Thách Thành Công!</span>
+              </div>
+
+              {/* Item Title */}
+              <h3 className="font-sans text-xl sm:text-2xl text-amber-100 font-extrabold tracking-normal">
+                Hộp Quà Noel Thần Kỳ
+              </h3>
+
+              {/* Voucher */}
+              <div className="my-3 py-3 px-4 rounded-2xl bg-neutral-900/80 border border-amber-400/30 shadow-inner">
+                <p className="text-2xl sm:text-3xl font-sans text-white font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-white to-amber-200 drop-shadow">
+                  Voucher 500.000 VNĐ
+                </p>
+              </div>
+
+              {/* Points Earned */}
+              <div className="mt-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-sans text-emerald-300 font-bold bg-emerald-900/50 py-2 px-4 rounded-xl border border-emerald-500/40">
+                <Check className="w-4 h-4 text-emerald-400" />
+                <span>+540 Điểm Giáng Sinh An Lành</span>
+              </div>
+
+              {/* Action Button */}
+              <div className="mt-5 pt-1">
+                <button
+                  type="button"
+                  onClick={() => onComplete(540)}
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-neutral-950 font-sans font-extrabold text-sm sm:text-base shadow-[0_10px_30px_rgba(251,191,36,0.6)] hover:brightness-110 active:scale-98 transition-all cursor-pointer border border-white/60"
+                >
+                  ✨ Xác Nhận & Nhận Thưởng
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Footer Guidance */}
-      <p className="text-[11px] sm:text-xs text-neutral-400 font-sans tracking-wide mt-2 sm:mt-5 text-center">
-        {!starTapped
-          ? 'Chạm vào Ngôi Sao Bethlehem trên đỉnh cây để bắt đầu thắp sáng.'
-          : treeIlluminated
-          ? 'Cây thông đã bừng sáng lung linh — Hộp quà đã xuất hiện dưới gốc thông!'
-          : 'Ngôi sao đang truyền luồng ánh sáng diệu kỳ xuống cây thông...'}
+      <p className="text-[11px] sm:text-xs text-neutral-400 font-sans tracking-wide mt-2 sm:mt-3 text-center">
+        {gameState === 'READY'
+          ? 'Bấm "Bắt Đầu Thử Thách" để thắp sáng 8 bộ phận khác nhau trên cây thông.'
+          : gameState === 'PLAYING'
+          ? '💡 Mẹo: Chạm vào Ngôi Sao Bethlehem trên đỉnh hoặc các quả chuông vàng để nghe tiếng reo vui!'
+          : gameState === 'FAILED'
+          ? 'Đừng nản lòng! Bạn có thể bấm Thử Lại Ngay để chinh phục phần quà.'
+          : 'Chúc mừng bạn đã thắp sáng toàn bộ cây thông xuất sắc!'}
       </p>
     </div>
   );

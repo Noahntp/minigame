@@ -161,6 +161,7 @@ export const SnowCatcherStage: React.FC<SnowCatcherStageProps> = ({
             key={flake.id}
             role="button"
             tabIndex={0}
+            onPointerDown={(e) => handleTapSnowflake(flake, e)}
             onClick={(e) => handleTapSnowflake(flake, e)}
             style={{
               left: `${flake.x}%`,

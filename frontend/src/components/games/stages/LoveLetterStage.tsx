@@ -163,6 +163,9 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
 
     // 1. Phá vỡ con dấu sáp (Wax seal crack)
     sound.playWaxSealCrack(soundEnabled);
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([40, 60, 40]);
+    }
     setPhase('breaking');
 
     setTimeout(() => {
@@ -219,7 +222,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
       </div>
 
       {/* Main Love Letter Chamber Stage with Anime Twilight Room Background */}
-      <div className="relative w-full max-w-2xl min-h-[520px] sm:min-h-[600px] rounded-3xl border border-amber-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col items-center justify-center p-2 sm:p-5">
+      <div className="relative w-full max-w-2xl min-h-[440px] sm:min-h-[580px] max-h-[calc(100dvh-120px)] rounded-3xl border border-amber-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col items-center justify-center p-2 sm:p-5">
         {/* Background Image: Romantic candlelit anime desk */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"
@@ -249,7 +252,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
           animate={{
             scale: (phase === 'unfolded' || phase === 'reward') ? 0.88 : 1,
             opacity: 1,
-            y: (phase === 'unfolded' || phase === 'reward') ? 70 : (phase === 'sealed' ? [0, -6, 0] : 0),
+            y: (phase === 'unfolded' || phase === 'reward') ? 50 : (phase === 'sealed' ? [0, -6, 0] : 0),
             rotate: phase === 'sealed' ? [-0.4, 0.4, -0.4] : 0,
           }}
           transition={{
@@ -259,7 +262,7 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
             opacity: { duration: 0.3 },
           }}
           onClick={phase === 'sealed' ? handleOpenLetter : undefined}
-          className={`relative z-20 w-80 sm:w-[410px] max-w-[92vw] aspect-[1000/904] flex items-end justify-center select-none my-auto ${
+          className={`relative z-20 w-72 sm:w-[410px] max-w-[92vw] aspect-[1000/904] flex items-end justify-center select-none my-auto ${
             phase === 'sealed' ? 'cursor-pointer active:scale-95 group' : ''
           }`}
           style={{ perspective: 1200 }}
@@ -280,9 +283,9 @@ export const LoveLetterStage: React.FC<LoveLetterStageProps> = ({
           <motion.div
             initial={false}
             animate={{
-              y: (phase === 'unfolded' || phase === 'reward') ? -160 : 35,
+              y: (phase === 'unfolded' || phase === 'reward') ? -130 : 35,
               opacity: (phase === 'unfolded' || phase === 'reward') ? 1 : 0,
-              scale: (phase === 'unfolded' || phase === 'reward') ? 1.18 : 0.92,
+              scale: (phase === 'unfolded' || phase === 'reward') ? 1.12 : 0.92,
             }}
             transition={{
               y: { duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.05 },
