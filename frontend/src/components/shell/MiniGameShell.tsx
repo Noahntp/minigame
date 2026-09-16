@@ -15,10 +15,13 @@ import {
   RefreshCw,
   Crown,
   Lock,
+  ShoppingBag,
+  ArrowRight,
 } from 'lucide-react';
 import { Button } from '../common/Button';
 import { DropRateModal } from '../games/DropRateModal';
 import { GameVisualArt } from '../games/GameVisualArt';
+import { BrandStoreCheckoutModal } from '../funnel/BrandStoreCheckoutModal';
 import { useGameStore } from '../../store/useGameStore';
 import { sound } from '../../utils/audio';
 import { api } from '../../services/api';
@@ -56,6 +59,7 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
   const [showDropRateModal, setShowDropRateModal] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [phoneSaved, setPhoneSaved] = useState<boolean>(false);
+  const [showBrandStoreModal, setShowBrandStoreModal] = useState<boolean>(false);
 
   // 1. Ready state countdown
   useEffect(() => {
@@ -476,95 +480,127 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.94 }}
-              className="w-full max-w-lg rounded-[20px] bg-[#0d1017] p-4 sm:p-8 text-center border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] relative overflow-hidden max-h-[86dvh] overflow-y-auto my-auto"
+              className="w-full max-w-lg rounded-[20px] bg-[#0d1017] p-4 sm:p-7 text-center border border-[#d4af37]/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] relative overflow-hidden max-h-[86dvh] overflow-y-auto my-auto"
             >
-              <div className="w-14 sm:w-20 h-14 sm:h-20 rounded-full bg-gradient-to-tr from-[#121624] via-[#2a0612] to-[#0c0f17] border-2 border-[#d4af37] mx-auto shadow-[0_0_25px_rgba(212,175,55,0.4)] mb-3 sm:mb-6 flex items-center justify-center">
-                <Crown className="w-7 sm:w-10 h-7 sm:h-10 text-[#f5e6c8] animate-pulse" />
-              </div>
-
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f5e6c8] text-[10px] sm:text-[10.5px] font-mono-num font-bold uppercase tracking-widest mb-2 sm:mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
-                <span>
-                  {rewardWon?.type === 'VOUCHER' ? 'VOUCHER ĐẶC QUYỀN VIP' : 'PHẦN THƯỞNG ĐIỂM SỐ'}
+              {/* E-Commerce Step 4 Badge */}
+              <div className="flex items-center justify-between gap-2 mb-3 px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-950/60 via-amber-950/40 to-rose-950/60 border border-rose-500/40 text-[10px] sm:text-xs font-mono-num font-bold text-rose-300">
+                <span className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  BƯỚC 4: NHẬN VOUCHER TỨC THÌ
+                </span>
+                <span className="bg-rose-500/20 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-rose-200">
+                  Tri Ân Khách Hàng
                 </span>
               </div>
 
-              <h2 className="font-serif-editorial text-xl sm:text-3xl font-bold text-[#fcfbfa] mb-1 sm:mb-2 leading-tight">
-                {rewardWon?.name || '10 Points Thưởng VIP'}
+              {/* Royal Crown Icon with Pulsing Halo */}
+              <div className="w-14 sm:w-18 h-14 sm:h-18 rounded-full bg-gradient-to-tr from-[#121624] via-[#2a0612] to-[#0c0f17] border-2 border-[#d4af37] mx-auto shadow-[0_0_25px_rgba(212,175,55,0.4)] mb-2.5 sm:mb-4 flex items-center justify-center">
+                <Crown className="w-7 sm:w-9 h-7 sm:h-9 text-[#f5e6c8] animate-pulse" />
+              </div>
+
+              <h2 className="font-serif-editorial text-xl sm:text-2xl font-bold text-[#fcfbfa] mb-1 leading-tight">
+                Chúc Mừng! Bạn Đã Nhận Được
               </h2>
 
-              <p className="text-xs text-[#8b95a8] mb-3 sm:mb-6 px-2 sm:px-4 leading-relaxed font-sans">
-                {rewardWon?.description || 'Phần thưởng đã được kích hoạt thành công trên hệ thống.'}
-              </p>
+              {/* Big Voucher Value Display */}
+              <div className="my-2 sm:my-3 p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-red-950/70 via-[#1f0910] to-red-950/70 border border-red-500/50 shadow-inner">
+                <div className="text-[10px] font-mono-num font-bold text-amber-300 uppercase tracking-widest mb-0.5">
+                  VOUCHER GIẢM GIÁ ĐỘC QUYỀN
+                </div>
+                <div className="font-mono-num text-3xl sm:text-4xl font-black bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-300 bg-clip-text text-transparent">
+                  {rewardWon?.type === 'VOUCHER' && rewardWon?.value
+                    ? `GIẢM ${rewardWon.value.toLocaleString('vi-VN')}đ`
+                    : 'GIẢM 50.000đ'}
+                </div>
+                <p className="text-[10px] sm:text-[11px] text-[#f5e6c8]/80 mt-1 font-sans">
+                  Áp dụng trực tiếp cho đơn hàng tại <strong>BrandStore.vn</strong>
+                </p>
+              </div>
 
-              {/* Voucher Code Box */}
+              {/* Voucher Code Box with 1-Click Copy */}
               {rewardWon?.code && (
-                <div className="mb-3 sm:mb-6 p-3 sm:p-4 rounded-[14px] bg-[#121624] border border-[#d4af37]/30 flex items-center justify-between">
+                <div className="mb-3 p-3 rounded-[14px] bg-[#121624] border border-[#d4af37]/30 flex items-center justify-between">
                   <div className="text-left">
-                    <div className="text-[9.5px] sm:text-[10px] text-[#7b8496] uppercase tracking-wider font-mono-num font-bold">
-                      MÃ VOUCHER ĐỘC QUYỀN
+                    <div className="text-[9px] text-[#7b8496] uppercase tracking-wider font-mono-num font-bold">
+                      MÃ VOUCHER
                     </div>
-                    <div className="font-mono-num text-base sm:text-lg font-bold text-[#f5e6c8] tracking-widest mt-0.5">
+                    <div className="font-mono-num text-sm sm:text-base font-bold text-[#f5e6c8] tracking-widest mt-0.5">
                       {rewardWon.code}
                     </div>
                   </div>
                   <button
                     onClick={handleCopyCode}
-                    className="p-2.5 rounded-full bg-[#101420] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#d4af37] transition-all hover:scale-105 active:scale-95"
+                    className="px-3 py-1.5 rounded-xl bg-[#101420] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#d4af37] text-xs font-mono-num font-bold transition-all flex items-center gap-1.5 active:scale-95"
                     title="Sao chép mã"
                   >
-                    {copiedCode ? <Check className="w-4 h-4 text-[#34d399]" /> : <Copy className="w-4 h-4" />}
+                    {copiedCode ? <Check className="w-3.5 h-3.5 text-[#34d399]" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedCode ? 'Đã Chép' : 'Sao Chép'}</span>
                   </button>
                 </div>
               )}
 
+              {/* ==================================================== */}
+              {/* PRIMARY STEP 5 CTA: MUA LẠI TRÊN WEBSITE THƯƠNG HIỆU */}
+              {/* ==================================================== */}
+              <button
+                type="button"
+                onClick={() => {
+                  handleCopyCode();
+                  setShowBrandStoreModal(true);
+                }}
+                className="w-full py-3.5 sm:py-4 px-4 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-600 hover:from-red-500 hover:to-rose-500 text-white font-bold text-sm sm:text-base shadow-[0_10px_30px_rgba(239,68,68,0.45)] hover:shadow-[0_12px_35px_rgba(239,68,68,0.6)] active:scale-95 transition-all flex items-center justify-center gap-2 mb-3 group border border-red-400/40"
+              >
+                <ShoppingBag className="w-5 h-5 text-amber-300 group-hover:scale-110 transition-transform flex-shrink-0" />
+                <span className="font-serif-editorial tracking-wide">
+                  BƯỚC 5: MUA LẠI TRÊN WEBSITE (DÙNG VOUCHER)
+                </span>
+                <ArrowRight className="w-4 h-4 ml-1 flex-shrink-0" />
+              </button>
+
               {/* Lead Generation: Phone Input Form */}
               {!phoneSaved ? (
-                <form onSubmit={handleSavePhone} className="mb-3 sm:mb-6 p-3 sm:p-4 rounded-[14px] bg-[#121624] border border-[#d4af37]/40 text-left">
+                <form onSubmit={handleSavePhone} className="mb-3 p-3 rounded-[14px] bg-[#121624] border border-[#d4af37]/30 text-left">
                   <div className="flex items-center gap-1.5 text-xs font-serif-editorial font-bold text-[#f5e6c8] mb-1">
                     <Lock className="w-3.5 h-3.5 text-[#d4af37]" />
-                    <span>Lưu Mã Vào Số Điện Thoại Để Sử Dụng</span>
+                    <span>Lưu Mã Vào Số Điện Thoại Để Bảo Lưu</span>
                   </div>
-                  <p className="text-[10px] sm:text-[11px] text-[#7b8496] mb-2 sm:mb-3">
-                    Nhập SĐT để bảo lưu voucher và nhận thông báo ưu đãi trực tiếp.
-                  </p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-1.5">
                     <input
                       type="tel"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="Nhập SĐT (ví dụ: 0901234567)"
+                      placeholder="Nhập SĐT nhận tin nhắn..."
                       required
-                      className="flex-1 px-3 py-1.5 sm:py-2 rounded-full bg-[#06080d] border border-white/15 text-xs text-[#fcfbfa] placeholder-[#7b8496] focus:outline-none focus:border-[#d4af37]"
+                      className="flex-1 px-3 py-1.5 rounded-xl bg-[#06080d] border border-white/15 text-xs text-[#fcfbfa] placeholder-[#7b8496] focus:outline-none focus:border-[#d4af37]"
                     />
                     <button
                       type="submit"
-                      className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#d4af37] text-[#06080d] text-xs font-mono-num font-bold hover:bg-[#f5e6c8] transition-colors active:scale-95"
+                      className="px-3.5 py-1.5 rounded-xl bg-[#d4af37] text-[#06080d] text-xs font-mono-num font-bold hover:bg-[#f5e6c8] transition-colors active:scale-95"
                     >
-                      Kích Hoạt
+                      Lưu Mã
                     </button>
                   </div>
                 </form>
               ) : (
-                <div className="mb-3 sm:mb-6 p-2.5 sm:p-3 rounded-[12px] bg-[#064e3b]/30 border border-[#059669]/40 text-xs font-mono-num text-[#34d399] flex items-center justify-center gap-2">
+                <div className="mb-3 p-2.5 rounded-[12px] bg-[#064e3b]/30 border border-[#059669]/40 text-xs font-mono-num text-[#34d399] flex items-center justify-center gap-2">
                   <Check className="w-4 h-4" />
-                  <span>Đã kích hoạt cho SĐT {phoneNumber}! Voucher sẵn sàng sử dụng.</span>
+                  <span>Đã lưu vào SĐT {phoneNumber}! Sẵn sàng dùng tại BrandStore.</span>
                 </div>
               )}
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
-                <Button size="lg" onClick={handlePlayAgain} className="flex-1 bg-[#121624] text-[#f5e6c8] border border-white/10 hover:border-[#d4af37]/40 py-3">
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  <span>Trải Nghiệm Lại</span>
+              {/* Secondary Navigation Buttons */}
+              <div className="flex gap-2">
+                <Button size="md" onClick={handlePlayAgain} className="flex-1 bg-[#121624] text-[#f5e6c8] border border-white/10 hover:border-[#d4af37]/40 py-2.5 text-xs">
+                  <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                  <span>Chơi Lại</span>
                 </Button>
                 <Button
                   variant="primary"
-                  size="lg"
+                  size="md"
                   onClick={() => navigate('/rewards')}
-                  className="flex-1 bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold shadow-gold py-3"
+                  className="flex-1 bg-gradient-to-r from-[#d4af37] via-[#f5e6c8] to-[#d4af37] text-[#06080d] font-serif-editorial font-bold shadow-gold py-2.5 text-xs"
                 >
-                  <span>Xem Kho Quà Tặng</span>
+                  <span>Ví Quà Tặng</span>
                 </Button>
               </div>
             </motion.div>
@@ -582,6 +618,15 @@ export const MiniGameShell: React.FC<MiniGameShellProps> = ({ game, children }) 
         isOpen={showDropRateModal}
         onClose={() => setShowDropRateModal(false)}
         gameId={game.slug}
+      />
+
+      {/* 5. Step 5 E-Commerce Brand Store Modal */}
+      <BrandStoreCheckoutModal
+        isOpen={showBrandStoreModal}
+        onClose={() => setShowBrandStoreModal(false)}
+        voucherCode={rewardWon?.code || 'ROYALE-50K'}
+        voucherDiscount={rewardWon?.value || 50000}
+        voucherName={rewardWon?.name || 'Voucher Giảm 50.000đ Tri Ân Khách Hàng'}
       />
     </div>
   );

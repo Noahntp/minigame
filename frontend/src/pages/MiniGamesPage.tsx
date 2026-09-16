@@ -4,6 +4,7 @@ import { ArrowRight, Flame, Sparkles, ShieldCheck, Crown, Cpu, Award } from 'luc
 import { MINI_GAMES } from '../data/games';
 import { GameCard } from '../components/games/GameCard';
 import { GameVisualArt } from '../components/games/GameVisualArt';
+import { EcomFunnelBar } from '../components/funnel/EcomFunnelBar';
 import { api } from '../services/api';
 import type { MiniGame } from '../types/game';
 
@@ -86,6 +87,9 @@ export const MiniGamesPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* 5-Step E-Commerce D2C Conversion Funnel Bar */}
+      <EcomFunnelBar />
 
       {/* 2. Featured Spotlight Exhibition Plaque */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
