@@ -209,17 +209,32 @@ export const GameVisualArt: React.FC<GameVisualArtProps> = ({
         </div>
       )}
 
-      {/* 6. SANTA GIFT: ANIME GOLDEN BELL & AURORA GLOW */}
+      {/* 6. SANTA GIFT: ANIME SANTA CLAUS & REINDEER SLEIGH WITH GOLDEN BELL */}
       {slug === 'santa-gift' && (
-        <div className="relative w-full h-full flex items-center justify-center p-2">
-          <div className="absolute inset-3 rounded-full bg-cyan-500/20 blur-xl" />
-          <div className="absolute inset-4 rounded-full bg-amber-400/20 blur-lg" />
-          <img
-            src={getAssetUrl('/assets/games/anime_golden_bell.png')}
-            alt="Anime Golden Bell"
-            className="w-full h-full object-contain filter drop-shadow-[0_0_18px_rgba(251,191,36,0.95)] contrast-110 select-none transform hover:scale-105 transition-transform duration-300"
-            draggable={false}
-          />
+        <div className="relative w-full h-full flex items-center justify-center p-1 group">
+          <div className="absolute inset-2 rounded-full bg-red-600/20 blur-xl" />
+          <div className="absolute inset-3 rounded-full bg-amber-400/20 blur-lg" />
+          <motion.div
+            className="relative w-full h-full flex items-center justify-center"
+            animate={{ y: [0, -3, 0] }}
+            transition={{ repeat: Infinity, duration: 2.8, ease: "easeInOut" }}
+          >
+            <img
+              src={getAssetUrl('/assets/games/anime_santa_reindeer.png')}
+              alt="Ông Già Noel"
+              className="w-full h-full object-contain filter drop-shadow-[0_8px_20px_rgba(251,191,36,0.9)] select-none transform group-hover:scale-105 transition-transform duration-300"
+              draggable={false}
+            />
+            {/* Small golden bell badge in corner */}
+            <div className="absolute -bottom-1 -right-1 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-amber-950/80 border border-amber-400/60 p-1 flex items-center justify-center shadow-lg">
+              <img
+                src={getAssetUrl('/assets/games/anime_golden_bell.png')}
+                alt="Chuông Vàng"
+                className="w-full h-full object-contain drop-shadow"
+                draggable={false}
+              />
+            </div>
+          </motion.div>
         </div>
       )}
 
