@@ -112,11 +112,20 @@ export class Game26Santa extends BaseGame {
       if (this.context && this.context.particles) {
         this.context.particles.burstConfetti(55);
       }
+
+      // Allow user to click directly on the glowing gift box to open reward
+      thrownGift.style.cursor = 'pointer';
+      thrownGift.style.pointerEvents = 'auto';
+      thrownGift.onclick = () => {
+        this.triggerReward();
+      };
     }, 1400);
 
     setTimeout(() => {
-      this.triggerReward();
-    }, 2400);
+      if (this.isBusy) {
+        this.triggerReward();
+      }
+    }, 3800);
   }
 
   unbindEvents() {
