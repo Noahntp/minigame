@@ -81,80 +81,117 @@
 }
 
 /* ==========================================================================
-   🎅 SHUTTERSTOCK-INSPIRED CINEMATIC SANTA & REINDEER FLIGHT ANIMATION
-   Traversing smoothly from Right to Left with authentic leaping gallop physics
+   🎅 CINEMATIC SANTA & REINDEER FLIGHT ANIMATIONS (MOBILE & DESKTOP OPTIMIZED)
    ========================================================================== */
-@keyframes santaFlightSmooth {
-  0% {
-    transform: translate3d(calc(-50% + clamp(360px, 58vw, 560px)), 14px, 0) scale(0.78) rotate(3deg);
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  28% {
-    transform: translate3d(calc(-50% + clamp(180px, 30vw, 280px)), -6px, 0) scale(0.92) rotate(1deg);
+
+/* 1. Idle Gentle Atmospheric Cruising in Starry Aurora Sky */
+@keyframes santaIdleGliding {
+  0%, 100% {
+    transform: translate3d(calc(-50% - 14px), 2px, 0) scale(0.95) rotate(-1deg);
   }
   50% {
-    transform: translate3d(-50%, 8px, 0) scale(1.04) rotate(-0.5deg);
+    transform: translate3d(calc(-50% + 14px), -6px, 0) scale(1) rotate(1.2deg);
+  }
+}
+
+.animate-santa-gliding {
+  animation: santaIdleGliding 3.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 2. Grand Cinematic Swoop Flight Arc upon Bell Ringing */
+@keyframes santaSwoopFlight {
+  0% {
+    transform: translate3d(calc(-50% + clamp(70px, 22vw, 180px)), -12px, 0) scale(0.88) rotate(3.5deg);
+    opacity: 0.92;
+  }
+  22% {
+    transform: translate3d(calc(-50% + clamp(25px, 9vw, 80px)), -4px, 0) scale(0.96) rotate(1.5deg);
+    opacity: 1;
+  }
+  48% {
+    /* Climax of flight: swooping down directly above center to drop the gift */
+    transform: translate3d(-50%, 14px, 0) scale(1.08) rotate(-0.5deg);
     opacity: 1;
   }
   72% {
-    transform: translate3d(calc(-50% - clamp(180px, 30vw, 280px)), -14px, 0) scale(0.94) rotate(-2.5deg);
+    /* Gracefully ascending towards upper-left sky */
+    transform: translate3d(calc(-50% - clamp(45px, 15vw, 140px)), -10px, 0) scale(0.96) rotate(-2.5deg);
+    opacity: 1;
   }
-  92% {
+  88% {
+    transform: translate3d(calc(-50% - clamp(15px, 5vw, 50px)), -4px, 0) scale(0.98) rotate(-1deg);
     opacity: 1;
   }
   100% {
-    transform: translate3d(calc(-50% - clamp(360px, 58vw, 580px)), -38px, 0) scale(0.72) rotate(-5deg);
-    opacity: 0;
+    /* Settles smoothly into center upper sky */
+    transform: translate3d(-50%, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
   }
 }
 
-.animate-santa-flight {
-  animation: santaFlightSmooth 4.2s cubic-bezier(0.28, 0.9, 0.42, 1) forwards;
-  will-change: transform, opacity;
+.animate-santa-swoop {
+  animation: santaSwoopFlight 3.8s cubic-bezier(0.25, 0.85, 0.35, 1) forwards;
+  will-change: transform;
 }
 
-/* Authentic Leaping Reindeer Gallop (4-beat gallop pitch, rise & bound) */
+/* 3. Celebratory Hover above the Opened Gift */
+@keyframes santaCelebrate {
+  0%, 100% {
+    transform: translate3d(-50%, 0, 0) scale(1) rotate(-0.5deg);
+  }
+  50% {
+    transform: translate3d(-50%, -8px, 0) scale(1.04) rotate(0.8deg);
+  }
+}
+
+.animate-santa-celebrate {
+  animation: santaCelebrate 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 4. Authentic Leaping Reindeer Gallop (4-beat gallop pitch, rise & bound) */
 @keyframes reindeerGallopSmooth {
   0%, 100% {
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
   25% {
-    transform: translate3d(-2px, -9px, 0) rotate(-3.5deg);
+    transform: translate3d(-2px, -8px, 0) rotate(-3deg);
   }
   50% {
     transform: translate3d(0, -2px, 0) rotate(0.5deg);
   }
   75% {
-    transform: translate3d(2px, 6px, 0) rotate(2deg);
+    transform: translate3d(2px, 5px, 0) rotate(2deg);
   }
 }
 
 .animate-reindeer-gallop {
-  animation: reindeerGallopSmooth 0.46s ease-in-out infinite;
+  animation: reindeerGallopSmooth 0.44s ease-in-out infinite;
   will-change: transform;
 }
 
-/* Shimmering Stardust Trail Streaming Behind Sleigh */
+/* 5. Shimmering Stardust Trail Streaming Behind Sleigh */
 @keyframes stardustStream {
   0% {
     opacity: 0.95;
-    transform: translateX(0) scale(1);
+    transform: translateX(0) scaleX(1);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.8));
   }
   50% {
-    opacity: 0.6;
-    transform: translateX(10px) scale(0.9);
+    opacity: 0.55;
+    transform: translateX(8px) scaleX(0.85);
+    filter: drop-shadow(0 0 14px rgba(251, 191, 36, 0.95));
   }
   100% {
     opacity: 0.95;
-    transform: translateX(0) scale(1);
+    transform: translateX(0) scaleX(1);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.8));
   }
 }
 
 .animate-stardust-stream {
-  animation: stardustStream 1.2s ease-in-out infinite;
+  animation: stardustStream 1.0s ease-in-out infinite;
 }
 
 /* Luxury Scrollbar */
